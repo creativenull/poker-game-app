@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
 
-function App() {
+import Box from '@material-ui/core/Box'
+
+import Dealer from './components/Dealer'
+import GameActions from './components/GameActions'
+import Player from './components/Player'
+
+// Component
+const App = () => {
+  useEffect(() => {
+    document.title = 'Poker Game'
+  }, [])
+
+  const [cards] = useState([
+    {
+      name: 'A',
+      color: 'black',
+      utf: '\u2663'
+    },
+    {
+      name: '6',
+      color: 'black',
+      utf: '\u2660'
+    },
+    {
+      name: '10',
+      color: 'red',
+      utf: '\u2666'
+    },
+    {
+      name: 'K',
+      color: 'red',
+      utf: '\u2665'
+    },
+    {
+      name: 'J',
+      color: 'red',
+      utf: '\u2665'
+    }
+  ])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Box display="flex" justifyContent="center">
+      <Box flex="3" display="flex" justifyContent="center">
+        <Box>
+          <Dealer cards={cards} />
+          <Player cards={cards} />
+        </Box>
+      </Box>
+      <Box flex="1">
+        <GameActions />
+      </Box>
+    </Box>
+  )
 }
 
-export default App;
+export default App
