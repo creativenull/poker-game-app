@@ -8,13 +8,11 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import PlayingCards from './PlayingCards'
 
+// Styles
 const useStyles = makeStyles({
   cardTitle: {
     fontWeight: 'lighter',
-    textAlign: 'center'
-  },
-
-  dealer: {
+    textAlign: 'center',
     color: grey[900]
   }
 })
@@ -25,7 +23,7 @@ const Dealer = ({ cards }) => {
 
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
-      <Typography className={[classes.cardTitle, classes.dealer]} variant="h3">Dealer</Typography>
+      <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
         <PlayingCards cards={cards} />
       </Box>
@@ -35,7 +33,7 @@ const Dealer = ({ cards }) => {
 
 // Prop Types
 Dealer.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.object).isRequired
+  cards: PropTypes.array.isRequired
 }
 
 export default Dealer

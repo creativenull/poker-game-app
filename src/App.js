@@ -5,51 +5,33 @@ import Box from '@material-ui/core/Box'
 import Dealer from './components/Dealer'
 import GameActions from './components/GameActions'
 import Player from './components/Player'
+import Deck from './lib/Deck'
 
-// Component
+// Main
 const App = () => {
+  const deck = new Deck()
+
+  const [dealerCards] = useState(deck.getCards(5))
+  const [playerCards] = useState(deck.getCards(5))
+
+  const [betCredits, setBetCredits] = useState(0)
+  const [totalCredits, setTotalCredits] = useState(100)
+  const unit = 5
+
   useEffect(() => {
     document.title = 'Poker Game'
   }, [])
-
-  const [cards] = useState([
-    {
-      name: 'A',
-      color: 'black',
-      utf: '\u2663'
-    },
-    {
-      name: '6',
-      color: 'black',
-      utf: '\u2660'
-    },
-    {
-      name: '10',
-      color: 'red',
-      utf: '\u2666'
-    },
-    {
-      name: 'K',
-      color: 'red',
-      utf: '\u2665'
-    },
-    {
-      name: 'J',
-      color: 'red',
-      utf: '\u2665'
-    }
-  ])
 
   return (
     <Box display="flex" justifyContent="center">
       <Box flex="3" display="flex" justifyContent="center">
         <Box>
-          <Dealer cards={cards} />
-          <Player cards={cards} />
+          <Dealer cards={dealerCards} />
+          <Player cards={playerCards} />
         </Box>
       </Box>
       <Box flex="1">
-        <GameActions />
+        <GameActions credits={{ betCredits, totalCredits, unit }} actions={{ setBetCredits, setTotalCredits }} />
       </Box>
     </Box>
   )

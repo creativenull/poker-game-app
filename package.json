@@ -5,34 +5,13 @@
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-dom": "^16.12.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "parcel -p 8080 public/index.html",
+    "build": "parcel build public/index.html"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
@@ -42,6 +21,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-standard": "^4.0.1",
-    "node-sass": "^4.13.1"
+    "parcel-bundler": "^1.12.4"
   }
 }
