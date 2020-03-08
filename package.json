@@ -5,22 +5,40 @@
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.44",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
   "scripts": {
     "start": "parcel -p 8080 public/index.html",
-    "build": "parcel build public/index.html"
+    "build": "parcel build public/index.html",
+    "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
     "parcel-bundler": "^1.12.4"
+  },
+  "alias": {
+    "App": "./src",
+    "Components": "./src/components",
+    "Lib": "./src/lib",
+    "Config": "./src/config",
+    "Store": "./src/store"
+  },
+  "jest": {
+    "verbose": true
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
@@ -6,7 +6,10 @@ import Typography from '@material-ui/core/Typography'
 import grey from '@material-ui/core/colors/grey'
 import { makeStyles } from '@material-ui/core/styles'
 
-import PlayingCards from './PlayingCards'
+import GameStore from 'Store/game'
+import { GameState } from 'Store/game/types'
+
+import PlayingCard from './PlayingCard'
 
 // Styles
 const useStyles = makeStyles({
@@ -17,23 +20,31 @@ const useStyles = makeStyles({
   }
 })
 
+// Prop Types
+Dealer.propTypes = {
+  dealer: PropTypes.exact({
+    id: PropTypes.string,
+    hand: PropTypes.array
+  })
+}
+
 // Component
-const Dealer = ({ cards }) => {
+function Dealer ({ dealer }) {
   const classes = useStyles()
+
+  const { state } = useContext(GameStore)
+  const hidden = (state.gameState === GameState.INIT_GAME ||
+    state.gameState === GameState.START_GAME ||
+    state.gameState === GameState.END_GAME)
 
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
-        <PlayingCards cards={cards} />
+        {dealer.hand.map((card, i) => <PlayingCard key={`dl${i}`} card={card} hidden={hidden} />)}
       </Box>
     </Box>
   )
-}
-
-// Prop Types
-Dealer.propTypes = {
-  cards: PropTypes.array.isRequired
 }
 
 export default Dealer

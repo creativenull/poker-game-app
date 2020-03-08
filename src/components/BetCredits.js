@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import AddIcon from '@material-ui/icons/Add'
 import Button from '@material-ui/core/Button'
@@ -9,7 +9,9 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 import { makeStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
+
+import GameStore from 'Store/game'
+import { Actions, GameState } from 'Store/game/types'
 
 // Styles
 const useStyles = makeStyles({
@@ -29,16 +31,14 @@ const useStyles = makeStyles({
 })
 
 // Component
-const BetCredits = ({ credits, actions }) => {
+function BetCredits () {
   const classes = useStyles()
-  const { betCredits, totalCredits, unit } = credits
-  const { setBetCredits, setTotalCredits } = actions
+  const { state, dispatch } = useContext(GameStore)
+  const disabled = (state.gameState === GameState.START_GAME || state.gameState === GameState.CONTINUE_GAME)
 
-  function incBet (e) {
-    e.preventDefault()
-    if (betCredits >= 0 && totalCredits > 0) {
-      setBetCredits(betCredits + unit)
-      setTotalCredits(totalCredits - unit)
+  function incBet () {
+    if (state.betCredits >= 0 && state.totalCredits > 0) {
+      dispatch({ type: Actions.INC_BET_CREDITS })
     }
   }
 
@@ -46,27 +46,15 @@ const BetCredits = ({ credits, actions }) => {
     <Card elevation={5}>
       <CardHeader className={classes.cardHeader} title="Bet Credits" />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h3" color="primary">${betCredits}</Typography>
+        <Typography variant="h3" color="primary">${state.betCredits}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button onClick={incBet} endIcon={<AddIcon />} variant="outlined" color="primary">
+        <Button disabled={disabled} onClick={incBet} endIcon={<AddIcon />} variant="outlined" color="primary">
           Bet
         </Button>
       </CardActions>
     </Card>
   )
-}
-
-BetCredits.propTypes = {
-  credits: PropTypes.exact({
-    unit: PropTypes.number.isRequired,
-    betCredits: PropTypes.number.isRequired,
-    totalCredits: PropTypes.number.isRequired
-  }),
-  actions: PropTypes.exact({
-    setBetCredits: PropTypes.func.isRequired,
-    setTotalCredits: PropTypes.func.isRequired
-  })
 }
 
 export default BetCredits

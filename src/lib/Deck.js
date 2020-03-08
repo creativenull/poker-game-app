@@ -1,21 +1,26 @@
 // Lowest to highest order
-const Cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+export const Cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 // Spades, Clubs, Hearts, Diamonds
-const Suits = ['S', 'C', 'H', 'D']
-const SuitsColor = ['black', 'black', 'red', 'red']
-const SuitsUTF = ['\u2660', '\u2663', '\u2665', '\u2665']
+export const Suits = ['S', 'C', 'H', 'D']
+export const SuitsColor = ['black', 'black', 'red', 'red']
+export const SuitsUTF = ['\u2660', '\u2663', '\u2665', '\u2665']
+export const CardBlankUTF = '\u2605'
 
 // Empty card
 const EmptyCardType = {
-  card: '',
+  value: '',
   rank: -1,
   suit: {
-    value: '',
-    utf: ''
+    color: '',
+    utf: '',
+    value: ''
   }
 }
 
+/**
+ * The base playing card deck class
+ */
 export default class Deck {
   /**
    * Generate a deck and shuffle by default, if preShuffle is false then just return a clean deck
@@ -29,10 +34,10 @@ export default class Deck {
     for (let j = 0; j < Suits.length; j++) {
       for (let i = 0; i < Cards.length; i++) {
         this._deck.push({
-          card: Cards[i],
-          rank: i,
-          color: SuitsColor[j],
+          value: Cards[i],
+          rank: i + 1,
           suit: {
+            color: SuitsColor[j],
             value: Suits[j],
             utf: SuitsUTF[j]
           }
@@ -44,6 +49,10 @@ export default class Deck {
     if (preShuffle) {
       this.shuffle()
     }
+  }
+
+  sort (cards = []) {
+    return cards.sort((a, b) => b.rank - a.rank)
   }
 
   /**
@@ -63,19 +72,63 @@ export default class Deck {
     this._deck = shuffledDeck
   }
 
-  getCards (length) {
-    if (length > 1 && length < (this._deck.length - length)) {
-      // Get the cards and remove from deck
-      return this._deck.splice(0, length)
-    } else if (length === 1) {
-      // Get just a single card
-      const single = this._deck[0]
-      this._deck.shift()
-      return [single]
+  /**
+   * Get a set amount of cards from the deck and remove them from the deck
+   *
+   * @param {Number} amount - number of cards to return
+   * @param {Object} opts - initial options to attach to the object
+   *
+   * @returns {Array}
+   */
+  getCards (amount = 0, opts = {}) {
+    if (amount >= 1 && amount < (this._deck.length - amount)) {
+      const cards = this._deck.splice(0, amount)
+      if (opts) {
+        return cards.map((card) => ({ ...card, ...opts }))
+      } else {
+        return cards
+      }
     } else {
-      // Otherwise, return nothing
-      throw new Error('Get Cards: Length must be defined')
+      return []
     }
+  }
+
+  /**
+   * Stringify an array of card objects
+   *
+   * @param {Array} cards
+   *
+   * @returns {Array}
+   */
+  static stringify (cards = []) {
+    return cards.map((card) => `${card.value}${card.suit.value}`)
+  }
+
+  /**
+   * Parse an array of serialized cards
+   *
+   * @param {Array} cards
+   *
+   * @returns {Array}
+   */
+  static parse (cards = []) {
+    return cards.map((card) => {
+      const cardValue = card.length === 3 ? '10' : card[0] // with 10 we get string of length 3
+      const cardRank = Cards.indexOf(cardValue) + 1
+      const suitValue = card.length === 3 ? card[2] : card[1]
+      const suitColor = SuitsColor[Suits.indexOf(suitValue)]
+      const suitUTF = SuitsUTF[Suits.indexOf(suitValue)]
+
+      return {
+        value: cardValue,
+        rank: cardRank,
+        suit: {
+          color: suitColor,
+          value: suitValue,
+          utf: suitUTF
+        }
+      }
+    })
   }
 
   /**
@@ -97,10 +150,10 @@ export default class Deck {
         case 'D':
           return 'Diamonds'
         default:
-          throw new Error('GetCardText: Invalid card')
+          return ''
       }
     } else {
-      throw new TypeError('GetCardText: Unknown card type')
+      return ''
     }
   }
 
@@ -141,10 +194,10 @@ export default class Deck {
         case 'A':
           return 'Ace'
         default:
-          throw new Error('GetCardText: Invalid card')
+          return ''
       }
     } else {
-      throw new TypeError('GetCardText: Unknown card type')
+      return ''
     }
   }
 }
