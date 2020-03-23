@@ -1,4 +1,4 @@
-import { actionPayload } from 'Store/utils'
+import { actionPayload } from '#store/utils'
 import { Actions } from './types'
 
 function reducer (state, action) {

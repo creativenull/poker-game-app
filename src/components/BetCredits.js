@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 import { makeStyles } from '@material-ui/core/styles'
 
-import GameStore from 'Store/game'
-import { Actions, GameState } from 'Store/game/types'
+import GameStore from '#store/game'
+import { Actions, GameState } from '#store/game/types'
 
 // Styles
 const useStyles = makeStyles({

@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import { makeStyles } from '@material-ui/core/styles'
 
-import GameStore from 'Store/game'
+import GameStore from '#store/game'
 
 // Styles
 const useStyles = makeStyles({

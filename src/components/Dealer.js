@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography'
 import grey from '@material-ui/core/colors/grey'
 import { makeStyles } from '@material-ui/core/styles'
 
-import GameStore from 'Store/game'
-import { GameState } from 'Store/game/types'
+import GameStore from '#store/game'
+import { GameState } from '#store/game/types'
 
 import PlayingCard from './PlayingCard'
 
@@ -41,7 +41,7 @@ function Dealer ({ dealer }) {
     <Box display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
-        {dealer.hand.map((card, i) => <PlayingCard key={`dl${i}`} card={card} hidden={hidden} />)}
+        {dealer.hand.map((card, i) => <PlayingCard key={`dl${i}`} card={card} hidden={hidden} noHover />)}
       </Box>
     </Box>
   )

@@ -1,3 +1,3 @@
 export const handOptions = {
-  disabled: true
+  onClick: null
 }

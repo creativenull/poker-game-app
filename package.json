@@ -32,11 +32,11 @@
     "parcel-bundler": "^1.12.4"
   },
   "alias": {
-    "App": "./src",
-    "Components": "./src/components",
-    "Lib": "./src/lib",
-    "Config": "./src/config",
-    "Store": "./src/store"
+    "#app": "./src",
+    "#components": "./src/components",
+    "#lib": "./src/lib",
+    "#config": "./src/config",
+    "#store": "./src/store"
   },
   "jest": {
     "verbose": true

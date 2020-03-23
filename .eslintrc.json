@@ -28,11 +28,11 @@
     "import/resolver": {
       "alias": {
         "map": [
-          ["App", "./src"],
-          ["Components", "./src/components"],
-          ["Lib", "./src/lib"],
-          ["Config", "./src/config"],
-          ["Store", "./src/store"]
+          ["#app", "./src"],
+          ["#components", "./src/components"],
+          ["#lib", "./src/lib"],
+          ["#config", "./src/config"],
+          ["#store", "./src/store"]
         ],
         "extensions": [".js"]
       }

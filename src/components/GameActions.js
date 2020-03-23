@@ -8,11 +8,11 @@ import green from '@material-ui/core/colors/green'
 import blue from '@material-ui/core/colors/blue'
 import { makeStyles } from '@material-ui/core/styles'
 
-import ErrorStore from 'Store/error'
-import { Actions as EActions } from 'Store/error/types'
+import ErrorStore from '#store/error'
+import { Actions as EActions } from '#store/error/types'
 
-import GameStore from 'Store/game'
-import { Actions as GActions, GameState } from 'Store/game/types'
+import GameStore from '#store/game'
+import { Actions as GActions, GameState } from '#store/game/types'
 
 import BetCredits from './BetCredits'
 import TotalCredits from './TotalCredits'
@@ -48,41 +48,38 @@ function GameActions () {
   let btnText = 'Start'
   let btnClass = classes.startButton
 
+  function nextGameState (gameState) {
+    game.dispatch({ type: GActions.UPDATE_GAME_STATE, payload: gameState })
+  }
+
+  function clearGameState () {
+    game.dispatch({
+      type: GActions.CLEAR_STATE,
+      payload: {
+        betCredits: 0
+      }
+    })
+  }
+
   function handleClick () {
     if (game.state.betCredits === 0) {
-      error.dispatch({
-        type: EActions.SHOW_ERROR,
-        payload: 'Cannot start with empty bet'
-      })
+      error.dispatch({ type: EActions.SHOW_ERROR, payload: 'Cannot start with empty bet' })
     } else {
       if (isInit || isEnd) {
         // Start Game
-        game.dispatch({
-          type: GActions.UPDATE_GAME_STATE,
-          payload: GameState.START_GAME
-        })
+        nextGameState(GameState.START_GAME)
       } else if (isStart) {
         // Continue
-        game.dispatch({
-          type: GActions.UPDATE_GAME_STATE,
-          payload: GameState.CONTINUE_GAME
-        })
+        nextGameState(GameState.CONTINUE_GAME)
       } else if (isContinue) {
         // End game and reset bet credits
-        game.dispatch({
-          type: GActions.UPDATE_GAME_STATE,
-          payload: GameState.END_GAME
-        })
-        game.dispatch({
-          type: GActions.CLEAR_STATE,
-          payload: {
-            betCredits: 0
-          }
-        })
+        nextGameState(GameState.END_GAME)
+        clearGameState()
       }
     }
   }
 
+  // render text based on game state
   if (isInit || isEnd) {
     btnText = 'Start'
     btnClass = classes.startButton

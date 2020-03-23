@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ErrorStoreProvider } from 'Store/error'
-import { GameStoreProvider } from 'Store/game'
+import { ErrorStoreProvider } from '#store/error'
+import { GameStoreProvider } from '#store/game'
 import App from './App'
 
 ReactDOM.render((
