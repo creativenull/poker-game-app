@@ -1,4 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
+import { hideToast } from '#store/toast/actions'
 
 import Box from '@material-ui/core/Box'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -8,58 +12,51 @@ import Dealer from '#components/Dealer'
 import GameActions from '#components/GameActions'
 import Player from '#components/Player'
 import Poker from '#lib/Poker'
-// import { handOptions } from '#config/gameState'
-
-import ErrorStore from '#store/error'
-import { Actions } from '#store/error/types'
 
 /**
  * Main Component
  */
-function App () {
-  const error = useContext(ErrorStore)
-
-  // Player states
+function App ({ toast, hideToast }) {
+  // Initial states
   const poker = new Poker()
-  const [dealer] = useState({
+  const [dealer, setDealer] = useState({
     id: 'dealer',
-    hand: poker.getCards(5, { onClick: replaceCard })
+    hand: poker.getPlayerHand()
   })
   const [player, setPlayer] = useState({
     id: 'player',
-    hand: poker.getCards(5, { onClick: replaceCard })
+    hand: poker.getPlayerHand()
   })
 
-  /**
-   * Handle Error when closing
-   */
-  function handleErrorClose (_, reason) {
+  // Use to record the card being clicked
+  const [playerClickOnceList, setPlayerClickOnceList] = useState([])
+
+  function onErrorClose (_, reason) {
     if (reason !== 'clickaway') {
-      error.dispatch({ type: Actions.HIDE_ERROR })
+      hideToast()
     }
   }
 
-  function replaceCard (card) {
-    // Create a copy of player cards
-    // Find the card index needed to replace
-    // remove that element and add the card from poker class
-    // Add new card set into player cards
-    //
-    const newPlayerHand = JSON.parse(JSON.stringify(player.hand))
-    const index = newPlayerHand.findIndex((pCard) => pCard.value === card.value && pCard.suit.value === card.suit.value)
-    const [newCard] = poker.getCards(1, { onClick: null })
-    newPlayerHand.splice(index, 1, newCard)
+  // replace the card, but only once
+  function onClickReplaceCard (card) {
+    if (playerClickOnceList.includes(card.id)) {
+      return null
+    }
+
+    // Change the card, and set the list so we dont change it again
+    const [hand, newCard] = poker.replace(card, player.hand)
     setPlayer({
-      id: 'player',
-      hand: newPlayerHand
+      ...player,
+      hand
     })
+    setPlayerClickOnceList([...playerClickOnceList, newCard.id])
   }
 
   return (
     <>
-      <Snackbar open={error.state.open} onClose={handleErrorClose} autoHideDuration={6000}>
-        <Alert onClose={handleErrorClose} variant="filled" severity="error">
-          {error.state.message}
+      <Snackbar open={toast.open} onClose={onErrorClose} autoHideDuration={6000}>
+        <Alert onClose={onErrorClose} variant="filled" severity="error">
+          {toast.message}
         </Alert>
       </Snackbar>
 
@@ -67,7 +64,7 @@ function App () {
         <Box flex="3" display="flex" justifyContent="center">
           <Box>
             <Dealer dealer={dealer} />
-            <Player player={player} onClick={replaceCard} />
+            <Player player={player} clickOnceList={playerClickOnceList} onClick={onClickReplaceCard} />
           </Box>
         </Box>
         <Box flex="1">
@@ -78,4 +75,20 @@ function App () {
   )
 }
 
-export default App
+App.propTypes = {
+  toast: PropTypes.object,
+  showToast: PropTypes.func,
+  hideToast: PropTypes.func
+}
+
+function mapStateToProps (state) {
+  return {
+    ...state
+  }
+}
+
+const mapDispatchToProps = {
+  hideToast
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

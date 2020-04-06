@@ -1,4 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -6,8 +8,6 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import { makeStyles } from '@material-ui/core/styles'
-
-import GameStore from '#store/game'
 
 // Styles
 const useStyles = makeStyles({
@@ -29,19 +29,27 @@ const useStyles = makeStyles({
   }
 })
 
-// Component
-function TotalCredits () {
+TotalCredits.propTypes = {
+  game: PropTypes.object
+}
+
+function TotalCredits ({ game }) {
   const classes = useStyles()
-  const { state } = useContext(GameStore)
 
   return (
     <Card elevation={5} className={classes.card}>
       <CardHeader className={classes.cardHeader} title="Total Credits" />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h3" className={classes.creditsText}>${state.totalCredits}</Typography>
+        <Typography variant="h3" className={classes.creditsText}>${game.totalCredits}</Typography>
       </CardContent>
     </Card>
   )
 }
 
-export default TotalCredits
+function mapStateToProps (state) {
+  return {
+    game: state.game
+  }
+}
+
+export default connect(mapStateToProps)(TotalCredits)

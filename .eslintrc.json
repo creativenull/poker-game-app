@@ -26,16 +26,7 @@
   },
   "settings": {
     "import/resolver": {
-      "alias": {
-        "map": [
-          ["#app", "./src"],
-          ["#components", "./src/components"],
-          ["#lib", "./src/lib"],
-          ["#config", "./src/config"],
-          ["#store", "./src/store"]
-        ],
-        "extensions": [".js"]
-      }
+      "babel-module": {}
     }
   }
 }

@@ -1,7 +1,3 @@
-/**
- * Poker class
- * Rankings from https://www.cardplayer.com/rules-of-poker/hand-rankings
- */
 import Deck, { Cards, Suits } from './Deck'
 
 export const HandRanking = {
@@ -20,8 +16,32 @@ export const HandRanking = {
 
 /**
  * Poker class
+ * Rankings from https://www.cardplayer.com/rules-of-poker/hand-rankings
  */
 export default class Poker extends Deck {
+  /**
+   * Get new hands
+   */
+  getPlayerHand () {
+    return this.getCards(5)
+  }
+
+  /**
+   * Replace a card with a new one, return a new hand and the new card
+   *
+   * @param {Object} card
+   * @param {Array} hand
+   *
+   * @return {Array}
+   */
+  replace (card, hand = []) {
+    const cardIndex = hand.findIndex(handCard => card.id === handCard.id)
+    const [newCard] = this.getCards(1)
+    const newHand = hand.slice(0)
+    newHand.splice(cardIndex, 1, newCard)
+    return [newHand, newCard]
+  }
+
   /**
    * Returns the winner from the array
    *
@@ -30,18 +50,14 @@ export default class Poker extends Deck {
    * @returns {Object}
    */
   winner (players = []) {
-    const list = players.map((player) => {
+    const list = players.map(player => {
       const hand = this.sort(player.hand)
       const pairs = this._getPairs(hand)
 
-      // Check if it is a straight or flush
-      // then if it is both then straight flush
-      // if it has Ace then royal flush
       const isS = this._isStraight(hand)
       const isF = this._isFlush(hand)
       const isSF = isS && isF
       const hasAce = this._hasAce(hand)
-
       const isFK = this._isFourOfAKind(pairs)
       const isFH = this._isFullHouse(pairs)
       const isTK = this._isThreeOfAKind(pairs)

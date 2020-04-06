@@ -1,13 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import grey from '@material-ui/core/colors/grey'
 import { makeStyles } from '@material-ui/core/styles'
-
-import GameStore from '#store/game'
-import { GameState } from '#store/game/types'
 
 import PlayingCard from './PlayingCard'
 
@@ -32,16 +29,13 @@ Dealer.propTypes = {
 function Dealer ({ dealer }) {
   const classes = useStyles()
 
-  const { state } = useContext(GameStore)
-  const hidden = (state.gameState === GameState.INIT_GAME ||
-    state.gameState === GameState.START_GAME ||
-    state.gameState === GameState.END_GAME)
-
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
-        {dealer.hand.map((card, i) => <PlayingCard key={`dl${i}`} card={card} hidden={hidden} noHover />)}
+        {dealer.hand.map(card => (
+          <PlayingCard key={`dealer${card.id}`} card={card} noHover hidden />
+        ))}
       </Box>
     </Box>
   )

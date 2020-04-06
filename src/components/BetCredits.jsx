@@ -1,4 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import AddIcon from '@material-ui/icons/Add'
 import Button from '@material-ui/core/Button'
@@ -10,8 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 import { makeStyles } from '@material-ui/core/styles'
 
-import GameStore from '#store/game'
-import { Actions, GameState } from '#store/game/types'
+import { incrementBetCredits } from '#store/game/actions'
 
 // Styles
 const useStyles = makeStyles({
@@ -30,26 +31,27 @@ const useStyles = makeStyles({
   }
 })
 
+BetCredits.propTypes = {
+  game: PropTypes.object,
+  incrementBetCredits: PropTypes.func
+}
+
 // Component
-function BetCredits () {
+function BetCredits ({ game, incrementBetCredits }) {
   const classes = useStyles()
-  const { state, dispatch } = useContext(GameStore)
-  const disabled = (state.gameState === GameState.START_GAME || state.gameState === GameState.CONTINUE_GAME)
 
   function incBet () {
-    if (state.betCredits >= 0 && state.totalCredits > 0) {
-      dispatch({ type: Actions.INC_BET_CREDITS })
-    }
+    incrementBetCredits()
   }
 
   return (
     <Card elevation={5}>
       <CardHeader className={classes.cardHeader} title="Bet Credits" />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h3" color="primary">${state.betCredits}</Typography>
+        <Typography variant="h3" color="primary">${game.betCredits}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button disabled={disabled} onClick={incBet} endIcon={<AddIcon />} variant="outlined" color="primary">
+        <Button onClick={incBet} endIcon={<AddIcon />} variant="outlined" color="primary">
           Bet
         </Button>
       </CardActions>
@@ -57,4 +59,14 @@ function BetCredits () {
   )
 }
 
-export default BetCredits
+function mapStateToProps (state) {
+  return {
+    game: state.game
+  }
+}
+
+const mapDispatchToProps = {
+  incrementBetCredits
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BetCredits)

@@ -5,57 +5,57 @@ const poker = new Poker()
 
 const royalFlushPlayer = {
   id: 'player',
-  hand: Deck.parse(['AS', 'KS', 'QS', 'JS', '10S'])
+  hand: Deck.parse(['c_87#AS', 'c_12#KS', 'c_33#QS', 'c_88#JS', 'c_90#10S'])
 }
 
 const straightFlushPlayer = {
   id: 'player2',
-  hand: Deck.parse(['KD', 'QD', 'JD', '10D', '9D'])
+  hand: Deck.parse(['c_87#KD', 'c_12#QD', 'c_33#JD', 'c_88#10D', 'c_90#9D'])
 }
 
 const fourKindPlayer = {
   id: 'player3',
-  hand: Deck.parse(['10H', '7D', '10H', '10H', '10H'])
+  hand: Deck.parse(['c_87#10H', 'c_12#7D', 'c_33#10H', 'c_88#10H', 'c_90#10H'])
 }
 
 const fullHousePlayer = {
   id: 'player4',
-  hand: Deck.parse(['7D', '7S', '9C', '9S', '9H'])
+  hand: Deck.parse(['c_87#7D', 'c_12#7S', 'c_33#9C', 'c_88#9S', 'c_90#9H'])
 }
 
 const flushPlayer = {
   id: 'player5',
-  hand: Deck.parse(['2H', '4H', '9H', 'KH', '10H'])
+  hand: Deck.parse(['c_87#2H', 'c_12#4H', 'c_33#9H', 'c_88#KH', 'c_90#10H'])
 }
 
 const straightPlayer = {
   id: 'player6',
-  hand: Deck.parse(['3H', '5D', '4H', '6C', '7H'])
+  hand: Deck.parse(['c_87#3H', 'c_12#5D', 'c_33#4H', 'c_88#6C', 'c_90#7H'])
 }
 
 const threeKindPlayer = {
   id: 'player7',
-  hand: Deck.parse(['KH', '10S', 'KS', 'KD', '5C'])
+  hand: Deck.parse(['c_87#KH', 'c_12#10S', 'c_33#KS', 'c_88#KD', 'c_90#5C'])
 }
 
 const twoPlayer = {
   id: 'player8',
-  hand: Deck.parse(['KH', 'AS', 'AD', '8H', '8C'])
+  hand: Deck.parse(['c_87#KH', 'c_12#AS', 'c_33#AD', 'c_88#8H', 'c_90#8C'])
 }
 
 const onePlayer = {
   id: 'player9',
-  hand: Deck.parse(['8H', '8H', '2S', '3H', '9C'])
+  hand: Deck.parse(['c_87#8H', 'c_12#8H', 'c_33#2S', 'c_88#3H', 'c_90#9C'])
 }
 
 const highPlayer = {
   id: 'player10',
-  hand: Deck.parse(['AS', '8D', '9D', '3C', '2S'])
+  hand: Deck.parse(['c_87#AS', 'c_12#8D', 'c_33#9D', 'c_88#3C', 'c_90#2S'])
 }
 
 const highPlayer2 = {
   id: 'player11',
-  hand: Deck.parse(['KH', '7D', 'QS', '2D', '3D'])
+  hand: Deck.parse(['c_87#KH', 'c_12#7D', 'c_33#QS', 'c_88#2D', 'c_90#3D'])
 }
 
 test('Royal Flush', () => {

@@ -1,11 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
-import PropTypes from 'prop-types'
 
 import { CardBlankUTF } from '#lib/Deck'
 
@@ -29,53 +29,35 @@ const useStyles = makeStyles({
 })
 
 PlayingCard.propTypes = {
-  card: PropTypes.exact({
-    value: PropTypes.string,
-    rank: PropTypes.number,
-    onClick: PropTypes.func,
-    suit: PropTypes.exact({
-      color: PropTypes.string,
-      utf: PropTypes.string,
-      value: PropTypes.string
-    }),
-    disabled: PropTypes.bool
-  }),
+  card: PropTypes.object,
   noHover: PropTypes.bool,
-  hidden: PropTypes.bool
+  hidden: PropTypes.bool,
+  onClick: PropTypes.func
 }
 
-// Component
-function PlayingCard ({ card, hidden, noHover = false }) {
+function PlayingCard ({ card, onClick, hidden, noHover = false }) {
   const classes = useStyles()
-  let value = card.value || ''
-  let suit = card.suit || { color: '', utf: '', value: '' }
+  const value = hidden ? '' : card.value
+  const suit = hidden ? { utf: CardBlankUTF } : card.suit
 
-  if (hidden) {
-    value = ''
-    suit = {
-      value: '',
-      color: 'black',
-      utf: CardBlankUTF
-    }
-  }
-
-  function cardClick () {
-    // If true, perform the action once
-    if (card.onClick) {
-      card.onClick(card)
+  function handleClick () {
+    if (onClick) {
+      onClick(card)
+    } else {
+      return null
     }
   }
 
   return (
     <Box
-      onClick={cardClick}
+      onClick={() => handleClick()}
       style={{ cursor: 'pointer' }}
       width="150px"
       margin="0 10px"
     >
-      <Paper className={noHover ? null : classes.paperHover} elevation={3}>
+      <Paper className={noHover ? classes.disabled : classes.paperHover} elevation={3}>
         <Box
-          className={noHover ? null : classes.paperColorHover}
+          className={noHover ? classes.disabled : classes.paperColorHover}
           color={suit.color}
           display="flex"
           flexDirection="column"

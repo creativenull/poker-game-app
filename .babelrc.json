@@ -5,5 +5,17 @@
         "node": "current"
       }
     }]
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "root": ["."],
+      "alias": {
+        "#app": "./src",
+        "#components": "./src/components",
+        "#lib": "./src/lib",
+        "#config": "./src/config",
+        "#store": "./src/redux"
+      }
+    }]
   ]
 }

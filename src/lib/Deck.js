@@ -1,3 +1,6 @@
+import shuffle from 'lodash/shuffle'
+import uniqueId from 'lodash/uniqueId'
+
 // Lowest to highest order
 export const Cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
@@ -9,6 +12,7 @@ export const CardBlankUTF = '\u2605'
 
 // Empty card
 const EmptyCardType = {
+  id: uniqueId('e_'),
   value: '',
   rank: -1,
   suit: {
@@ -34,6 +38,7 @@ export default class Deck {
     for (let j = 0; j < Suits.length; j++) {
       for (let i = 0; i < Cards.length; i++) {
         this._deck.push({
+          id: uniqueId('c_'),
           value: Cards[i],
           rank: i + 1,
           suit: {
@@ -47,7 +52,7 @@ export default class Deck {
 
     // Shuffle by default
     if (preShuffle) {
-      this.shuffle()
+      this._deck = shuffle(this._deck)
     }
   }
 
@@ -56,52 +61,31 @@ export default class Deck {
   }
 
   /**
-   * Shuffles the deck of cards. Use a Fisher-Yates shuffle algorithm
-   * https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-   *
-   * @return {Array}
-   */
-  shuffle () {
-    const shuffledDeck = this._deck.slice()
-
-    for (let i = shuffledDeck.length; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]]
-    }
-
-    this._deck = shuffledDeck
-  }
-
-  /**
    * Get a set amount of cards from the deck and remove them from the deck
    *
    * @param {Number} amount - number of cards to return
-   * @param {Object} opts - initial options to attach to the object
    *
    * @returns {Array}
    */
-  getCards (amount = 0, opts = {}) {
+  getCards (amount = 0) {
     if (amount >= 1 && amount < (this._deck.length - amount)) {
       const cards = this._deck.splice(0, amount)
-      if (opts) {
-        return cards.map((card) => ({ ...card, ...opts }))
-      } else {
-        return cards
-      }
+      return cards
     } else {
       return []
     }
   }
 
   /**
-   * Stringify an array of card objects
+   * Stringify an array of card objects in the format: c_[id]#[card][suit]
+   * Eg. ['c_23#AS', 'c_94#3D', ...]
    *
    * @param {Array} cards
    *
    * @returns {Array}
    */
   static stringify (cards = []) {
-    return cards.map((card) => `${card.value}${card.suit.value}`)
+    return cards.map(card => `${card.id}#${card.value}${card.suit.value}`)
   }
 
   /**
@@ -112,7 +96,9 @@ export default class Deck {
    * @returns {Array}
    */
   static parse (cards = []) {
-    return cards.map((card) => {
+    return cards.map(c => {
+      // Get the card and id by spliting string
+      const [id, card] = c.split('#')
       const cardValue = card.length === 3 ? '10' : card[0] // with 10 we get string of length 3
       const cardRank = Cards.indexOf(cardValue) + 1
       const suitValue = card.length === 3 ? card[2] : card[1]
@@ -120,6 +106,7 @@ export default class Deck {
       const suitUTF = SuitsUTF[Suits.indexOf(suitValue)]
 
       return {
+        id,
         value: cardValue,
         rank: cardRank,
         suit: {

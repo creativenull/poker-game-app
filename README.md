@@ -7,5 +7,5 @@ A poker game for research development
 + Jest v25
 + Material UI v4.9
 + Parcel v1.12
-+ React Context API (State Management)
++ Redux v4
 + React v16

@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ErrorStoreProvider } from '#store/error'
-import { GameStoreProvider } from '#store/game'
 import App from './App'
 
+import { Provider } from 'react-redux'
+import store from './redux'
+
 ReactDOM.render((
-  <ErrorStoreProvider>
-    <GameStoreProvider>
-      <App />
-    </GameStoreProvider>
-  </ErrorStoreProvider>
+  <Provider store={store}>
+    <App />
+  </Provider>
 ), document.getElementById('app'))

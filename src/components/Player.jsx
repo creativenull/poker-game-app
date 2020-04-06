@@ -1,13 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import { makeStyles } from '@material-ui/core/styles'
-
-import GameStore from '#store/game'
-import { GameState } from '#store/game/types'
 
 import PlayingCard from './PlayingCard'
 
@@ -26,30 +23,29 @@ Player.propTypes = {
     id: PropTypes.string,
     hand: PropTypes.array
   }),
-  onClick: PropTypes.func
+  onClick: PropTypes.func.isRequired,
+  clickOnceList: PropTypes.array
 }
 
 // Component
-function Player ({ player, onClick }) {
+function Player ({ player, onClick, clickOnceList }) {
   const classes = useStyles()
-  const { state } = useContext(GameStore)
-  const hidden = (state.gameState === GameState.INIT_GAME || state.gameState === GameState.END_GAME)
-  // const disabled = state.gameState !== GameState.START_GAME
-  const isReplaceMode = state.gameState === GameState.START_GAME
 
-  const innerCards = player.hand.map((card, i) => (
-    <PlayingCard
-      key={`pl${i}`}
-      card={{ ...card, onClick: isReplaceMode ? onClick : null }}
-      hidden={hidden}
-    />
-  ))
+  function disable (card) {
+    if (clickOnceList.includes(card.id)) {
+      return true
+    }
+
+    return false
+  }
 
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Player</Typography>
       <Box display="flex">
-        {innerCards}
+        {player.hand.map(card => (
+          <PlayingCard key={`player${card.id}`} card={card} onClick={onClick} noHover={disable(card)} />
+        ))}
       </Box>
     </Box>
   )
