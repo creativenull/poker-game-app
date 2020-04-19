@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "#app/*": ["./src/*"],
-      "#components/*": ["./src/components/*"],
-      "#lib/*": ["./src/lib/*"],
-      "#config/*": ["./src/config/*"],
-      "#store/*": ["./src/redux/*"]
+      "#app/*": ["./*"],
+      "#components/*": ["./components/*"],
+      "#lib/*": ["./lib/*"],
+      "#config/*": ["./config/*"],
+      "#store/*": ["./redux/*"]
     }
   }
 }

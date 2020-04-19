@@ -8,13 +8,13 @@
   ],
   "plugins": [
     ["module-resolver", {
-      "root": ["."],
+      "root": ["./src"],
       "alias": {
-        "#app": "./src",
-        "#components": "./src/components",
-        "#lib": "./src/lib",
-        "#config": "./src/config",
-        "#store": "./src/redux"
+        "#app": ".",
+        "#components": "./components",
+        "#lib": "./lib",
+        "#config": "./config",
+        "#store": "./redux"
       }
     }]
   ]

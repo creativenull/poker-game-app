@@ -8,6 +8,21 @@ const initState = {
   gameState: GameState.INIT
 }
 
+// Change game states in sequence
+function getNextGameState (gameState) {
+  if (gameState === GameState.INIT) {
+    return GameState.CONTINUE
+  } else if (gameState === GameState.START) {
+    return GameState.CONTINUE
+  } else if (gameState === GameState.CONTINUE) {
+    return GameState.END
+  } else if (gameState === GameState.END) {
+    return GameState.START
+  } else {
+    return GameState.INIT
+  }
+}
+
 function reducer (state = initState, action) {
   switch (action.type) {
     case INC_BET_CREDITS:
@@ -20,13 +35,11 @@ function reducer (state = initState, action) {
     case UPDATE_GAME_STATE:
       return {
         ...state,
-        gameState: action.payload
+        gameState: getNextGameState(state.gameState)
       }
 
     case RESET_CREDITS:
-      return {
-        ...initState
-      }
+      return { ...initState }
 
     default:
       return state

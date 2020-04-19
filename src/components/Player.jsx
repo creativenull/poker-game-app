@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import { makeStyles } from '@material-ui/core/styles'
+
+import { GameState } from '#app/constant-types'
 
 import PlayingCard from './PlayingCard'
 
@@ -24,13 +27,16 @@ Player.propTypes = {
     hand: PropTypes.array
   }),
   onClick: PropTypes.func.isRequired,
-  clickOnceList: PropTypes.array
+  clickOnceList: PropTypes.array,
+  gameState: PropTypes.string
 }
 
 // Component
-function Player ({ player, onClick, clickOnceList }) {
+function Player ({ player, onClick, clickOnceList, gameState }) {
   const classes = useStyles()
+  const [hidden, setHidden] = useState(true)
 
+  // Disable card after click once
   function disable (card) {
     if (clickOnceList.includes(card.id)) {
       return true
@@ -39,16 +45,35 @@ function Player ({ player, onClick, clickOnceList }) {
     return false
   }
 
+  // Update the cards status to be hidden or not
+  useEffect(() => {
+    if (gameState === GameState.CONTINUE || gameState === GameState.END) {
+      setHidden(false)
+    } else {
+      setHidden(true)
+    }
+  }, [gameState])
+
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Player</Typography>
       <Box display="flex">
         {player.hand.map(card => (
-          <PlayingCard key={`player${card.id}`} card={card} onClick={onClick} noHover={disable(card)} />
+          <PlayingCard
+            key={`player${card.id}`}
+            card={card}
+            onClick={gameState !== GameState.CONTINUE ? null : onClick}
+            noHover={gameState !== GameState.CONTINUE ? true : disable(card)}
+            hidden={hidden}
+          />
         ))}
       </Box>
     </Box>
   )
 }
 
-export default Player
+const mapStateToProps = (state) => ({
+  gameState: state.game.gameState
+})
+
+export default connect(mapStateToProps)(Player)

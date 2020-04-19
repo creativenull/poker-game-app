@@ -16,10 +16,10 @@ import Poker from '#lib/Poker'
 /**
  * Main Component
  */
-function App ({ toast, hideToast }) {
+function App ({ toast, hideToast, game }) {
   // Initial states
   const poker = new Poker()
-  const [dealer, setDealer] = useState({
+  const [dealer] = useState({
     id: 'dealer',
     hand: poker.getPlayerHand()
   })
@@ -77,13 +77,14 @@ function App ({ toast, hideToast }) {
 
 App.propTypes = {
   toast: PropTypes.object,
-  showToast: PropTypes.func,
-  hideToast: PropTypes.func
+  hideToast: PropTypes.func,
+  game: PropTypes.object
 }
 
 function mapStateToProps (state) {
   return {
-    ...state
+    toast: state.toast,
+    gameState: state.game.gameState
   }
 }
 
