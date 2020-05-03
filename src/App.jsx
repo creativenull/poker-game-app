@@ -1,22 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { hideToast } from '#store/toast/actions'
+import { hideDialog } from '#store/dialog/actions'
 
 import Box from '@material-ui/core/Box'
-import Snackbar from '@material-ui/core/Snackbar'
+// import Snackbar from '@material-ui/core/Snackbar'
+import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 
 import Dealer from '#components/Dealer'
 import GameActions from '#components/GameActions'
 import Player from '#components/Player'
 import Poker from '#lib/Poker'
+import {GameState} from './constant-types'
 
 /**
  * Main Component
  */
-function App ({ toast, hideToast, game }) {
+App.propTypes = {
+  dialog: PropTypes.object,
+  hideDialog: PropTypes.func,
+  gameState: PropTypes.string
+}
+
+function App ({ dialog, hideDialog, gameState }) {
   // Initial states
   const poker = new Poker()
   const [dealer] = useState({
@@ -30,12 +43,6 @@ function App ({ toast, hideToast, game }) {
 
   // Use to record the card being clicked
   const [playerClickOnceList, setPlayerClickOnceList] = useState([])
-
-  function onErrorClose (_, reason) {
-    if (reason !== 'clickaway') {
-      hideToast()
-    }
-  }
 
   // replace the card, but only once
   function onClickReplaceCard (card) {
@@ -52,13 +59,45 @@ function App ({ toast, hideToast, game }) {
     setPlayerClickOnceList([...playerClickOnceList, newCard.id])
   }
 
+  function onErrorClose (_, reason) {
+    if (reason !== 'clickaway') {
+      hideDialog()
+    }
+  }
+
+  // TODO:
+  // If the game state is end, then:
+  // + Show the dealer hands
+  // + Compute and display the winner in a dialog
+  // + Reset the bet credits
+  // + Update the total credits if the player was the winner
+  useEffect(() => {
+    if (gameState === GameState.END) {
+      console.log('change');
+    }
+  }, [gameState])
+
   return (
     <>
-      <Snackbar open={toast.open} onClose={onErrorClose} autoHideDuration={6000}>
-        <Alert onClose={onErrorClose} variant="filled" severity="error">
-          {toast.message}
+      <Dialog
+        open={dialog.open}
+        onClose={onErrorClose}
+        disableBackdropClick
+      >
+        <Alert variant="filled" severity={dialog.type} icon={false}>
+          <DialogTitle>{dialog.title}</DialogTitle>
+          <DialogContent>
+            <DialogContentText color="white">
+              {dialog.message}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onErrorClose} variant="contained" color="white">
+              Close
+            </Button>
+          </DialogActions>
         </Alert>
-      </Snackbar>
+      </Dialog>
 
       <Box display="flex" justifyContent="center">
         <Box flex="3" display="flex" justifyContent="center">
@@ -75,21 +114,15 @@ function App ({ toast, hideToast, game }) {
   )
 }
 
-App.propTypes = {
-  toast: PropTypes.object,
-  hideToast: PropTypes.func,
-  game: PropTypes.object
-}
-
 function mapStateToProps (state) {
   return {
-    toast: state.toast,
+    dialog: state.dialog,
     gameState: state.game.gameState
   }
 }
 
 const mapDispatchToProps = {
-  hideToast
+  hideDialog
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

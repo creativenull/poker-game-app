@@ -1,19 +1,21 @@
-import { SHOW_TOAST, HIDE_TOAST } from './action-types'
+import { SHOW_DIALOG, HIDE_DIALOG } from './action-types'
 
 const initState = {
   open: false,
-  message: ''
+  title: '',
+  message: '',
+  type: 'error'
 }
 
 function reducer (state = initState, action) {
   switch (action.type) {
-    case SHOW_TOAST:
+    case SHOW_DIALOG:
       return {
-        ...state,
-        ...action.payload
+        ...action.payload,
+        open: true
       }
 
-    case HIDE_TOAST:
+    case HIDE_DIALOG:
       return {
         ...state,
         open: false

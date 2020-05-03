@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 import { updateGameState } from '#store/game/actions'
+import { showDialog } from '#store/dialog/actions'
 
 import { GameState } from '#app/constant-types'
 import BetCredits from './BetCredits'
@@ -15,11 +16,13 @@ import TotalCredits from './TotalCredits'
 
 GameActions.propTypes = {
   gameState: PropTypes.string,
-  updateGameState: PropTypes.func
+  betCredits: PropTypes.number,
+  updateGameState: PropTypes.func,
+  showDialog: PropTypes.func
 }
 
 // Component
-function GameActions ({ gameState, updateGameState }) {
+function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
   const [gameStateText, setGameStateText] = useState('Start')
 
   // Change text
@@ -35,7 +38,11 @@ function GameActions ({ gameState, updateGameState }) {
 
   // Update the game state
   function updateGameStateText () {
-    updateGameState()
+    if (betCredits > 0) {
+      updateGameState()
+    } else {
+      showDialog('Add credits to bet', 'Cannot start with zero bet credits')
+    }
   }
 
   return (
@@ -59,12 +66,14 @@ function GameActions ({ gameState, updateGameState }) {
 
 const mapStateToProps = (state) => {
   return {
-    gameState: state.game.gameState
+    gameState: state.game.gameState,
+    betCredits: state.game.betCredits
   }
 }
 
 const mapDispatchToProps = {
-  updateGameState
+  updateGameState,
+  showDialog
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameActions)

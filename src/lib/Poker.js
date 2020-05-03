@@ -18,7 +18,7 @@ export const HandRanking = {
  * Poker class
  * Rankings from https://www.cardplayer.com/rules-of-poker/hand-rankings
  */
-export default class Poker extends Deck {
+class Poker extends Deck {
   /**
    * Get new hands
    */
@@ -226,3 +226,5 @@ export default class Poker extends Deck {
     return pairs.length === 2 && (pairs[0] === 2)
   }
 }
+
+export default Poker

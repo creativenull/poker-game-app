@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from 'redux'
 import gameReducer from './game/reducer'
-import toastReducer from './toast/reducer'
+import dialogReducer from './dialog/reducer'
 
 const reducers = combineReducers({
   game: gameReducer,
-  toast: toastReducer
+  dialog: dialogReducer
 })
 
 export default createStore(
