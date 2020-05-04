@@ -51,6 +51,7 @@ class Poker extends Deck {
    */
   winner (players = []) {
     const list = players.map(player => {
+      const { id } = player
       const hand = this.sort(player.hand)
       const pairs = this._getPairs(hand)
 
@@ -69,78 +70,84 @@ class Poker extends Deck {
           if (hasAce) {
             // Royal Flush
             return {
-              id: player.id,
-              handRank: HandRanking.ROYAL_FLUSH
+              id,
+              handRank: HandRanking.ROYAL_FLUSH,
+              name: 'Royal Flush'
             }
           } else {
             // Straight Flush
             return {
-              id: player.id,
-              handRank: HandRanking.STRAIGHT_FLUSH
+              id,
+              handRank: HandRanking.STRAIGHT_FLUSH,
+              name: 'Straight Flush'
             }
           }
         } else if (isS) {
           // Straight
           return {
-            id: player.id,
-            handRank: HandRanking.STRAIGHT
+            id,
+            handRank: HandRanking.STRAIGHT,
+            name: 'Straight'
           }
         } else if (isF) {
           // Flush
           return {
-            id: player.id,
-            handRank: HandRanking.FLUSH
+            id,
+            handRank: HandRanking.FLUSH,
+            name: 'Flush'
           }
-        }
-      } else if (this._isFourOfAKind(hand)) {
-        return {
-          id: player.id,
-          handRank: HandRanking.FOUR_OF_A_KIND
         }
       } else if (isFK || isFH || isTK || is2P || is1P) {
         if (isFK) {
           // Four of a Kind
           return {
-            id: player.id,
-            handRank: HandRanking.FOUR_OF_A_KIND
+            id,
+            handRank: HandRanking.FOUR_OF_A_KIND,
+            name: 'Four-of-a-Kind'
           }
         } else if (isFH) {
           // Full House
           return {
-            id: player.id,
-            handRank: HandRanking.FULL_HOUSE
+            id,
+            handRank: HandRanking.FULL_HOUSE,
+            name: 'Full House'
           }
         } else if (isTK) {
           // Three of a Kind
           return {
-            id: player.id,
-            handRank: HandRanking.THREE_OF_A_KIND
+            id,
+            handRank: HandRanking.THREE_OF_A_KIND,
+            name: 'Three-of-a-Kind'
           }
         } else if (is2P) {
           // Two Pair
           return {
-            id: player.id,
-            handRank: HandRanking.TWO_PAIR
+            id,
+            handRank: HandRanking.TWO_PAIR,
+            name: 'Two Pair'
           }
         } else if (is1P) {
           // One Pair
           return {
-            id: player.id,
-            handRank: HandRanking.PAIR
+            id,
+            handRank: HandRanking.PAIR,
+            name: 'Pair'
           }
         } else {
           // None
           return {
-            id: player.id,
-            handRank: HandRanking.NONE
+            id,
+            handRank: HandRanking.NONE,
+            name: 'None'
           }
         }
       } else {
         // High Card
         return {
-          id: player.id,
+          id,
           handRank: HandRanking.HIGH_CARD,
-          cardRank: hand[0].rank
+          cardRank: hand[0].rank,
+          name: 'High Card'
         }
       }
     })
