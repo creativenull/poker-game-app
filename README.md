@@ -17,6 +17,11 @@ A poker game for research development.
 
 ### Run a dev server
 ```sh
-yarn start # Or
+yarn start
+```
+
+Or
+
+```sh
 npm run start
 ```
