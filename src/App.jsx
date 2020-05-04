@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { hideDialog } from '#store/dialog/actions'
+import { updateDealerView, resetBetCredits } from '#store/game/actions'
 
 import Box from '@material-ui/core/Box'
 // import Snackbar from '@material-ui/core/Snackbar'
@@ -13,26 +14,21 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
+import grey from '@material-ui/core/colors/grey'
+import { makeStyles } from '@material-ui/core/styles'
 
 import Dealer from '#components/Dealer'
 import GameActions from '#components/GameActions'
 import Player from '#components/Player'
 import Poker from '#lib/Poker'
-import {GameState} from './constant-types'
 
-/**
- * Main Component
- */
-App.propTypes = {
-  dialog: PropTypes.object,
-  hideDialog: PropTypes.func,
-  gameState: PropTypes.string
-}
+import { GameState } from '#app/constant-types'
 
-function App ({ dialog, hideDialog, gameState }) {
+function App ({ dialog, hideDialog, gameState, hideDealer, updateDealerView, resetBetCredits }) {
   // Initial states
-  const poker = new Poker()
-  const [dealer] = useState({
+  const classes = useStyles()
+  const [poker, setPoker] = useState(new Poker())
+  const [dealer, setDealer] = useState({
     id: 'dealer',
     hand: poker.getPlayerHand()
   })
@@ -67,15 +63,36 @@ function App ({ dialog, hideDialog, gameState }) {
 
   // TODO:
   // If the game state is end, then:
-  // + Show the dealer hands
+  // [+] Show the dealer hands
   // + Compute and display the winner in a dialog
-  // + Reset the bet credits
+  // [+] Reset the bet credits
   // + Update the total credits if the player was the winner
   useEffect(() => {
-    if (gameState === GameState.END) {
-      console.log('change');
+    if (gameState === GameState.START) {
+      resetBetCredits()
+      updateDealerView()
+      setPoker(new Poker())
+    } else if (gameState === GameState.END) {
+      updateDealerView(false)
+      const winner = poker.winner([player, dealer])
+      console.log(winner)
+    } else {
+      if (!hideDealer) {
+        updateDealerView()
+      }
     }
   }, [gameState])
+
+  useEffect(() => {
+    setPlayer({
+      ...player,
+      hand: poker.getPlayerHand()
+    })
+    setDealer({
+      ...player,
+      hand: poker.getPlayerHand()
+    })
+  }, [poker])
 
   return (
     <>
@@ -87,12 +104,12 @@ function App ({ dialog, hideDialog, gameState }) {
         <Alert variant="filled" severity={dialog.type} icon={false}>
           <DialogTitle>{dialog.title}</DialogTitle>
           <DialogContent>
-            <DialogContentText color="white">
+            <DialogContentText className={classes.dialogContent}>
               {dialog.message}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onErrorClose} variant="contained" color="white">
+            <Button className={classes.button} onClick={onErrorClose} variant="contained">
               Close
             </Button>
           </DialogActions>
@@ -114,15 +131,39 @@ function App ({ dialog, hideDialog, gameState }) {
   )
 }
 
+App.propTypes = {
+  dialog: PropTypes.object,
+  hideDialog: PropTypes.func,
+  gameState: PropTypes.string,
+  hideDealer: PropTypes.bool,
+  updateDealerView: PropTypes.func,
+  resetBetCredits: PropTypes.func
+}
+
+// Styles
+const useStyles = makeStyles({
+  button: {
+    color: 'black',
+    backgroundColor: 'white'
+  },
+  dialogContent: {
+    color: 'white'
+  }
+})
+
+// Store
 function mapStateToProps (state) {
   return {
     dialog: state.dialog,
-    gameState: state.game.gameState
+    gameState: state.game.gameState,
+    hideDealer: state.game.hideDealer
   }
 }
 
 const mapDispatchToProps = {
-  hideDialog
+  hideDialog,
+  updateDealerView,
+  resetBetCredits
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

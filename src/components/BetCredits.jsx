@@ -15,29 +15,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { GameState } from '#app/constant-types'
 import { incrementBetCredits } from '#store/game/actions'
 
-// Styles
-const useStyles = makeStyles({
-  cardContent: {
-    textAlign: 'center'
-  },
-
-  cardActions: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-
-  cardHeader: {
-    backgroundColor: blue[900],
-    color: '#fff'
-  }
-})
-
-BetCredits.propTypes = {
-  game: PropTypes.object,
-  incrementBetCredits: PropTypes.func
-}
-
-// Component
 function BetCredits ({ game, incrementBetCredits }) {
   const { cardHeader, cardContent, cardActions } = useStyles()
   const { gameState, betCredits } = game
@@ -68,6 +45,29 @@ function BetCredits ({ game, incrementBetCredits }) {
   )
 }
 
+BetCredits.propTypes = {
+  game: PropTypes.object,
+  incrementBetCredits: PropTypes.func
+}
+
+// Styles
+const useStyles = makeStyles({
+  cardContent: {
+    textAlign: 'center'
+  },
+
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+
+  cardHeader: {
+    backgroundColor: blue[900],
+    color: '#fff'
+  }
+})
+
+// Store
 function mapStateToProps (state) {
   return {
     game: state.game

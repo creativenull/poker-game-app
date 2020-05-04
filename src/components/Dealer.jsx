@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import Box from '@material-ui/core/Box'
 import PropTypes from 'prop-types'
@@ -22,11 +23,12 @@ Dealer.propTypes = {
   dealer: PropTypes.exact({
     id: PropTypes.string,
     hand: PropTypes.array
-  })
+  }),
+  hideDealer: PropTypes.bool
 }
 
 // Component
-function Dealer ({ dealer }) {
+function Dealer ({ dealer, hideDealer }) {
   const classes = useStyles()
 
   return (
@@ -34,11 +36,17 @@ function Dealer ({ dealer }) {
       <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
         {dealer.hand.map(card => (
-          <PlayingCard key={`dealer${card.id}`} card={card} noHover hidden />
+          <PlayingCard key={`dealer${card.id}`} card={card} noHover hidden={hideDealer} />
         ))}
       </Box>
     </Box>
   )
 }
 
-export default Dealer
+function mapStateToProps (state) {
+  return {
+    hideDealer: state.game.hideDealer
+  }
+}
+
+export default connect(mapStateToProps)(Dealer)

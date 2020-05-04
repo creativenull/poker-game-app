@@ -41,7 +41,7 @@ function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
     if (betCredits > 0) {
       updateGameState()
     } else {
-      showDialog('Add credits to bet', 'Cannot start with zero bet credits')
+      showDialog('😯 Add credits to bet', 'Cannot start with zero bet credits')
     }
   }
 

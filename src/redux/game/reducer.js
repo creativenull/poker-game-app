@@ -1,11 +1,18 @@
-import { UPDATE_GAME_STATE, INC_BET_CREDITS, RESET_CREDITS } from './action-types'
+import {
+  UPDATE_GAME_STATE,
+  INC_BET_CREDITS,
+  RESET_CREDITS,
+  UPDATE_DEALER_VIEW,
+  RESET_BET_CREDITS
+} from './action-types'
 import { GameState } from '#app/constant-types'
 
 const initState = {
   betCredits: 0,
   totalCredits: 100,
   unit: 5,
-  gameState: GameState.INIT
+  gameState: GameState.INIT,
+  hideDealer: true
 }
 
 // Change game states in sequence
@@ -32,10 +39,22 @@ function reducer (state = initState, action) {
         totalCredits: state.totalCredits - state.unit
       }
 
+    case RESET_BET_CREDITS:
+      return {
+        ...state,
+        betCredits: 0
+      }
+
     case UPDATE_GAME_STATE:
       return {
         ...state,
         gameState: getNextGameState(state.gameState)
+      }
+
+    case UPDATE_DEALER_VIEW:
+      return {
+        ...state,
+        hideDealer: typeof action.payload === 'boolean' ? action.payload : true
       }
 
     case RESET_CREDITS:
