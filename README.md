@@ -1,12 +1,12 @@
 # Poker Game App (**Status: Work-in-Progress**)
 A poker game for research development.
 
-## Tech Stack
-+ Babel v7.8
-+ ESLint v6.8
+## Technology Stack
++ Babel v7
++ ESLint v6
 + Jest v25
-+ Material UI v4.9
-+ Parcel v1.12
++ Material UI v4
++ Parcel v1
 + Redux v4
 + React v16
 

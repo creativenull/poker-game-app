@@ -5,7 +5,7 @@ import {
   UPDATE_DEALER_VIEW,
   RESET_BET_CREDITS
 } from './action-types'
-import { GameState } from '#app/constant-types'
+import { GameState } from '#app/constant-types.js'
 
 const initState = {
   betCredits: 0,
@@ -15,7 +15,13 @@ const initState = {
   hideDealer: true
 }
 
-// Change game states in sequence
+/**
+ * Iterate to the next game state
+ *
+ * @param {string} gameState The current game state of the session
+ *
+ * @returns The next game state of the session
+ */
 function getNextGameState (gameState) {
   if (gameState === GameState.INIT) {
     return GameState.CONTINUE
@@ -30,7 +36,15 @@ function getNextGameState (gameState) {
   }
 }
 
-function reducer (state = initState, action) {
+/**
+ * Return new redux state based on action
+ *
+ * @param state Initial state
+ * @param action Redux action with type and payload
+ *
+ * @returns New redux state
+ */
+export default function reducer (state = initState, action) {
   switch (action.type) {
     case INC_BET_CREDITS:
       return {
@@ -64,5 +78,3 @@ function reducer (state = initState, action) {
       return state
   }
 }
-
-export default reducer

@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
-import { updateGameState } from '#store/game/actions'
-import { showDialog } from '#store/dialog/actions'
+import { updateGameState } from '#store/game/actions.js'
+import { showDialog } from '#store/dialog/actions.js'
 
-import { GameState } from '#app/constant-types'
+import { GameState } from '#app/constant-types.js'
 import BetCredits from './BetCredits'
 import TotalCredits from './TotalCredits'
 
@@ -41,7 +41,7 @@ function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
     if (betCredits > 0) {
       updateGameState()
     } else {
-      showDialog('😯 Add credits to bet', 'Cannot start with zero bet credits')
+      showDialog('😯 Add credits', 'Cannot start with no bet credits, you should add some')
     }
   }
 

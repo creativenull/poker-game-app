@@ -6,7 +6,7 @@
       "#components/*": ["./components/*"],
       "#lib/*": ["./lib/*"],
       "#config/*": ["./config/*"],
-      "#store/*": ["./redux/*"]
+      "#store/*": ["./store/*"]
     }
   }
 }

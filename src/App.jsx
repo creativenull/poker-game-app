@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { hideDialog } from '#store/dialog/actions'
-import { updateDealerView, resetBetCredits } from '#store/game/actions'
+import { hideDialog, winnerDialog, loserDialog } from '#store/dialog/actions.js'
+import { updateDealerView, resetBetCredits } from '#store/game/actions.js'
 
 import Box from '@material-ui/core/Box'
-// import Snackbar from '@material-ui/core/Snackbar'
 import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import Dialog from '@material-ui/core/Dialog'
@@ -19,14 +18,19 @@ import { makeStyles } from '@material-ui/core/styles'
 import Dealer from '#components/Dealer'
 import GameActions from '#components/GameActions'
 import Player from '#components/Player'
-import Poker from '#lib/Poker'
+import Poker from '#lib/Poker.js'
 
-import { GameState } from '#app/constant-types'
+import { GameState } from '#app/constant-types.js'
 
-function App ({ dialog, hideDialog, gameState, hideDealer, updateDealerView, resetBetCredits }) {
+function App (props) {
+  const { dialog, hideDialog, winnerDialog, loserDialog } = props
+  const { gameState } = props
+  const { hideDealer, updateDealerView, resetBetCredits } = props
+
   // Initial states
   const classes = useStyles()
   const [poker, setPoker] = useState(new Poker())
+  const [winner, setWinner] = useState([])
   const [dealer, setDealer] = useState({
     id: 'dealer',
     hand: poker.getPlayerHand()
@@ -71,10 +75,10 @@ function App ({ dialog, hideDialog, gameState, hideDealer, updateDealerView, res
       resetBetCredits()
       updateDealerView()
       setPoker(new Poker())
+      setWinner([])
     } else if (gameState === GameState.END) {
       updateDealerView(false)
-      const winner = poker.winner([player, dealer])
-      console.log(winner)
+      setWinner(poker.winner([player, dealer]))
     } else {
       if (!hideDealer) {
         updateDealerView()
@@ -90,10 +94,22 @@ function App ({ dialog, hideDialog, gameState, hideDealer, updateDealerView, res
       hand: poker.getPlayerHand()
     })
     setDealer({
-      ...player,
+      ...dealer,
       hand: poker.getPlayerHand()
     })
   }, [poker])
+
+  // Show winner dialog when it is available
+  useEffect(() => {
+    if (winner.length > 0) {
+      console.log(winner)
+      if (winner[0].id === player.id) {
+        winnerDialog(winner[0].name)
+      } else if (winner[0].id === dealer.id) {
+        loserDialog(winner[1].name, winner[0].name)
+      }
+    }
+  }, [winner])
 
   return (
     <>
@@ -137,6 +153,8 @@ App.propTypes = {
   hideDialog: PropTypes.func,
   gameState: PropTypes.string,
   hideDealer: PropTypes.bool,
+  winnerDialog: PropTypes.func,
+  loserDialog: PropTypes.func,
   updateDealerView: PropTypes.func,
   resetBetCredits: PropTypes.func
 }
@@ -163,6 +181,8 @@ function mapStateToProps (state) {
 
 const mapDispatchToProps = {
   hideDialog,
+  winnerDialog,
+  loserDialog,
   updateDealerView,
   resetBetCredits
 }

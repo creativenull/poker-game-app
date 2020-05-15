@@ -32,9 +32,9 @@ class Poker extends Deck {
    * @param {Object} card
    * @param {Array} hand
    *
-   * @return {Array}
+   * @returns
    */
-  replace (card, hand = []) {
+  replace (card, hand) {
     const cardIndex = hand.findIndex(handCard => card.id === handCard.id)
     const [newCard] = this.getCards(1)
     const newHand = hand.slice(0)
@@ -45,11 +45,11 @@ class Poker extends Deck {
   /**
    * Returns the winner from the array
    *
-   * @param {Array} players
+   * @param {Array} players List of players in the session
    *
-   * @returns {Object}
+   * @returns An array of winning hand, starting from the highest rank
    */
-  winner (players = []) {
+  winner (players) {
     const list = players.map(player => {
       const { id } = player
       const hand = this.sort(player.hand)
@@ -158,21 +158,48 @@ class Poker extends Deck {
       } else {
         return b.handRank - a.handRank
       }
-    })[0]
+    })
   }
 
-  _hasAce (hand = []) {
-    return hand.find((card) => card.value === 'A')
+  /**
+   * Checks if the hand and an ace card
+   *
+   * @param {Array} hand
+   *
+   * @returns {boolean}
+   */
+  _hasAce (hand) {
+    for (const card of hand) {
+      if (card.value === 'A') {
+        return true
+      }
+    }
+
+    return false
   }
 
-  _isStraight (hand = []) {
-    const last = hand.length - 1
+  /**
+   * Checks of the hand is a sequence of card ranks
+   *
+   * @param {Array} hand
+   *
+   * @returns {boolean}
+   */
+  _isStraight (hand) {
     const first = 0
+    const last = hand.length - 1
     const diff = hand[first].rank - hand[last].rank
     return diff === 4
   }
 
-  _isFlush (hand = []) {
+  /**
+   * Checks if the hand has the same card suit
+   *
+   * @param hand Array of card object
+   *
+   * @returns {boolean}
+   */
+  _isFlush (hand) {
     for (const value of Suits) {
       const count = hand.reduce((acc, card) => acc + (card.suit.value === value), 0)
 
@@ -186,7 +213,14 @@ class Poker extends Deck {
     return false
   }
 
-  _getPairs (hand = []) {
+  /**
+   * Generates a two item array of pairs
+   *
+   * @param {object[]} hand Array of card object
+   *
+   * @returns
+   */
+  _getPairs (hand) {
     const pair = []
 
     for (const value of Cards) {
@@ -213,23 +247,58 @@ class Poker extends Deck {
     return pair
   }
 
-  _isFourOfAKind (pairs = []) {
+  /**
+   * Checks if the pair is four of a kind
+   *
+   * @param {number[]} pairs Array of two number item
+   *
+   * @returns {boolean}
+   */
+  _isFourOfAKind (pairs) {
     return pairs.length === 2 && pairs[0] === 4
   }
 
-  _isFullHouse (pairs = []) {
+  /**
+   * Checks if the pair is a full house
+   *
+   * @param {number[]} pairs Array of two number item
+   *
+   * @returns {boolean}
+   */
+  _isFullHouse (pairs) {
     return pairs.length === 2 && (pairs[0] + pairs[1]) === 5
   }
 
-  _isThreeOfAKind (pairs = []) {
+  /**
+   * Checks if the pair is three of a kind
+   *
+   * @param {number[]} pairs Array of two number item
+   *
+   * @returns {boolean}
+   */
+  _isThreeOfAKind (pairs) {
     return pairs.length === 2 && (pairs[0] === 3)
   }
 
-  _isTwoPair (pairs = []) {
+  /**
+   * Checks if the pair is a two pair
+   *
+   * @param {number[]} pairs Array of two number item
+   *
+   * @returns {boolean}
+   */
+  _isTwoPair (pairs) {
     return pairs.length === 2 && pairs[0] === 2 && pairs[1] === 2
   }
 
-  _isPair (pairs = []) {
+  /**
+   * Checks if the pair is a pair
+   *
+   * @param {number[]} pairs Array of two number item
+   *
+   * @returns {boolean}
+   */
+  _isPair (pairs) {
     return pairs.length === 2 && (pairs[0] === 2)
   }
 }

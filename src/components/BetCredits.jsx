@@ -12,8 +12,8 @@ import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { GameState } from '#app/constant-types'
-import { incrementBetCredits } from '#store/game/actions'
+import { GameState } from '#app/constant-types.js'
+import { incrementBetCredits } from '#store/game/actions.js'
 
 function BetCredits ({ game, incrementBetCredits }) {
   const { cardHeader, cardContent, cardActions } = useStyles()
