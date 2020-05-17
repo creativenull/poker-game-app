@@ -5,7 +5,7 @@ import {
   UPDATE_DEALER_VIEW,
   RESET_BET_CREDITS
 } from './action-types'
-import { GameState } from '#app/constant-types.js'
+import { GameState } from '#app/constant-types'
 
 const initState = {
   betCredits: 0,

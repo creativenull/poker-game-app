@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
 
-import { CardBlankUTF } from '#lib/Deck.js'
+import { CardBlankUTF } from '#lib/Deck'
 
 const useStyles = makeStyles({
   disabled: {

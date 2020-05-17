@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { GameState } from '#app/constant-types.js'
+import { GameState } from '#app/constant-types'
 
 import PlayingCard from './PlayingCard'
 
