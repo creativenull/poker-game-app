@@ -7,28 +7,28 @@ on:
   push:
     branches: [ master ]
 
-    # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-    jobs:
-      # This workflow contains a single job called "build"
-      build:
-        # The type of runner that the job will run on
-        runs-on: ubuntu-latest
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-        # Steps represent a sequence of tasks that will be executed as part of the job
-        steps:
-          - name: Checkout 🛎️
-            uses: actions/checkout@v2
-            with:
-              persist-credentials: false
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
-          - name: Install and Build 🔧
-            run: |
-              yarn install
-              yarn build
+      - name: Install and Build 🔧
+        run: |
+          yarn install
+          yarn build
 
-          - name: Deploy 🚀
-            uses: JamesIves/github-pages-deploy-action@releases/v3
-            with:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              BRANCH: gh-pages
-              FOLDER: dist
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
