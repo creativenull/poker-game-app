@@ -29,13 +29,9 @@ const useStyles = makeStyles({
   }
 })
 
-TotalCredits.propTypes = {
-  game: PropTypes.object
-}
-
+// Component
 function TotalCredits ({ game }) {
   const classes = useStyles()
-
   return (
     <Card elevation={5} className={classes.card}>
       <CardHeader className={classes.cardHeader} title="Total Credits" />
@@ -46,10 +42,13 @@ function TotalCredits ({ game }) {
   )
 }
 
-function mapStateToProps (state) {
-  return {
-    game: state.game
-  }
+TotalCredits.propTypes = {
+  game: PropTypes.object
 }
+
+// Store
+const mapStateToProps = (state) => ({
+  game: state.game
+})
 
 export default connect(mapStateToProps)(TotalCredits)

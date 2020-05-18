@@ -18,15 +18,6 @@ const useStyles = makeStyles({
   }
 })
 
-// Prop Types
-Dealer.propTypes = {
-  dealer: PropTypes.exact({
-    id: PropTypes.string,
-    hand: PropTypes.array
-  }),
-  hideDealer: PropTypes.bool
-}
-
 // Component
 function Dealer ({ dealer, hideDealer }) {
   const classes = useStyles()
@@ -43,10 +34,17 @@ function Dealer ({ dealer, hideDealer }) {
   )
 }
 
-function mapStateToProps (state) {
-  return {
-    hideDealer: state.game.hideDealer
-  }
+Dealer.propTypes = {
+  dealer: PropTypes.exact({
+    id: PropTypes.string,
+    hand: PropTypes.array
+  }),
+  hideDealer: PropTypes.bool
 }
+
+// Store
+const mapStateToProps = (state) => ({
+  hideDealer: state.game.hideDealer
+})
 
 export default connect(mapStateToProps)(Dealer)

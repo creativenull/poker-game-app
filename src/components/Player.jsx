@@ -20,17 +20,6 @@ const useStyles = makeStyles({
   }
 })
 
-// Prop Types
-Player.propTypes = {
-  player: PropTypes.exact({
-    id: PropTypes.string,
-    hand: PropTypes.array
-  }),
-  onClick: PropTypes.func.isRequired,
-  clickOnceList: PropTypes.array,
-  gameState: PropTypes.string
-}
-
 // Component
 function Player ({ player, onClick, clickOnceList, gameState }) {
   const classes = useStyles()
@@ -72,6 +61,17 @@ function Player ({ player, onClick, clickOnceList, gameState }) {
   )
 }
 
+Player.propTypes = {
+  player: PropTypes.exact({
+    id: PropTypes.string,
+    hand: PropTypes.array
+  }),
+  onClick: PropTypes.func.isRequired,
+  clickOnceList: PropTypes.array,
+  gameState: PropTypes.string
+}
+
+// Store
 const mapStateToProps = (state) => ({
   gameState: state.game.gameState
 })

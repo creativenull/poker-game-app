@@ -7,8 +7,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
 
-import { CardBlankUTF } from '#lib/Deck'
+import Deck from '#lib/Deck'
 
+// Styles
 const useStyles = makeStyles({
   disabled: {
     background: grey[300]
@@ -28,17 +29,11 @@ const useStyles = makeStyles({
   }
 })
 
-PlayingCard.propTypes = {
-  card: PropTypes.object,
-  noHover: PropTypes.bool,
-  hidden: PropTypes.bool,
-  onClick: PropTypes.func
-}
-
+// Component
 function PlayingCard ({ card, onClick, hidden, noHover = false }) {
   const classes = useStyles()
   const value = hidden ? '' : card.value
-  const suit = hidden ? { utf: CardBlankUTF } : card.suit
+  const suit = hidden ? { utf: Deck.BLANK_CARD_UTF } : card.suit
 
   function handleClick () {
     if (onClick) {
@@ -94,6 +89,13 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
       </Paper>
     </Box>
   )
+}
+
+PlayingCard.propTypes = {
+  card: PropTypes.object,
+  noHover: PropTypes.bool,
+  hidden: PropTypes.bool,
+  onClick: PropTypes.func
 }
 
 export default PlayingCard

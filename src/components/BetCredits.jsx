@@ -15,41 +15,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { GameState } from '#app/constant-types'
 import { incrementBetCredits } from '#store/game/actions'
 
-function BetCredits ({ game, incrementBetCredits }) {
-  const { cardHeader, cardContent, cardActions } = useStyles()
-  const { gameState, betCredits } = game
-  const disabled = (gameState === GameState.CONTINUE || gameState === GameState.END)
-
-  function incBet () {
-    incrementBetCredits()
-  }
-
-  return (
-    <Card elevation={5}>
-      <CardHeader className={cardHeader} title="Bet Credits" />
-      <CardContent className={cardContent}>
-        <Typography variant="h3" color="primary">${betCredits}</Typography>
-      </CardContent>
-      <CardActions className={cardActions}>
-        <Button
-          onClick={incBet}
-          endIcon={<AddIcon />}
-          disabled={disabled}
-          variant="outlined"
-          color="primary"
-        >
-          Bet
-        </Button>
-      </CardActions>
-    </Card>
-  )
-}
-
-BetCredits.propTypes = {
-  game: PropTypes.object,
-  incrementBetCredits: PropTypes.func
-}
-
 // Styles
 const useStyles = makeStyles({
   cardContent: {
@@ -67,12 +32,42 @@ const useStyles = makeStyles({
   }
 })
 
-// Store
-function mapStateToProps (state) {
-  return {
-    game: state.game
-  }
+// Component
+function BetCredits ({ game, incrementBetCredits }) {
+  const { cardHeader, cardContent, cardActions } = useStyles()
+  const { gameState, betCredits } = game
+  const disabled = (gameState === GameState.CONTINUE || gameState === GameState.END)
+
+  return (
+    <Card elevation={5}>
+      <CardHeader className={cardHeader} title="Bet Credits" />
+      <CardContent className={cardContent}>
+        <Typography variant="h3" color="primary">${betCredits}</Typography>
+      </CardContent>
+      <CardActions className={cardActions}>
+        <Button
+          onClick={() => incrementBetCredits()}
+          endIcon={<AddIcon />}
+          disabled={disabled}
+          variant="outlined"
+          color="primary"
+        >
+          Bet
+        </Button>
+      </CardActions>
+    </Card>
+  )
 }
+
+BetCredits.propTypes = {
+  game: PropTypes.object,
+  incrementBetCredits: PropTypes.func
+}
+
+// Store
+const mapStateToProps = (state) => ({
+  game: state.game
+})
 
 const mapDispatchToProps = {
   incrementBetCredits

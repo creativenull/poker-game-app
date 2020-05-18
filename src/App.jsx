@@ -22,6 +22,18 @@ import Poker from '#lib/Poker'
 
 import { GameState } from '#app/constant-types'
 
+// Styles
+const useStyles = makeStyles({
+  button: {
+    color: 'black',
+    backgroundColor: 'white'
+  },
+  dialogContent: {
+    color: 'white'
+  }
+})
+
+// Component
 function App (props) {
   const { dialog, hideDialog, winnerDialog, loserDialog } = props
   const { gameState } = props
@@ -64,7 +76,6 @@ function App (props) {
     }
   }
 
-  // TODO:
   // If the game state is END, then:
   // + Show the dealer hands
   // + Compute and display the winner in a dialog
@@ -102,7 +113,7 @@ function App (props) {
   // Show winner dialog when it is available
   useEffect(() => {
     if (winner.length > 0) {
-      console.log(winner)
+      console.table(winner)
       if (winner[0].id === player.id) {
         winnerDialog('You Win')
       } else if (winner[0].id === dealer.id) {
@@ -159,25 +170,12 @@ App.propTypes = {
   resetBetCredits: PropTypes.func
 }
 
-// Styles
-const useStyles = makeStyles({
-  button: {
-    color: 'black',
-    backgroundColor: 'white'
-  },
-  dialogContent: {
-    color: 'white'
-  }
-})
-
 // Store
-function mapStateToProps (state) {
-  return {
-    dialog: state.dialog,
-    gameState: state.game.gameState,
-    hideDealer: state.game.hideDealer
-  }
-}
+const mapStateToProps = (state) => ({
+  dialog: state.dialog,
+  gameState: state.game.gameState,
+  hideDealer: state.game.hideDealer
+})
 
 const mapDispatchToProps = {
   hideDialog,

@@ -14,13 +14,6 @@ import { GameState } from '#app/constant-types'
 import BetCredits from './BetCredits'
 import TotalCredits from './TotalCredits'
 
-GameActions.propTypes = {
-  gameState: PropTypes.string,
-  betCredits: PropTypes.number,
-  updateGameState: PropTypes.func,
-  showDialog: PropTypes.func
-}
-
 // Component
 function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
   const [gameStateText, setGameStateText] = useState('Start')
@@ -64,12 +57,18 @@ function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    gameState: state.game.gameState,
-    betCredits: state.game.betCredits
-  }
+GameActions.propTypes = {
+  gameState: PropTypes.string,
+  betCredits: PropTypes.number,
+  updateGameState: PropTypes.func,
+  showDialog: PropTypes.func
 }
+
+// Store
+const mapStateToProps = (state) => ({
+  gameState: state.game.gameState,
+  betCredits: state.game.betCredits
+})
 
 const mapDispatchToProps = {
   updateGameState,
