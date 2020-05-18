@@ -16,7 +16,8 @@
   "scripts": {
     "start": "parcel -p 8080 public/index.html",
     "build": "parcel build public/index.html",
-    "test": "jest"
+    "test": "jest",
+    "clean": "rm -rfv dist/ .cache/"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
