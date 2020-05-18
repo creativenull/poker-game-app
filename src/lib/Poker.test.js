@@ -1,6 +1,7 @@
 import Deck from './Deck'
 import Poker, { HandRanking } from './Poker'
 
+/* Mock poker data */
 const poker = new Poker()
 
 const royalFlushPlayer = {
@@ -58,6 +59,7 @@ const highPlayer2 = {
   hand: Deck.parse(['c_87#KH', 'c_12#7D', 'c_33#QS', 'c_88#2D', 'c_90#3D'])
 }
 
+/* Test each case */
 test('Royal Flush', () => {
   const winner = poker.winner([straightFlushPlayer, royalFlushPlayer])
   expect(winner[0].handRank).toEqual(HandRanking.ROYAL_FLUSH)

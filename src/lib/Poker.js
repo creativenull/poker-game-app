@@ -1,24 +1,31 @@
-import Deck, { Cards, Suits } from './Deck'
-
-export const HandRanking = {
-  ROYAL_FLUSH: 9,
-  STRAIGHT_FLUSH: 8,
-  FOUR_OF_A_KIND: 7,
-  FULL_HOUSE: 6,
-  FLUSH: 5,
-  STRAIGHT: 4,
-  THREE_OF_A_KIND: 3,
-  TWO_PAIR: 2,
-  PAIR: 1,
-  HIGH_CARD: 0,
-  NONE: -1
-}
+import Deck from './Deck'
 
 /**
- * Poker class
+ * The base poker class to give players cards from the deck, replace those
+ * cards from the hand, and solve each hand to produce to winner from a number
+ * of players.
+ *
  * Rankings from https://www.cardplayer.com/rules-of-poker/hand-rankings
+ * Tie breaker rules: https://www.pokerhands.com/poker_hand_tie_rules.html
+ * Prize factor: https://www.scientificpsychic.com/alpha/games/poker-js.html
  */
 class Poker extends Deck {
+  static get RANKING () {
+    return {
+      ROYAL_FLUSH: 9,
+      STRAIGHT_FLUSH: 8,
+      FOUR_OF_A_KIND: 7,
+      FULL_HOUSE: 6,
+      FLUSH: 5,
+      STRAIGHT: 4,
+      THREE_OF_A_KIND: 3,
+      TWO_PAIR: 2,
+      PAIR: 1,
+      HIGH_CARD: 0,
+      NONE: -1
+    }
+  }
+
   /**
    * Get new hands
    */
@@ -51,12 +58,12 @@ class Poker extends Deck {
    */
   winner (players) {
     const list = players.map(player => {
-      const { id } = player
       const hand = this.sort(player.hand)
-      const pairs = this._getPairs(hand)
+      const { id } = player
+      const { pairs, rank: pairRank } = this._getPairs(hand)
 
-      const isS = this._isStraight(hand)
-      const isF = this._isFlush(hand)
+      const { check: isS, straightRank } = this._isStraight(hand)
+      const { check: isF, flushRank } = this._isFlush(hand)
       const isSF = isS && isF
       const hasAce = this._hasAce(hand)
       const isFK = this._isFourOfAKind(pairs)
@@ -71,14 +78,16 @@ class Poker extends Deck {
             // Royal Flush
             return {
               id,
-              handRank: HandRanking.ROYAL_FLUSH,
+              handRank: Poker.RANKING.ROYAL_FLUSH,
+              tieBreakerCardRank: 0,
               name: 'Royal Flush'
             }
           } else {
             // Straight Flush
             return {
               id,
-              handRank: HandRanking.STRAIGHT_FLUSH,
+              handRank: Poker.RANKING.STRAIGHT_FLUSH,
+              tieBreakerCardRank: straightRank,
               name: 'Straight Flush'
             }
           }
@@ -86,14 +95,16 @@ class Poker extends Deck {
           // Straight
           return {
             id,
-            handRank: HandRanking.STRAIGHT,
+            handRank: Poker.RANKING.STRAIGHT,
+            tieBreakerCardRank: straightRank,
             name: 'Straight'
           }
         } else if (isF) {
           // Flush
           return {
             id,
-            handRank: HandRanking.FLUSH,
+            handRank: Poker.RANKING.FLUSH,
+            tieBreakerCardRank: flushRank,
             name: 'Flush'
           }
         }
@@ -102,42 +113,47 @@ class Poker extends Deck {
           // Four of a Kind
           return {
             id,
-            handRank: HandRanking.FOUR_OF_A_KIND,
+            handRank: Poker.RANKING.FOUR_OF_A_KIND,
+            tieBreakerCardRank: pairRank,
             name: 'Four-of-a-Kind'
           }
         } else if (isFH) {
           // Full House
           return {
             id,
-            handRank: HandRanking.FULL_HOUSE,
+            handRank: Poker.RANKING.FULL_HOUSE,
+            tieBreakerCardRank: pairRank,
             name: 'Full House'
           }
         } else if (isTK) {
           // Three of a Kind
           return {
             id,
-            handRank: HandRanking.THREE_OF_A_KIND,
+            handRank: Poker.RANKING.THREE_OF_A_KIND,
+            tieBreakerCardRank: pairRank,
             name: 'Three-of-a-Kind'
           }
         } else if (is2P) {
           // Two Pair
           return {
             id,
-            handRank: HandRanking.TWO_PAIR,
+            handRank: Poker.RANKING.TWO_PAIR,
+            tieBreakerCardRank: pairRank,
             name: 'Two Pair'
           }
         } else if (is1P) {
           // One Pair
           return {
             id,
-            handRank: HandRanking.PAIR,
+            handRank: Poker.RANKING.PAIR,
+            tieBreakerCardRank: pairRank,
             name: 'Pair'
           }
         } else {
           // None
           return {
             id,
-            handRank: HandRanking.NONE,
+            handRank: Poker.RANKING.NONE,
             name: 'None'
           }
         }
@@ -145,37 +161,48 @@ class Poker extends Deck {
         // High Card
         return {
           id,
-          handRank: HandRanking.HIGH_CARD,
-          cardRank: hand[0].rank,
+          handRank: Poker.RANKING.HIGH_CARD,
+          tieBreakerCardRank: hand[0].rank,
           name: 'High Card'
         }
       }
     })
 
-    return list.sort((a, b) => {
-      if (a.handRank === HandRanking.HIGH_CARD && b.handRank === HandRanking.HIGH_CARD) {
-        return b.cardRank - a.cardRank
+    return list.sort(this._sortWinnerHand)
+  }
+
+  _sortWinnerHand (player, nextPlayer) {
+    if (player.handRank === nextPlayer.handRank) {
+      // In the event the hand ranks are the same, sort by the highest tie breaker card
+      if (player.tieBreakerCardRank !== nextPlayer.tieBreakerCardRank) {
+        return nextPlayer.tieBreakerCardRank - player.tieBreakerCardRank
       } else {
-        return b.handRank - a.handRank
+        // Tie
+        return 0
       }
-    })
+    } else {
+      // By default we sort by the hand rank with the highest number
+      return nextPlayer.handRank - player.handRank
+    }
   }
 
   /**
-   * Checks if the hand and an ace card
+   * Checks if the hand and an ace card, since it is already sorted
+   * we only check the first element
    *
    * @param {Array} hand
    *
    * @returns {boolean}
    */
   _hasAce (hand) {
-    for (const card of hand) {
-      if (card.value === 'A') {
-        return true
-      }
-    }
-
-    return false
+    return hand[0].value === 'A'
+    // for (const card of hand) {
+    //   if (card.value === 'A') {
+    //     return true
+    //   }
+    // }
+    //
+    // return false
   }
 
   /**
@@ -183,13 +210,17 @@ class Poker extends Deck {
    *
    * @param {Array} hand
    *
-   * @returns {boolean}
+   * @returns
    */
   _isStraight (hand) {
     const first = 0
     const last = hand.length - 1
     const diff = hand[first].rank - hand[last].rank
-    return diff === 4
+    // return diff === 4
+    return {
+      check: diff === 4,
+      straightRank: hand[first].rank
+    }
   }
 
   /**
@@ -197,20 +228,28 @@ class Poker extends Deck {
    *
    * @param hand Array of card object
    *
-   * @returns {boolean}
+   * @returns
    */
   _isFlush (hand) {
-    for (const value of Suits) {
+    for (const value of Deck.SUITS) {
       const count = hand.reduce((acc, card) => acc + (card.suit.value === value), 0)
 
       if (count === 5) {
-        return true
+        // return true
+        return {
+          check: true,
+          flushRank: hand[0].rank
+        }
       } else {
         continue
       }
     }
 
-    return false
+    // return false
+    return {
+      check: false,
+      flushRank: 0
+    }
   }
 
   /**
@@ -221,30 +260,45 @@ class Poker extends Deck {
    * @returns
    */
   _getPairs (hand) {
-    const pair = []
+    const pairs = []
+    let rank = 0
 
-    for (const value of Cards) {
-      const count = hand.reduce((acc, card) => acc + (card.value === value), 0)
+    // Count the hand for pairs and get the highest rank of that pairs
+    for (const cardValue of Deck.CARDS) {
+      // Filter results of pair matches
+      const countedCards = hand.filter((card) => card.value === cardValue)
+      const count = countedCards.length
 
       if (count === 4) {
-        pair.push(count)
+        // If the count of the same number was 4 then we only need that pair, break.
+        pairs.push(count)
+        rank = countedCards[0].rank
         break
       } else if (count === 3) {
-        pair.push(count)
+        // If the count of the same number was 3 then we add to array and check next.
+        pairs.push(count)
+        rank = countedCards[0].rank
       } else if (count === 2) {
-        pair.push(count)
-        if (pair.length === 2) {
+        // If the count of the same number was 2 then we check if the array length
+        // is of size 2, since we only want 2-item array, making sure that the length
+        // is consistent
+        pairs.push(count)
+        rank = countedCards[0].rank
+        if (pairs.length === 2) {
           break
         }
       }
     }
 
-    // Make length 2
-    if (pair.length === 1) {
-      pair.push(0)
+    if (pairs.length === 1) {
+      // We want to even the array items to make sure it is a 2-item array
+      pairs.push(0)
     }
 
-    return pair
+    return {
+      pairs,
+      rank
+    }
   }
 
   /**
@@ -255,7 +309,7 @@ class Poker extends Deck {
    * @returns {boolean}
    */
   _isFourOfAKind (pairs) {
-    return pairs.length === 2 && pairs[0] === 4
+    return (pairs.length === 2) && (pairs[0] === 4) && (pairs[1] === 0)
   }
 
   /**
@@ -266,7 +320,7 @@ class Poker extends Deck {
    * @returns {boolean}
    */
   _isFullHouse (pairs) {
-    return pairs.length === 2 && (pairs[0] + pairs[1]) === 5
+    return (pairs.length === 2) && ((pairs[0] + pairs[1]) === 5)
   }
 
   /**
@@ -277,7 +331,7 @@ class Poker extends Deck {
    * @returns {boolean}
    */
   _isThreeOfAKind (pairs) {
-    return pairs.length === 2 && (pairs[0] === 3)
+    return (pairs.length === 2) && (pairs[0] === 3) && (pairs[1] === 0)
   }
 
   /**
@@ -288,7 +342,7 @@ class Poker extends Deck {
    * @returns {boolean}
    */
   _isTwoPair (pairs) {
-    return pairs.length === 2 && pairs[0] === 2 && pairs[1] === 2
+    return (pairs.length === 2) && (pairs[0] === 2) && (pairs[1] === 2)
   }
 
   /**
@@ -299,7 +353,7 @@ class Poker extends Deck {
    * @returns {boolean}
    */
   _isPair (pairs) {
-    return pairs.length === 2 && (pairs[0] === 2)
+    return (pairs.length === 2) && (pairs[0] === 2) && (pairs[1] === 0)
   }
 }
 
