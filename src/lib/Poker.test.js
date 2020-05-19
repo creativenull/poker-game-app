@@ -1,5 +1,5 @@
 import Deck from './Deck'
-import Poker, { HandRanking } from './Poker'
+import Poker from './Poker'
 
 /* Mock poker data */
 const poker = new Poker()
@@ -16,7 +16,7 @@ const straightFlushPlayer = {
 
 const fourKindPlayer = {
   id: 'player3',
-  hand: Deck.parse(['c_87#10H', 'c_12#7D', 'c_33#10H', 'c_88#10H', 'c_90#10H'])
+  hand: Deck.parse(['c_87#10H', 'c_12#7D', 'c_33#10D', 'c_88#10S', 'c_90#10C'])
 }
 
 const fullHousePlayer = {
@@ -26,12 +26,12 @@ const fullHousePlayer = {
 
 const flushPlayer = {
   id: 'player5',
-  hand: Deck.parse(['c_87#2H', 'c_12#4H', 'c_33#9H', 'c_88#KH', 'c_90#10H'])
+  hand: Deck.parse(['c_87#2H', 'c_12#4H', 'c_33#9H', 'c_88#AH', 'c_90#10H'])
 }
 
 const straightPlayer = {
   id: 'player6',
-  hand: Deck.parse(['c_87#3H', 'c_12#5D', 'c_33#4H', 'c_88#6C', 'c_90#7H'])
+  hand: Deck.parse(['c_87#4H', 'c_12#5D', 'c_33#6H', 'c_88#7C', 'c_90#8H'])
 }
 
 const threeKindPlayer = {
@@ -62,50 +62,50 @@ const highPlayer2 = {
 /* Test each case */
 test('Royal Flush', () => {
   const winner = poker.winner([straightFlushPlayer, royalFlushPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.ROYAL_FLUSH)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.ROYAL_FLUSH)
 })
 
 test('Straight Flush', () => {
   const winner = poker.winner([straightFlushPlayer, fourKindPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.STRAIGHT_FLUSH)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.STRAIGHT_FLUSH)
 })
 
 test('Four of a Kind', () => {
   const winner = poker.winner([highPlayer, fourKindPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.FOUR_OF_A_KIND)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.FOUR_OF_A_KIND)
 })
 
 test('Full House', () => {
   const winner = poker.winner([onePlayer, fullHousePlayer, twoPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.FULL_HOUSE)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.FULL_HOUSE)
 })
 
 test('Flush', () => {
   const winner = poker.winner([highPlayer, twoPlayer, flushPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.FLUSH)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.FLUSH)
 })
 
 test('Straight', () => {
   const winner = poker.winner([highPlayer, twoPlayer, straightPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.STRAIGHT)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.STRAIGHT)
 })
 
 test('Three of a Kind', () => {
   const winner = poker.winner([twoPlayer, threeKindPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.THREE_OF_A_KIND)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.THREE_OF_A_KIND)
 })
 
 test('Two Pairs', () => {
   const winner = poker.winner([twoPlayer, highPlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.TWO_PAIR)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.TWO_PAIR)
 })
 
 test('One Pair', () => {
   const winner = poker.winner([highPlayer, onePlayer])
-  expect(winner[0].handRank).toEqual(HandRanking.PAIR)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.PAIR)
 })
 
 test('High Card', () => {
   const winner = poker.winner([highPlayer, highPlayer2])
-  expect(winner[0].handRank).toEqual(HandRanking.HIGH_CARD)
+  expect(winner[0].handRank).toEqual(Poker.RANKING.HIGH_CARD)
 })

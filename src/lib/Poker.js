@@ -75,7 +75,6 @@ class Poker extends Deck {
       if (isS || isF) {
         if (isSF) {
           if (hasAce) {
-            // Royal Flush
             return {
               id,
               handRank: Poker.RANKING.ROYAL_FLUSH,
@@ -83,7 +82,6 @@ class Poker extends Deck {
               name: 'Royal Flush'
             }
           } else {
-            // Straight Flush
             return {
               id,
               handRank: Poker.RANKING.STRAIGHT_FLUSH,
@@ -91,26 +89,23 @@ class Poker extends Deck {
               name: 'Straight Flush'
             }
           }
-        } else if (isS) {
-          // Straight
-          return {
-            id,
-            handRank: Poker.RANKING.STRAIGHT,
-            tieBreakerCardRank: straightRank,
-            name: 'Straight'
-          }
         } else if (isF) {
-          // Flush
           return {
             id,
             handRank: Poker.RANKING.FLUSH,
             tieBreakerCardRank: flushRank,
             name: 'Flush'
           }
+        } else if (isS) {
+          return {
+            id,
+            handRank: Poker.RANKING.STRAIGHT,
+            tieBreakerCardRank: straightRank,
+            name: 'Straight'
+          }
         }
       } else if (isFK || isFH || isTK || is2P || is1P) {
         if (isFK) {
-          // Four of a Kind
           return {
             id,
             handRank: Poker.RANKING.FOUR_OF_A_KIND,
@@ -118,7 +113,6 @@ class Poker extends Deck {
             name: 'Four-of-a-Kind'
           }
         } else if (isFH) {
-          // Full House
           return {
             id,
             handRank: Poker.RANKING.FULL_HOUSE,
@@ -126,7 +120,6 @@ class Poker extends Deck {
             name: 'Full House'
           }
         } else if (isTK) {
-          // Three of a Kind
           return {
             id,
             handRank: Poker.RANKING.THREE_OF_A_KIND,
@@ -134,7 +127,6 @@ class Poker extends Deck {
             name: 'Three-of-a-Kind'
           }
         } else if (is2P) {
-          // Two Pair
           return {
             id,
             handRank: Poker.RANKING.TWO_PAIR,
@@ -142,23 +134,14 @@ class Poker extends Deck {
             name: 'Two Pair'
           }
         } else if (is1P) {
-          // One Pair
           return {
             id,
             handRank: Poker.RANKING.PAIR,
             tieBreakerCardRank: pairRank,
             name: 'Pair'
           }
-        } else {
-          // None
-          return {
-            id,
-            handRank: Poker.RANKING.NONE,
-            name: 'None'
-          }
         }
       } else {
-        // High Card
         return {
           id,
           handRank: Poker.RANKING.HIGH_CARD,
@@ -196,13 +179,6 @@ class Poker extends Deck {
    */
   _hasAce (hand) {
     return hand[0].value === 'A'
-    // for (const card of hand) {
-    //   if (card.value === 'A') {
-    //     return true
-    //   }
-    // }
-    //
-    // return false
   }
 
   /**
@@ -213,13 +189,20 @@ class Poker extends Deck {
    * @returns
    */
   _isStraight (hand) {
-    const first = 0
-    const last = hand.length - 1
-    const diff = hand[first].rank - hand[last].rank
-    // return diff === 4
+    for (let i = 0; i < hand.length - 1; i++) {
+      if ((hand[i].rank - hand[i + 1].rank) === 1) {
+        continue
+      } else {
+        return {
+          check: false,
+          straightRank: 0
+        }
+      }
+    }
+
     return {
-      check: diff === 4,
-      straightRank: hand[first].rank
+      check: true,
+      straightRank: hand[0].rank
     }
   }
 
@@ -235,12 +218,13 @@ class Poker extends Deck {
       const count = hand.reduce((acc, card) => acc + (card.suit.value === value), 0)
 
       if (count === 5) {
-        // return true
+        // Count of the same suit must be 5
         return {
           check: true,
           flushRank: hand[0].rank
         }
       } else {
+        // This is not a flush hand
         continue
       }
     }
