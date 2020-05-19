@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
 

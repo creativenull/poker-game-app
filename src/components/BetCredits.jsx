@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { GameState } from '#app/constant-types'
 import { incrementBetCredits } from '#store/game/actions'
@@ -52,7 +52,7 @@ function BetCredits ({ game, incrementBetCredits }) {
           variant="outlined"
           color="primary"
         >
-          Bet
+          Add Bet
         </Button>
       </CardActions>
     </Card>

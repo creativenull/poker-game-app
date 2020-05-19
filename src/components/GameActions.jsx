@@ -6,6 +6,8 @@ import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import green from '@material-ui/core/colors/green'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { updateGameState } from '#store/game/actions'
 import { showDialog } from '#store/dialog/actions'
@@ -14,8 +16,20 @@ import { GameState } from '#app/constant-types'
 import BetCredits from './BetCredits'
 import TotalCredits from './TotalCredits'
 
+// Styles
+const useStyles = makeStyles({
+  rulesBtn: {
+    color: '#fff',
+    backgroundColor: green[700],
+    '&:hover': {
+      backgroundColor: green[900]
+    }
+  }
+})
+
 // Component
 function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
+  const classes = useStyles()
   const [gameStateText, setGameStateText] = useState('Start')
 
   // Change text
@@ -34,7 +48,7 @@ function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
     if (betCredits > 0) {
       updateGameState()
     } else {
-      showDialog('😯 Add credits', 'Cannot start with no bet credits, you should add some')
+      showDialog('😯 Add credits', <p>Cannot start with no bet credits, you should add some</p>, 'error')
     }
   }
 

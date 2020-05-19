@@ -49,8 +49,8 @@ export default function reducer (state = initState, action) {
     case INC_BET_CREDITS:
       return {
         ...state,
-        betCredits: state.betCredits + state.unit,
-        totalCredits: state.totalCredits - state.unit
+        betCredits: (state.totalCredits > 0) ? state.betCredits + state.unit : state.betCredits,
+        totalCredits: (state.totalCredits > 0) ? state.totalCredits - state.unit : state.totalCredits
       }
 
     case RESET_BET_CREDITS:

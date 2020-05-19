@@ -9,7 +9,7 @@ import { SHOW_DIALOG, HIDE_DIALOG, WINNER_DIALOG, LOSER_DIALOG } from './action-
  *
  * @returns Redux action type
  */
-export function showDialog (title, message, type = 'error') {
+export function showDialog (title, message, type = 'info') {
   return {
     type: SHOW_DIALOG,
     payload: {

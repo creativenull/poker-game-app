@@ -1,9 +1,10 @@
+import React from 'react'
 import { SHOW_DIALOG, WINNER_DIALOG, LOSER_DIALOG, HIDE_DIALOG } from './action-types'
 
 const initState = {
   open: false,
   title: '',
-  message: '',
+  message: <span></span>,
   type: 'error'
 }
 

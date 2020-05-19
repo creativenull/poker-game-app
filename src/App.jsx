@@ -10,14 +10,14 @@ import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import Dealer from '#components/Dealer'
 import GameActions from '#components/GameActions'
 import Player from '#components/Player'
+import Rules from '#components/Rules'
 import Poker from '#lib/Poker'
 
 import { GameState } from '#app/constant-types'
@@ -29,7 +29,8 @@ const useStyles = makeStyles({
     backgroundColor: 'white'
   },
   dialogContent: {
-    color: 'white'
+    color: 'white',
+    fontWeight: 'normal'
   }
 })
 
@@ -42,7 +43,7 @@ function App (props) {
   // Initial states
   const classes = useStyles()
   const [poker, setPoker] = useState(new Poker())
-  const [winner, setWinner] = useState([])
+  const [winners, setWinners] = useState([])
   const [dealer, setDealer] = useState({
     id: 'dealer',
     hand: poker.getPlayerHand()
@@ -55,7 +56,12 @@ function App (props) {
   // Use to record the card being clicked
   const [playerClickOnceList, setPlayerClickOnceList] = useState([])
 
-  // replace the card, but only once
+  // To bold and underline the test
+  function bu (message) {
+    return (<b><u>{message}</u></b>)
+  }
+
+  // Replace the card, but only once
   function onClickReplaceCard (card) {
     if (playerClickOnceList.includes(card.id)) {
       return null
@@ -67,7 +73,10 @@ function App (props) {
       ...player,
       hand
     })
-    setPlayerClickOnceList([...playerClickOnceList, newCard.id])
+    setPlayerClickOnceList([
+      ...playerClickOnceList,
+      newCard.id
+    ])
   }
 
   function onErrorClose (_, reason) {
@@ -86,10 +95,10 @@ function App (props) {
       resetBetCredits()
       updateDealerView()
       setPoker(new Poker())
-      setWinner([])
+      setWinners([])
     } else if (gameState === GameState.END) {
       updateDealerView(false)
-      setWinner(poker.winner([player, dealer]))
+      setWinners(poker.winner([player, dealer]))
     } else {
       if (!hideDealer) {
         updateDealerView()
@@ -112,15 +121,35 @@ function App (props) {
 
   // Show winner dialog when it is available
   useEffect(() => {
-    if (winner.length > 0) {
-      console.table(winner)
-      if (winner[0].id === player.id) {
-        winnerDialog('You Win')
-      } else if (winner[0].id === dealer.id) {
-        loserDialog('You Lose')
+    if (winners.length > 0) {
+      console.table(winners)
+      if (winners[0].id === player.id) {
+        // Player is the winner
+        if (winners[0].handRank === winners[1].handRank) {
+          winnerDialog(
+            <span>
+              You Won with the {bu(winners[0].name)} higher ranked hand, dealer also had {bu(winners[1].name)} but lower
+               ranked
+            </span>
+          )
+        } else {
+          winnerDialog(<span>You Won with the {bu(winners[0].name)} hand! Dealer had {bu(winners[1].name)}</span>)
+        }
+      } else if (winners[0].id === dealer.id) {
+        // Dealer is the winner
+        if (winners[0].handRank === winners[1].handRank) {
+          loserDialog(
+            <span>
+              You Lost with the {bu(winners[1].name)} lower ranked hand, dealer also had {bu(winners[0].name)} but
+               higher ranked
+            </span>
+          )
+        } else {
+          loserDialog(<span>You Lost with the {bu(winners[1].name)} hand! Dealer had {bu(winners[0].name)}</span>)
+        }
       }
     }
-  }, [winner])
+  }, [winners])
 
   return (
     <>
@@ -131,10 +160,8 @@ function App (props) {
       >
         <Alert variant="filled" severity={dialog.type} icon={false}>
           <DialogTitle>{dialog.title}</DialogTitle>
-          <DialogContent>
-            <DialogContentText className={classes.dialogContent}>
-              {dialog.message}
-            </DialogContentText>
+          <DialogContent className={classes.dialogContent}>
+            {dialog.message}
           </DialogContent>
           <DialogActions>
             <Button className={classes.button} onClick={onErrorClose} variant="contained">
@@ -145,10 +172,13 @@ function App (props) {
       </Dialog>
 
       <Box display="flex" justifyContent="center">
-        <Box flex="3" display="flex" justifyContent="center">
+        <Box flex="3" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
           <Box>
             <Dealer dealer={dealer} />
             <Player player={player} clickOnceList={playerClickOnceList} onClick={onClickReplaceCard} />
+          </Box>
+          <Box marginTop={5}>
+            <Rules />
           </Box>
         </Box>
         <Box flex="1">

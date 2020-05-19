@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
-import { makeStyles } from '@material-ui/core/styles'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 // Styles
 const useStyles = makeStyles({
@@ -32,6 +32,7 @@ const useStyles = makeStyles({
 // Component
 function TotalCredits ({ game }) {
   const classes = useStyles()
+
   return (
     <Card elevation={5} className={classes.card}>
       <CardHeader className={classes.cardHeader} title="Total Credits" />
