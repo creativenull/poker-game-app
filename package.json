@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "parcel -p 8080 public/index.html",
-    "build": "parcel build public/index.html --no-source-maps --out-dir docs",
+    "build": "parcel build public/index.html --no-source-maps --out-dir docs --public-url .//",
     "test": "jest"
   },
   "devDependencies": {
