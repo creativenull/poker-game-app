@@ -26,7 +26,7 @@ const fullHousePlayer = {
 
 const flushPlayer = {
   id: 'player5',
-  hand: Deck.parse(['c_87#2H', 'c_12#4H', 'c_33#9H', 'c_88#AH', 'c_90#10H'])
+  hand: Deck.parse(['c_87#AH', 'c_12#JH', 'c_33#9H', 'c_88#6H', 'c_90#5H'])
 }
 
 const straightPlayer = {

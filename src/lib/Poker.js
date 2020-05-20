@@ -26,6 +26,10 @@ class Poker extends Deck {
     }
   }
 
+  constructor (preShuffle = true) {
+    super(preShuffle)
+  }
+
   /**
    * Get new hands
    */
@@ -72,80 +76,78 @@ class Poker extends Deck {
       const is2P = this._isTwoPair(pairs)
       const is1P = this._isPair(pairs)
 
-      if (isS || isF) {
-        if (isSF) {
-          if (hasAce) {
-            return {
-              id,
-              handRank: Poker.RANKING.ROYAL_FLUSH,
-              tieBreakerCardRank: 0,
-              name: 'Royal Flush'
-            }
-          } else {
-            return {
-              id,
-              handRank: Poker.RANKING.STRAIGHT_FLUSH,
-              tieBreakerCardRank: straightRank,
-              name: 'Straight Flush'
-            }
-          }
-        } else if (isF) {
+      if (isSF) {
+        if (hasAce) {
           return {
             id,
-            handRank: Poker.RANKING.FLUSH,
-            tieBreakerCardRank: flushRank,
-            name: 'Flush'
+            handRank: Poker.RANKING.ROYAL_FLUSH,
+            tieBreakerCardRank: 0,
+            name: 'Royal Flush'
           }
-        } else if (isS) {
+        } else {
           return {
             id,
-            handRank: Poker.RANKING.STRAIGHT,
+            handRank: Poker.RANKING.STRAIGHT_FLUSH,
             tieBreakerCardRank: straightRank,
-            name: 'Straight'
+            name: 'Straight Flush'
           }
         }
-      } else if (isFK || isFH || isTK || is2P || is1P) {
-        if (isFK) {
-          return {
-            id,
-            handRank: Poker.RANKING.FOUR_OF_A_KIND,
-            tieBreakerCardRank: pairRank,
-            name: 'Four-of-a-Kind'
-          }
-        } else if (isFH) {
-          return {
-            id,
-            handRank: Poker.RANKING.FULL_HOUSE,
-            tieBreakerCardRank: pairRank,
-            name: 'Full House'
-          }
-        } else if (isTK) {
-          return {
-            id,
-            handRank: Poker.RANKING.THREE_OF_A_KIND,
-            tieBreakerCardRank: pairRank,
-            name: 'Three-of-a-Kind'
-          }
-        } else if (is2P) {
-          return {
-            id,
-            handRank: Poker.RANKING.TWO_PAIR,
-            tieBreakerCardRank: pairRank,
-            name: 'Two Pair'
-          }
-        } else if (is1P) {
-          return {
-            id,
-            handRank: Poker.RANKING.PAIR,
-            tieBreakerCardRank: pairRank,
-            name: 'Pair'
-          }
+      } else if (isFK) {
+        return {
+          id,
+          handRank: Poker.RANKING.FOUR_OF_A_KIND,
+          tieBreakerCardRank: pairRank,
+          name: 'Four-of-a-Kind'
+        }
+      } else if (isFH) {
+        return {
+          id,
+          handRank: Poker.RANKING.FULL_HOUSE,
+          tieBreakerCardRank: pairRank,
+          name: 'Full House'
+        }
+      } else if (isF) {
+        return {
+          id,
+          handRank: Poker.RANKING.FLUSH,
+          tieBreakerCardRank: flushRank,
+          name: 'Flush'
+        }
+      } else if (isS) {
+        return {
+          id,
+          handRank: Poker.RANKING.STRAIGHT,
+          tieBreakerCardRank: straightRank,
+          name: 'Straight'
+        }
+      } else if (isTK) {
+        return {
+          id,
+          handRank: Poker.RANKING.THREE_OF_A_KIND,
+          tieBreakerCardRank: pairRank,
+          name: 'Three-of-a-Kind'
+        }
+      } else if (is2P) {
+        return {
+          id,
+          handRank: Poker.RANKING.TWO_PAIR,
+          tieBreakerCardRank: pairRank,
+          name: 'Two Pair'
+        }
+      } else if (is1P) {
+        return {
+          id,
+          handRank: Poker.RANKING.PAIR,
+          tieBreakerCardRank: pairRank,
+          name: 'Pair'
         }
       } else {
         return {
           id,
           handRank: Poker.RANKING.HIGH_CARD,
           tieBreakerCardRank: hand[0].rank,
+          // Total rank of all other cards, except the first card
+          tieBreakerTotalRank: hand.reduce((acc, card) => acc + card.rank),
           name: 'High Card'
         }
       }
@@ -161,7 +163,10 @@ class Poker extends Deck {
         return nextPlayer.tieBreakerCardRank - player.tieBreakerCardRank
       } else {
         // Tie
-        return 0
+        if (player.handRank === Poker.RANKING.HIGH_CARD) {
+          // if it was a high card tie then determine by total rank
+          return nextPlayer.tieBreakerTotalRank - player.tieBreakerTotalRank
+        }
       }
     } else {
       // By default we sort by the hand rank with the highest number
@@ -193,6 +198,7 @@ class Poker extends Deck {
       if ((hand[i].rank - hand[i + 1].rank) === 1) {
         continue
       } else {
+        // Not a Straight hand
         return {
           check: false,
           straightRank: 0
@@ -214,8 +220,8 @@ class Poker extends Deck {
    * @returns
    */
   _isFlush (hand) {
-    for (const value of Deck.SUITS) {
-      const count = hand.reduce((acc, card) => acc + (card.suit.value === value), 0)
+    for (const suit of Deck.SUITS) {
+      const count = hand.reduce((acc, card) => acc + (card.suit.value === suit.value), 0)
 
       if (count === 5) {
         // Count of the same suit must be 5
@@ -223,13 +229,10 @@ class Poker extends Deck {
           check: true,
           flushRank: hand[0].rank
         }
-      } else {
-        // This is not a flush hand
-        continue
       }
     }
 
-    // return false
+    // Not a flush hand
     return {
       check: false,
       flushRank: 0

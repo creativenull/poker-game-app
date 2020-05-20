@@ -1,5 +1,4 @@
 import shuffle from 'lodash/shuffle'
-import uniqueId from 'lodash/uniqueId'
 
 /**
  * The base playing card deck class
@@ -12,15 +11,36 @@ export default class Deck {
 
   // Spades, Clubs, Hearts, Diamonds
   static get SUITS () {
-    return ['S', 'C', 'H', 'D']
+    return [
+      {
+        value: 'S',
+        color: 'black',
+        utf: '\u2660'
+      },
+      {
+        value: 'H',
+        color: 'red',
+        utf: '\u2665'
+      },
+      {
+        value: 'D',
+        color: 'red',
+        utf: '\u2666'
+      },
+      {
+        value: 'C',
+        color: 'black',
+        utf: '\u2663'
+      }
+    ]
   }
 
   static get SUITS_COLOR () {
-    return ['black', 'black', 'red', 'red']
+    return ['black', 'red', 'red', 'black']
   }
 
   static get SUITS_UTF () {
-    return ['\u2660', '\u2663', '\u2665', '\u2665']
+    return ['\u2660', '\u2665', '\u2666', '\u2663']
   }
 
   // Blank Card for display only
@@ -35,18 +55,17 @@ export default class Deck {
    */
   constructor (preShuffle = true) {
     this._deck = []
+    this._id = 0
 
     // Fill the deck
     for (let j = 0; j < Deck.SUITS.length; j++) {
       for (let i = 0; i < Deck.CARDS.length; i++) {
         this._deck.push({
-          id: uniqueId('c_'),
+          id: this._id++,
           value: Deck.CARDS[i],
           rank: i + 1,
           suit: {
-            color: Deck.SUITS_COLOR[j],
-            value: Deck.SUITS[j],
-            utf: Deck.SUITS_UTF[j]
+            ...Deck.SUITS[j]
           }
         })
       }
@@ -78,16 +97,19 @@ export default class Deck {
    */
   getCards (amount) {
     if (amount >= 1 && amount < (this._deck.length - amount)) {
-      const cards = this._deck.splice(0, amount)
-      return cards
+      const removedCards = []
+      for (let i = 0; i < amount; i++) {
+        removedCards.push(this._deck.shift())
+      }
+      return removedCards
     } else {
       return []
     }
   }
 
   /**
-   * Stringify an array of card objects in the format: c_[id]#[card][suit]
-   * Eg. ['c_23#AS', 'c_94#3D', ...]
+   * Stringify an array of card objects in the format: {id}#{card}{suit}
+   * Eg. ['23#AS', '4#3D', ...]
    *
    * @param {object[]} cards Array of card objects
    *
@@ -107,22 +129,18 @@ export default class Deck {
   static parse (cards) {
     return cards.map(c => {
       // Get the card and id by spliting string
+      // Assuming the string format: '{id}#{card}{suit}'
       const [id, card] = c.split('#')
       const value = card.length === 3 ? '10' : card[0] // with 10 we get string of length 3
       const rank = Deck.CARDS.indexOf(value) + 1
       const suitValue = card.length === 3 ? card[2] : card[1]
-      const suitColor = Deck.SUITS_COLOR[Deck.SUITS.indexOf(suitValue)]
-      const utf = Deck.SUITS_UTF[Deck.SUITS.indexOf(suitValue)]
+      const suit = Deck.SUITS.find((suit) => suit.value === suitValue)
 
       return {
-        id,
+        id: parseInt(id),
         value,
         rank,
-        suit: {
-          color: suitColor,
-          value: suitValue,
-          utf
-        }
+        suit
       }
     })
   }
