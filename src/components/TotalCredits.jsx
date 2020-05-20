@@ -30,26 +30,26 @@ const useStyles = makeStyles({
 })
 
 // Component
-function TotalCredits ({ game }) {
+function TotalCredits ({ totalCredits }) {
   const classes = useStyles()
 
   return (
     <Card elevation={5} className={classes.card}>
       <CardHeader className={classes.cardHeader} title="Total Credits" />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h3" className={classes.creditsText}>${game.totalCredits}</Typography>
+        <Typography variant="h3" className={classes.creditsText}>${totalCredits}</Typography>
       </CardContent>
     </Card>
   )
 }
 
 TotalCredits.propTypes = {
-  game: PropTypes.object
+  totalCredits: PropTypes.number
 }
 
 // Store
 const mapStateToProps = (state) => ({
-  game: state.game
+  totalCredits: state.game.totalCredits
 })
 
 export default connect(mapStateToProps)(TotalCredits)

@@ -3,16 +3,34 @@ import {
   INC_BET_CREDITS,
   RESET_CREDITS,
   UPDATE_DEALER_VIEW,
-  RESET_BET_CREDITS
+  RESET_BET_CREDITS,
+  GET_PLAYER_CARDS,
+  REPLACE_PLAYER_CARD,
+  GET_POKER_WINNER,
+  RESET_POKER
 } from './action-types'
 import { GameState } from '#app/constant-types'
+
+import Poker from '#lib/Poker'
 
 const initState = {
   betCredits: 0,
   totalCredits: 100,
   unit: 5,
   gameState: GameState.INIT,
-  hideDealer: true
+  hideDealer: true,
+
+  pokerContext: new Poker(),
+  winners: [],
+  clickOnceList: [],
+  player: {
+    id: 'player',
+    hand: []
+  },
+  dealer: {
+    id: 'dealer',
+    hand: []
+  }
 }
 
 /**
@@ -71,8 +89,69 @@ export default function reducer (state = initState, action) {
         hideDealer: typeof action.payload === 'boolean' ? action.payload : true
       }
 
+    case GET_PLAYER_CARDS:
+      return {
+        ...state,
+        winners: [],
+        player: {
+          ...state.player,
+          hand: state.pokerContext.getPlayerHand()
+        },
+        dealer: {
+          ...state.dealer,
+          hand: state.pokerContext.getPlayerHand()
+        }
+      }
+
+    case REPLACE_PLAYER_CARD: {
+      const card = action.payload
+
+      // Do nothing to the state
+      if (state.clickOnceList.includes(card.id)) {
+        return { ...state }
+      }
+
+      // Else we get a new hand set with the replaced card
+      const [hand, newCard] = state.pokerContext.replace(card, state.player.hand)
+      const newPlayer = {
+        ...state.player, hand
+      }
+      const newClickOnceList = [...state.clickOnceList, newCard.id]
+
+      return {
+        ...state,
+        player: newPlayer,
+        clickOnceList: newClickOnceList
+      }
+    }
+
+    case GET_POKER_WINNER:
+      return {
+        ...state,
+        winners: state.pokerContext.winner([state.player, state.dealer])
+      }
+
+    case RESET_POKER:
+      return {
+        ...state,
+        clickOnceList: [],
+        winners: [],
+        pokerContext: new Poker(),
+        player: {
+          ...state.player,
+          hand: []
+        },
+        dealer: {
+          ...state.dealer,
+          hand: []
+        }
+      }
+
     case RESET_CREDITS:
-      return { ...initState }
+      return {
+        ...state,
+        betCredits: 0
+      }
 
     default:
       return state

@@ -3,7 +3,11 @@ import {
   UPDATE_GAME_STATE,
   RESET_CREDITS,
   UPDATE_DEALER_VIEW,
-  RESET_BET_CREDITS
+  RESET_BET_CREDITS,
+  GET_PLAYER_CARDS,
+  REPLACE_PLAYER_CARD,
+  GET_POKER_WINNER,
+  RESET_POKER
 } from './action-types'
 
 export function incrementBetCredits () {
@@ -29,4 +33,23 @@ export function resetBetCredits () {
 
 export function resetCredits () {
   return { type: RESET_CREDITS }
+}
+
+export function gameGetAllHandsAction () {
+  return { type: GET_PLAYER_CARDS }
+}
+
+export function gameReplaceCardAction (card) {
+  return {
+    type: REPLACE_PLAYER_CARD,
+    payload: card
+  }
+}
+
+export function gameGetWinnerAction () {
+  return { type: GET_POKER_WINNER }
+}
+
+export function gameResetPokerAction () {
+  return { type: RESET_POKER }
 }

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
-import green from '@material-ui/core/colors/green'
-import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { updateGameState } from '#store/game/actions'
 import { showDialog } from '#store/dialog/actions'
@@ -16,39 +16,27 @@ import { GameState } from '#app/constant-types'
 import BetCredits from './BetCredits'
 import TotalCredits from './TotalCredits'
 
-// Styles
-const useStyles = makeStyles({
-  rulesBtn: {
-    color: '#fff',
-    backgroundColor: green[700],
-    '&:hover': {
-      backgroundColor: green[900]
-    }
-  }
-})
-
 // Component
 function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
-  const classes = useStyles()
-  const [gameStateText, setGameStateText] = useState('Start')
-
-  // Change text
-  useEffect(() => {
-    if (gameState === GameState.INIT || gameState === GameState.START) {
-      setGameStateText('Start')
-    } else if (gameState === GameState.CONTINUE) {
-      setGameStateText('Continue')
-    } else if (gameState === GameState.END) {
-      setGameStateText('Try Again')
-    }
-  }, [gameState])
+  let gameStateText = 'Start'
+  if (gameState === GameState.INIT || gameState === GameState.START) {
+    gameStateText = 'Start'
+  } else if (gameState === GameState.CONTINUE) {
+    gameStateText = 'Continue'
+  } else if (gameState === GameState.END) {
+    gameStateText = 'Try Again'
+  }
 
   // Update the game state
   function updateGameStateText () {
     if (betCredits > 0) {
       updateGameState()
     } else {
-      showDialog('😯 Add credits', <p>Cannot start with no bet credits, you should add some</p>, 'error')
+      showDialog(
+        '😯 Add credits',
+        <Typography variant="body1">Cannot start with no bet credits, you should add some</Typography>,
+        'error'
+      )
     }
   }
 

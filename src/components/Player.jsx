@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Box from '@material-ui/core/Box'
@@ -8,6 +8,8 @@ import green from '@material-ui/core/colors/green'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { GameState } from '#app/constant-types'
+
+import { gameReplaceCardAction } from '#store/game/actions'
 
 import PlayingCard from './PlayingCard'
 
@@ -21,9 +23,15 @@ const useStyles = makeStyles({
 })
 
 // Component
-function Player ({ player, onClick, clickOnceList, gameState }) {
+function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
   const classes = useStyles()
-  const [hidden, setHidden] = useState(true)
+
+  let hidden = true
+  if (gameState === GameState.CONTINUE || gameState === GameState.END) {
+    hidden = false
+  } else {
+    hidden = true
+  }
 
   // Disable card after click once
   function disable (card) {
@@ -34,14 +42,9 @@ function Player ({ player, onClick, clickOnceList, gameState }) {
     return false
   }
 
-  // Update the cards status to be hidden or not
-  useEffect(() => {
-    if (gameState === GameState.CONTINUE || gameState === GameState.END) {
-      setHidden(false)
-    } else {
-      setHidden(true)
-    }
-  }, [gameState])
+  function onClick (card) {
+    gameReplaceCardAction(card)
+  }
 
   return (
     <Box display="flex" flexDirection="column" margin="10px 0">
@@ -51,7 +54,7 @@ function Player ({ player, onClick, clickOnceList, gameState }) {
           <PlayingCard
             key={`player${card.id}`}
             card={card}
-            onClick={gameState !== GameState.CONTINUE ? null : onClick}
+            onClick={gameState !== GameState.CONTINUE ? () => null : () => onClick(card)}
             noHover={gameState !== GameState.CONTINUE ? true : disable(card)}
             hidden={hidden}
           />
@@ -66,14 +69,20 @@ Player.propTypes = {
     id: PropTypes.string,
     hand: PropTypes.array
   }),
-  onClick: PropTypes.func.isRequired,
+  gameReplaceCardAction: PropTypes.func,
   clickOnceList: PropTypes.array,
   gameState: PropTypes.string
 }
 
 // Store
 const mapStateToProps = (state) => ({
-  gameState: state.game.gameState
+  gameState: state.game.gameState,
+  player: state.game.player,
+  clickOnceList: state.game.clickOnceList
 })
 
-export default connect(mapStateToProps)(Player)
+const mapDispatchToProps = {
+  gameReplaceCardAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

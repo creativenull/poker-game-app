@@ -44,7 +44,8 @@ Dealer.propTypes = {
 
 // Store
 const mapStateToProps = (state) => ({
-  hideDealer: state.game.hideDealer
+  hideDealer: state.game.hideDealer,
+  dealer: state.game.dealer
 })
 
 export default connect(mapStateToProps)(Dealer)
