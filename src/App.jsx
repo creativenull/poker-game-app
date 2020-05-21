@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
 
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
 import {
@@ -29,11 +28,6 @@ function App (props) {
   const { hideDealer, updateDealerView, resetBetCredits } = props
   const { player, dealer, winners } = props
   const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction } = props
-
-  // To bold and underline the test
-  function bu (message) {
-    return (<b><u>{message}</u></b>)
-  }
 
   // If the game state is END, then:
   // + Show the dealer hands
@@ -65,34 +59,20 @@ function App (props) {
       if (winners[0].id === player.id) {
         // Player is the winner
         if (winners[0].handRank === winners[1].handRank) {
-          winnerDialog(
-            <Typography variant="body1">
-              You Won with the {bu(winners[0].name)} higher ranked hand, dealer also had {bu(winners[1].name)} but
-              lower ranked
-            </Typography>
-          )
+          // Won by tie breaker
+          winnerDialog(winners[0].name, winners[1].name, true)
         } else {
-          winnerDialog(
-            <Typography variant="body1">
-              You Won with the {bu(winners[0].name)} hand! Dealer had a {bu(winners[1].name)} hand
-            </Typography>
-          )
+          // Won by higher hand
+          winnerDialog(winners[0].name, winners[1].name)
         }
       } else if (winners[0].id === dealer.id) {
         // Dealer is the winner
         if (winners[0].handRank === winners[1].handRank) {
-          loserDialog(
-            <Typography variant="body1">
-              You Lost with the {bu(winners[1].name)} lower ranked hand, dealer also had {bu(winners[0].name)} but
-              higher ranked
-            </Typography>
-          )
+          // Lost by tie breaker
+          loserDialog(winners[1].name, winners[0].name, true)
         } else {
-          loserDialog(
-            <Typography variant="body1">
-              You Lost with the {bu(winners[1].name)} hand! Dealer had a {bu(winners[0].name)} hand
-            </Typography>
-          )
+          // Lost by lower hand
+          loserDialog(winners[1].name, winners[0].name)
         }
       }
     }
