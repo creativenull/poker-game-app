@@ -1,5 +1,10 @@
-# Poker Game App (**Status: Work-in-Progress**)
+# Poker Game App (**Status: Alpha**)
 A poker game for research development.
+
+# TODO
++ [ ] Add admin panel, use a keyboard shortcut
++ [ ] Add logger
++ [ ] Add manipulation of odds
 
 ## Technology Stack
 + Babel v7
