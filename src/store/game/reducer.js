@@ -17,7 +17,6 @@ import Poker from '#lib/Poker'
 const initState = {
   betCredits: 0,
   totalCredits: 100,
-  unit: 5,
   gameState: GameState.INIT,
   hideDealer: true,
 
@@ -68,8 +67,8 @@ export default function reducer (state = initState, action) {
     case INC_BET_CREDITS:
       return {
         ...state,
-        betCredits: (state.totalCredits > 0) ? state.betCredits + state.unit : state.betCredits,
-        totalCredits: (state.totalCredits > 0) ? state.totalCredits - state.unit : state.totalCredits
+        betCredits: (state.totalCredits > 0) ? state.betCredits + action.payload : state.betCredits,
+        totalCredits: (state.totalCredits > 0) ? state.totalCredits - action.payload : state.totalCredits
       }
 
     case RESET_BET_CREDITS:

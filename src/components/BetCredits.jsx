@@ -35,8 +35,12 @@ const useStyles = makeStyles({
 // Component
 function BetCredits ({ game, incrementBetCredits }) {
   const { cardHeader, cardContent, cardActions } = useStyles()
-  const { gameState, betCredits } = game
-  const disabled = (gameState === GameState.CONTINUE || gameState === GameState.END)
+  const { gameState, betCredits, totalCredits } = game
+  const hidden = (gameState === GameState.CONTINUE || gameState === GameState.END)
+  const disabled = totalCredits < 5
+  const inc10Disabled = totalCredits < 10
+  const inc100Disabled = totalCredits < 100
+  const inc1000Disabled = totalCredits < 1000
 
   return (
     <Card elevation={5}>
@@ -48,11 +52,38 @@ function BetCredits ({ game, incrementBetCredits }) {
         <Button
           onClick={() => incrementBetCredits()}
           endIcon={<AddIcon />}
-          disabled={disabled}
+          disabled={disabled || hidden}
           variant="outlined"
           color="primary"
         >
-          Add Bet
+          $5
+        </Button>
+        <Button
+          onClick={() => incrementBetCredits(10)}
+          endIcon={<AddIcon />}
+          disabled={inc10Disabled || hidden}
+          variant="outlined"
+          color="primary"
+        >
+          $10
+        </Button>
+        <Button
+          onClick={() => incrementBetCredits(100)}
+          endIcon={<AddIcon />}
+          disabled={inc100Disabled || hidden}
+          variant="outlined"
+          color="primary"
+        >
+          $100
+        </Button>
+        <Button
+          onClick={() => incrementBetCredits(1000)}
+          endIcon={<AddIcon />}
+          disabled={inc1000Disabled || hidden}
+          variant="outlined"
+          color="primary"
+        >
+          $1000
         </Button>
       </CardActions>
     </Card>

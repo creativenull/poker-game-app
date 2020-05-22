@@ -11,8 +11,11 @@ import {
   UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
 
-export function incrementBetCredits () {
-  return { type: INC_BET_CREDITS }
+export function incrementBetCredits (incrementUnit = 5) {
+  return {
+    type: INC_BET_CREDITS,
+    payload: incrementUnit
+  }
 }
 
 export function updateGameState () {
