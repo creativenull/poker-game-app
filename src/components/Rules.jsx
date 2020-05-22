@@ -99,7 +99,7 @@ function Rules () {
           <Typography style={{ marginBottom: 20 }}>
             Below are the hand rankings on the returns you will get when win a hand.
              For example, if you won with a <b><u>Pair</u></b> hand against a dealer&apos;s <b><u>High Card</u></b> hand
-             and you bet $10 - you will get 3x10 = $30 back to your Total Credits.
+             and you bet $10 - you will get 2x10 = $20 in addition to your Total Credits.
           </Typography>
           <Typography>
             <Link
