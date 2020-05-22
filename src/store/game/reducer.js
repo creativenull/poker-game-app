@@ -94,12 +94,12 @@ export default function reducer (state = initState, action) {
       return {
         ...state,
         winners: [],
-        player: {
-          ...state.player,
-          hand: state.pokerContext.getPlayerHand()
-        },
         dealer: {
           ...state.dealer,
+          hand: state.pokerContext.getPlayerHand()
+        },
+        player: {
+          ...state.player,
           hand: state.pokerContext.getPlayerHand()
         }
       }

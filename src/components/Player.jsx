@@ -42,6 +42,14 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
     return false
   }
 
+  function hide (card) {
+    if (clickOnceList.includes(card.id)) {
+      return true
+    }
+
+    return false
+  }
+
   function onClick (card) {
     gameReplaceCardAction(card)
   }
@@ -56,7 +64,7 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
             card={card}
             onClick={gameState !== GameState.CONTINUE ? () => null : () => onClick(card)}
             noHover={gameState !== GameState.CONTINUE ? true : disable(card)}
-            hidden={hidden}
+            hidden={gameState !== GameState.CONTINUE ? hidden : hide(card)}
           />
         ))}
       </Box>
