@@ -81,6 +81,7 @@ class Poker extends Deck {
           return {
             id,
             handRank: Poker.RANKING.ROYAL_FLUSH,
+            handRankKey: 'ROYAL_FLUSH',
             tieBreakerCardRank: 0,
             name: 'Royal Flush'
           }
@@ -88,6 +89,7 @@ class Poker extends Deck {
           return {
             id,
             handRank: Poker.RANKING.STRAIGHT_FLUSH,
+            handRankKey: 'STRAIGHT_FLUSH',
             tieBreakerCardRank: straightRank,
             name: 'Straight Flush'
           }
@@ -96,6 +98,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.FOUR_OF_A_KIND,
+          handRankKey: 'FOUR_OF_A_KIND',
           tieBreakerCardRank: pairRank,
           name: 'Four-of-a-Kind'
         }
@@ -103,6 +106,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.FULL_HOUSE,
+          handRankKey: 'FULL_HOUSE',
           tieBreakerCardRank: pairRank,
           name: 'Full House'
         }
@@ -110,6 +114,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.FLUSH,
+          handRankKey: 'FLUSH',
           tieBreakerCardRank: flushRank,
           name: 'Flush'
         }
@@ -117,6 +122,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.STRAIGHT,
+          handRankKey: 'STRAIGHT',
           tieBreakerCardRank: straightRank,
           name: 'Straight'
         }
@@ -124,6 +130,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.THREE_OF_A_KIND,
+          handRankKey: 'THREE_OF_A_KIND',
           tieBreakerCardRank: pairRank,
           name: 'Three-of-a-Kind'
         }
@@ -131,6 +138,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.TWO_PAIR,
+          handRankKey: 'TWO_PAIR',
           tieBreakerCardRank: pairRank,
           name: 'Two Pair'
         }
@@ -138,6 +146,7 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.PAIR,
+          handRankKey: 'PAIR',
           tieBreakerCardRank: pairRank,
           name: 'Pair'
         }
@@ -145,9 +154,10 @@ class Poker extends Deck {
         return {
           id,
           handRank: Poker.RANKING.HIGH_CARD,
+          handRankKey: 'HIGH_CARD',
           tieBreakerCardRank: hand[0].rank,
           // Total rank of all other cards, except the first card
-          tieBreakerTotalRank: hand.reduce((acc, card) => acc + card.rank),
+          tieBreakerTotalRank: hand.reduce((acc, card) => acc + card.rank, 0) - hand[0].rank,
           name: 'High Card'
         }
       }

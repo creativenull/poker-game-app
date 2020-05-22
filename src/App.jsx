@@ -10,7 +10,8 @@ import {
   resetBetCredits,
   gameGetAllHandsAction,
   gameGetWinnerAction,
-  gameResetPokerAction
+  gameResetPokerAction,
+  gameUpdateTotalCredits
 } from '#store/game/actions'
 
 import Dealer from '#components/Dealer'
@@ -27,7 +28,7 @@ function App (props) {
   const { gameState } = props
   const { hideDealer, updateDealerView, resetBetCredits } = props
   const { player, dealer, winners } = props
-  const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction } = props
+  const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction, gameUpdateTotalCredits } = props
 
   // If the game state is END, then:
   // + Show the dealer hands
@@ -45,6 +46,7 @@ function App (props) {
     } else if (gameState === GameState.END) {
       updateDealerView(false)
       gameGetWinnerAction()
+      gameUpdateTotalCredits()
     } else {
       if (!hideDealer) {
         updateDealerView()
@@ -118,7 +120,8 @@ App.propTypes = {
   resetBetCredits: PropTypes.func,
   gameGetAllHandsAction: PropTypes.func,
   gameGetWinnerAction: PropTypes.func,
-  gameResetPokerAction: PropTypes.func
+  gameResetPokerAction: PropTypes.func,
+  gameUpdateTotalCredits: PropTypes.func
 }
 
 // Store
@@ -137,7 +140,8 @@ const mapDispatchToProps = {
   resetBetCredits,
   gameGetAllHandsAction,
   gameGetWinnerAction,
-  gameResetPokerAction
+  gameResetPokerAction,
+  gameUpdateTotalCredits
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

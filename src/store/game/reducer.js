@@ -7,10 +7,11 @@ import {
   GET_PLAYER_CARDS,
   REPLACE_PLAYER_CARD,
   GET_POKER_WINNER,
-  RESET_POKER
+  RESET_POKER,
+  UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
 import { GameState } from '#app/constant-types'
-
+import { getPrizeAmount } from '#config/prizes'
 import Poker from '#lib/Poker'
 
 const initState = {
@@ -129,6 +130,20 @@ export default function reducer (state = initState, action) {
       return {
         ...state,
         winners: state.pokerContext.winner([state.player, state.dealer])
+      }
+
+    case UPDATE_PLAYER_TOTAL_CREDITS:
+      if (state.winners[0].id === state.player.id) {
+        // Winner will get the prize return (prizeRatio x betCredits) + totalCredits
+        const prizeReturn = getPrizeAmount(state.winners[0].handRankKey) * state.betCredits
+        return {
+          ...state,
+          totalCredits: prizeReturn + state.totalCredits
+        }
+      } else {
+        return {
+          ...state
+        }
       }
 
     case RESET_POKER:

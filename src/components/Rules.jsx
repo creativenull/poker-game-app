@@ -38,45 +38,46 @@ function Rules () {
   const rows = [
     {
       name: 'Royal Flush',
-      prize: 2000
+      key: 'ROYAL_FLUSH'
     },
     {
       name: 'Straight Flush',
-      prize: 1000
+      key: 'STRAIGHT_FLUSH'
     },
     {
       name: 'Four-of-a-kind',
-      prize: 500
+      key: 'FOUR_OF_A_KIND'
     },
     {
       name: 'Full House',
-      prize: 100
+      key: 'FULL_HOUSE'
     },
     {
       name: 'Flush',
-      prize: 20
+      key: 'FLUSH'
     },
     {
       name: 'Straight',
-      prize: 15
+      key: 'STRAIGHT'
     },
     {
       name: 'Three-of-a-kind',
-      prize: 10
+      key: 'THREE_OF_A_KIND'
     },
     {
       name: 'Two Pairs',
-      prize: 5
+      key: 'TWO_PAIR'
     },
     {
       name: 'Pair',
-      prize: 3
+      key: 'PAIR'
     },
     {
       name: 'High Card',
-      prize: 2
+      key: 'HIGH_CARD'
     }
   ]
+  const prizes = JSON.parse(localStorage.getItem('prizes'))
 
   return (
     <Container>
@@ -122,7 +123,7 @@ function Rules () {
                 {rows.map((row) => (
                   <TableRow key={row.name}>
                     <TableCell component="th" scope="row">{row.name}</TableCell>
-                    <TableCell>1 : {row.prize}</TableCell>
+                    <TableCell>1 : {prizes[row.key]}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

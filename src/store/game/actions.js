@@ -7,7 +7,8 @@ import {
   GET_PLAYER_CARDS,
   REPLACE_PLAYER_CARD,
   GET_POKER_WINNER,
-  RESET_POKER
+  RESET_POKER,
+  UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
 
 export function incrementBetCredits () {
@@ -52,4 +53,8 @@ export function gameGetWinnerAction () {
 
 export function gameResetPokerAction () {
   return { type: RESET_POKER }
+}
+
+export function gameUpdateTotalCredits () {
+  return { type: UPDATE_PLAYER_TOTAL_CREDITS }
 }
