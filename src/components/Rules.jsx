@@ -85,6 +85,7 @@ function Rules () {
         <CardHeader className={classes.cardHeader} title="Rules to Play" />
         <CardContent className={classes.cardContent}>
           <Typography component="ol">
+            <li>Add credits to your Bet Credits</li>
             <li>Click the START button to show your hand</li>
             <li>Select the cards you want to replace - you can only replace each card once</li>
             <li>Click on CONTINUE button to see if you won or lost your hand to the dealer&apos;s hand</li>
