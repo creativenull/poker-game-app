@@ -13,5 +13,5 @@ export default {
   THREE_OF_A_KIND: 4,
   TWO_PAIR: 3,
   PAIR: 2,
-  HIGH_CARD: 0
+  HIGH_CARD: 1
 }
