@@ -13,6 +13,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { hideDialog } from '#store/dialog/actions'
 
+// Styles
 const useStyles = makeStyles({
   button: {
     color: 'black',
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
   }
 })
 
+// Component
 function AppDialog (props) {
   const { dialog, hideDialog } = props
   const classes = useStyles()
@@ -63,6 +65,7 @@ AppDialog.propTypes = {
   hideDialog: PropTypes.func
 }
 
+// Store
 const mapStateToProps = (state) => ({
   dialog: state.dialog
 })

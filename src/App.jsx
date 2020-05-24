@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Box from '@material-ui/core/Box'
 
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
+import { openAdminDialog } from '#store/admin/actions'
 import {
   updateDealerView,
   resetBetCredits,
@@ -19,16 +20,26 @@ import GameActions from '#components/GameActions'
 import Player from '#components/Player'
 import Rules from '#components/Rules'
 import AppDialog from '#components/AppDialog'
+import AppAdminDialog from '#components/AppAdminDialog'
 
 import { GameState } from '#app/constant-types'
 
 // Component
 function App (props) {
+  const { openAdminDialog } = props
   const { winnerDialog, loserDialog } = props
   const { gameState } = props
   const { hideDealer, updateDealerView, resetBetCredits } = props
   const { player, dealer, winners } = props
   const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction, gameUpdateTotalCredits } = props
+
+  useEffect(() => {
+    addEventListener('keydown', (e) => {
+      if (e.shiftKey && e.keyCode === 90) {
+        openAdminDialog()
+      }
+    })
+  }, [])
 
   // If the game state is END, then:
   // + Show the dealer hands
@@ -83,6 +94,7 @@ function App (props) {
   return (
     <>
       <AppDialog />
+      <AppAdminDialog />
 
       <Box display="flex" justifyContent="center">
         <Box flex="3" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
@@ -103,45 +115,41 @@ function App (props) {
 }
 
 App.propTypes = {
-  gameState: PropTypes.string,
-  hideDealer: PropTypes.bool,
-  player: PropTypes.exact({
-    id: PropTypes.string,
-    hand: PropTypes.array
-  }),
-  dealer: PropTypes.exact({
-    id: PropTypes.string,
-    hand: PropTypes.array
-  }),
-  winners: PropTypes.array,
-  winnerDialog: PropTypes.func,
-  loserDialog: PropTypes.func,
-  updateDealerView: PropTypes.func,
-  resetBetCredits: PropTypes.func,
+  dealer: PropTypes.object,
   gameGetAllHandsAction: PropTypes.func,
   gameGetWinnerAction: PropTypes.func,
   gameResetPokerAction: PropTypes.func,
-  gameUpdateTotalCredits: PropTypes.func
+  gameState: PropTypes.string,
+  gameUpdateTotalCredits: PropTypes.func,
+  hideDealer: PropTypes.bool,
+  loserDialog: PropTypes.func,
+  openAdminDialog: PropTypes.func,
+  player: PropTypes.object,
+  resetBetCredits: PropTypes.func,
+  updateDealerView: PropTypes.func,
+  winnerDialog: PropTypes.func,
+  winners: PropTypes.array
 }
 
 // Store
 const mapStateToProps = (state) => ({
+  dealer: state.game.dealer,
   gameState: state.game.gameState,
   hideDealer: state.game.hideDealer,
   player: state.game.player,
-  dealer: state.game.dealer,
   winners: state.game.winners
 })
 
 const mapDispatchToProps = {
-  winnerDialog,
-  loserDialog,
-  updateDealerView,
-  resetBetCredits,
   gameGetAllHandsAction,
   gameGetWinnerAction,
   gameResetPokerAction,
-  gameUpdateTotalCredits
+  gameUpdateTotalCredits,
+  loserDialog,
+  openAdminDialog,
+  resetBetCredits,
+  updateDealerView,
+  winnerDialog
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
