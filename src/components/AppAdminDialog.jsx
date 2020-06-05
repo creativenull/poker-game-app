@@ -72,8 +72,8 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
   function dialogSaveHandler () {
     updateSettings({
       backgroundImage,
-      winRatio: parseFloat(winRatio),
-      replaceCardLimit: parseInt(replaceCardLimit),
+      winRatio: parseFloat(winRatio) > 0 ? parseFloat(winRatio) : defaultSettings.winRatio,
+      replaceCardLimit: parseInt(replaceCardLimit) > 0 ? parseInt(replaceCardLimit) : defaultSettings.replaceCardLimit,
       prizes: {
         ROYAL_FLUSH: prizesRoyalFlush,
         STRAIGHT_FLUSH: prizesStraightFlush,
