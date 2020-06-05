@@ -14,7 +14,9 @@ const useStyles = makeStyles({
   cardTitle: {
     fontWeight: 'lighter',
     textAlign: 'center',
-    color: grey[900]
+    color: grey[900],
+    backgroundColor: '#fff',
+    margin: '10px 0'
   }
 })
 

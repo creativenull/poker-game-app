@@ -11,6 +11,10 @@ import Deck from '#lib/Deck'
 
 // Styles
 const useStyles = makeStyles({
+  cardBox: {
+    cursor: 'pointer'
+  },
+
   disabled: {
     background: grey[300]
   },
@@ -32,27 +36,21 @@ const useStyles = makeStyles({
 // Component
 function PlayingCard ({ card, onClick, hidden, noHover = false }) {
   const classes = useStyles()
+  const paperHoverClass = noHover ? classes.disabled : classes.paperHover
+  const paperColorHoverClass = noHover ? classes.disabled : classes.paperColorHover
   const value = hidden ? '' : card.value
   const suit = hidden ? { utf: Deck.BLANK_CARD_UTF } : card.suit
 
-  function handleClick () {
-    if (onClick) {
-      onClick(card)
-    } else {
-      return null
-    }
-  }
-
   return (
     <Box
-      onClick={() => handleClick()}
-      style={{ cursor: 'pointer' }}
+      onClick={() => onClick ? onClick(card) : null}
+      className={classes.cardBox}
       width="150px"
       margin="0 10px"
     >
-      <Paper className={noHover ? classes.disabled : classes.paperHover} elevation={3}>
+      <Paper className={paperHoverClass} elevation={3}>
         <Box
-          className={noHover ? classes.disabled : classes.paperColorHover}
+          className={paperColorHoverClass}
           color={suit.color}
           display="flex"
           flexDirection="column"

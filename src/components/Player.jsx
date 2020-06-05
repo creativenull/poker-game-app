@@ -18,23 +18,26 @@ const useStyles = makeStyles({
   cardTitle: {
     fontWeight: 'lighter',
     textAlign: 'center',
-    color: green[500]
+    color: green[500],
+    backgroundColor: '#fff',
+    margin: '10px 0'
   }
 })
+
+function getHiddenState (gameState) {
+  if (gameState === GameState.CONTINUE || gameState === GameState.END) {
+    return false
+  }
+
+  return true
+}
 
 // Component
 function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
   const classes = useStyles()
+  const hidden = getHiddenState(gameState)
 
-  let hidden = true
-  if (gameState === GameState.CONTINUE || gameState === GameState.END) {
-    hidden = false
-  } else {
-    hidden = true
-  }
-
-  // Disable card after click once
-  function disable (card) {
+  function isIncludedCard (card) {
     if (clickOnceList.includes(card.id)) {
       return true
     }
@@ -42,16 +45,28 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
     return false
   }
 
-  function hide (card) {
-    if (clickOnceList.includes(card.id)) {
-      return true
+  function onClickHandler (card) {
+    if (gameState !== GameState.CONTINUE) {
+      return null
+    } else {
+      gameReplaceCardAction(card)
     }
-
-    return false
   }
 
-  function onClick (card) {
-    gameReplaceCardAction(card)
+  function disableHandler (card) {
+    if (gameState !== GameState.CONTINUE) {
+      return true
+    } else {
+      return isIncludedCard(card)
+    }
+  }
+
+  function hiddenHandler (card) {
+    if (gameState !== GameState.CONTINUE) {
+      return hidden
+    } else {
+      return isIncludedCard(card)
+    }
   }
 
   return (
@@ -62,9 +77,9 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
           <PlayingCard
             key={`player${card.id}`}
             card={card}
-            onClick={gameState !== GameState.CONTINUE ? () => null : () => onClick(card)}
-            noHover={gameState !== GameState.CONTINUE ? true : disable(card)}
-            hidden={gameState !== GameState.CONTINUE ? hidden : hide(card)}
+            onClick={() => { onClickHandler(card) }}
+            noHover={disableHandler(card)}
+            hidden={hiddenHandler(card)}
           />
         ))}
       </Box>
