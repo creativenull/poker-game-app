@@ -1,13 +1,25 @@
-import { OPEN_ADMIN_DIALOG, CLOSE_ADMIN_DIALOG } from './action-types'
+import { OPEN_ADMIN_DIALOG, CLOSE_ADMIN_DIALOG, UPDATE_SETTINGS } from './action-types'
+import { getSettings } from '#config/settings'
 
 const initState = {
   dialog: {
     open: false
+  },
+  settings: {
+    ...getSettings({ check: true })
   }
 }
 
 export default function reducer (state = initState, action) {
   switch (action.type) {
+    case UPDATE_SETTINGS:
+      return {
+        ...state,
+        settings: {
+          ...action.payload
+        }
+      }
+
     case OPEN_ADMIN_DIALOG:
       return {
         ...state,

@@ -15,7 +15,7 @@ export const defaultSettings = {
  *
  * @returns {object}
  */
-export function getSettings (opts) {
+export function getSettings (opts = { check: false }) {
   if (opts.check) {
     if (!isSettings()) {
       return { ...defaultSettings }
