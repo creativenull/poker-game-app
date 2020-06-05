@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -13,8 +14,9 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-
 import makeStyles from '@material-ui/core/styles/makeStyles'
+
+import { connect } from 'react-redux'
 
 // Styles
 const useStyles = makeStyles({
@@ -33,7 +35,7 @@ const useStyles = makeStyles({
 })
 
 // Component
-function Rules () {
+function Rules ({ prizes }) {
   const classes = useStyles()
   const rows = [
     {
@@ -77,7 +79,6 @@ function Rules () {
       key: 'HIGH_CARD'
     }
   ]
-  const prizes = JSON.parse(localStorage.getItem('prizes'))
 
   return (
     <Container>
@@ -136,4 +137,13 @@ function Rules () {
   )
 }
 
-export default Rules
+Rules.propTypes = {
+  prizes: PropTypes.object
+}
+
+// State
+const mapStateToProps = state => ({
+  prizes: state.admin.settings.prizes
+})
+
+export default connect(mapStateToProps)(Rules)
