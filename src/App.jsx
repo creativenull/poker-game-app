@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Box from '@material-ui/core/Box'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
 import { openAdminDialog } from '#store/admin/actions'
@@ -24,6 +25,14 @@ import AppAdminDialog from '#components/AppAdminDialog'
 
 import { GameState } from '#app/constant-types'
 
+// Styles
+const useStyles = makeStyles({
+  root: props => ({
+    backgroundImage: `url(${props.backgroundImage})`,
+    padding: 10
+  })
+})
+
 // Component
 function App (props) {
   const { openAdminDialog } = props
@@ -32,6 +41,8 @@ function App (props) {
   const { hideDealer, updateDealerView, resetBetCredits } = props
   const { player, dealer, winners } = props
   const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction, gameUpdateTotalCredits } = props
+  const { backgroundImage } = props
+  const classes = useStyles({ backgroundImage })
 
   useEffect(() => {
     addEventListener('keydown', (e) => {
@@ -92,7 +103,7 @@ function App (props) {
   }, [winners])
 
   return (
-    <>
+    <div className={classes.root}>
       <AppDialog />
       <AppAdminDialog />
 
@@ -110,11 +121,12 @@ function App (props) {
           <GameActions />
         </Box>
       </Box>
-    </>
+    </div>
   )
 }
 
 App.propTypes = {
+  backgroundImage: PropTypes.string,
   dealer: PropTypes.object,
   gameGetAllHandsAction: PropTypes.func,
   gameGetWinnerAction: PropTypes.func,
@@ -133,6 +145,7 @@ App.propTypes = {
 
 // Store
 const mapStateToProps = (state) => ({
+  backgroundImage: state.admin.settings.backgroundImage,
   dealer: state.game.dealer,
   gameState: state.game.gameState,
   hideDealer: state.game.hideDealer,
