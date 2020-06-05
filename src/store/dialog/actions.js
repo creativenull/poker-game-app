@@ -12,7 +12,7 @@ import { bu } from './action-utils'
  *
  * @returns Redux action type
  */
-export function showDialog (title, message, type = 'info') {
+export function showDialog ({ title, message, type = 'info' }) {
   return {
     type: SHOW_DIALOG,
     payload: {
