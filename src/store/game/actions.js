@@ -25,7 +25,7 @@ export function updateGameState () {
 export function updateDealerView (hide = true) {
   return {
     type: UPDATE_DEALER_VIEW,
-    payload: hide
+    payload: typeof hide === 'boolean' ? hide : true
   }
 }
 

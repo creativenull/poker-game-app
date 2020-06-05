@@ -13,6 +13,7 @@ import {
 import { GameState } from '#app/constant-types'
 import { getPrizeAmount } from '#config/prizes'
 import Poker from '#lib/Poker'
+import { getSettings } from '#config/settings'
 
 const initState = {
   betCredits: 0,
@@ -54,6 +55,14 @@ function getNextGameState (gameState) {
   }
 }
 
+function getNonNegativeBetCredits (totalCredits, betCredits, payload) {
+  return (totalCredits > 0) ? betCredits + payload : betCredits
+}
+
+function getNonNegativeTotalCredits (totalCredits, payload) {
+  return (totalCredits > 0) ? totalCredits - payload : totalCredits
+}
+
 /**
  * Return new redux state based on action
  *
@@ -67,8 +76,8 @@ export default function reducer (state = initState, action) {
     case INC_BET_CREDITS:
       return {
         ...state,
-        betCredits: (state.totalCredits > 0) ? state.betCredits + action.payload : state.betCredits,
-        totalCredits: (state.totalCredits > 0) ? state.totalCredits - action.payload : state.totalCredits
+        betCredits: getNonNegativeBetCredits(state.totalCredits, state.betCredits, action.payload),
+        totalCredits: getNonNegativeTotalCredits(state.totalCredits, action.payload)
       }
 
     case RESET_BET_CREDITS:
@@ -86,7 +95,7 @@ export default function reducer (state = initState, action) {
     case UPDATE_DEALER_VIEW:
       return {
         ...state,
-        hideDealer: typeof action.payload === 'boolean' ? action.payload : true
+        hideDealer: action.payload
       }
 
     case GET_PLAYER_CARDS:
@@ -105,9 +114,15 @@ export default function reducer (state = initState, action) {
 
     case REPLACE_PLAYER_CARD: {
       const card = action.payload
+      const { replaceCardLimit } = getSettings()
 
       // Do nothing to the state
       if (state.clickOnceList.includes(card.id)) {
+        return { ...state }
+      }
+
+      // Add a limit to how many cards can be replaced
+      if (state.clickOnceList.length === replaceCardLimit) {
         return { ...state }
       }
 
@@ -134,10 +149,11 @@ export default function reducer (state = initState, action) {
     case UPDATE_PLAYER_TOTAL_CREDITS:
       if (state.winners[0].id === state.player.id) {
         // Winner will get the prize return (prizeRatio x betCredits) + totalCredits
-        const prizeReturn = getPrizeAmount(state.winners[0].handRankKey) * state.betCredits
+        const { prizes } = getSettings()
+        const totalCredits = (prizes[state.winners[0].handRankKey] * state.betCredits) + state.totalCredits
         return {
           ...state,
-          totalCredits: prizeReturn + state.totalCredits
+          totalCredits
         }
       } else {
         return {
