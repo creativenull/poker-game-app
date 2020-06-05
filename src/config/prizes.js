@@ -1,9 +1,4 @@
-export function getPrizeAmount (handRankKey) {
-  const prizes = JSON.parse(localStorage.getItem('prizes'))
-  return prizes[handRankKey]
-}
-
-export default {
+export const defaultPrizes = {
   ROYAL_FLUSH: 2500,
   STRAIGHT_FLUSH: 250,
   FOUR_OF_A_KIND: 100,
