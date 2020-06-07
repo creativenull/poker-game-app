@@ -50,7 +50,7 @@ function App (props) {
         openAdminDialog()
       }
     })
-  }, [])
+  }, [openAdminDialog])
 
   // If the game state is END, then:
   // + Show the dealer hands
@@ -74,7 +74,16 @@ function App (props) {
         updateDealerView()
       }
     }
-  }, [gameState])
+  }, [
+    gameState,
+    gameGetAllHandsAction,
+    resetBetCredits,
+    updateDealerView,
+    gameResetPokerAction,
+    gameGetWinnerAction,
+    hideDealer,
+    gameUpdateTotalCredits
+  ])
 
   // Show winner dialog when it is available
   useEffect(() => {
@@ -100,7 +109,7 @@ function App (props) {
         }
       }
     }
-  }, [winners])
+  }, [winners, dealer.id, player.id, winnerDialog, loserDialog])
 
   return (
     <div className={classes.root}>
