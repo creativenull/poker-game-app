@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -15,9 +15,17 @@ import red from '@material-ui/core/colors/red'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { hideAdminDialog, updateSettings } from '#store/admin/actions'
-import { defaultSettings } from '#config/settings'
+
+import useForm, {
+  updateBackgroundImg,
+  updateWinRatio,
+  updateCardLimit,
+  updatePrize,
+  resetForm
+} from '#app/hooks/useForm'
 
 import AdminPrizeTextField from './AdminPrizeTextField'
+import { reloadInitialState } from '#app/hooks/useForm/actions'
 
 // Styles
 const useStyles = makeStyles({
@@ -53,61 +61,21 @@ const useStyles = makeStyles({
 // Component
 function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateSettings }) {
   const classes = useStyles()
-  const [backgroundImage, setBackgroundImg] = useState(settings.backgroundImage)
-  const [winRatio, setWinRatio] = useState(settings.winRatio)
-  const [replaceCardLimit, setReplaceCardLimit] = useState(settings.replaceCardLimit)
-
-  // prizes
-  const [prizesRoyalFlush, setPrizesRoyalFlush] = useState(settings.prizes.ROYAL_FLUSH)
-  const [prizesStraightFlush, setPrizesStraightFlush] = useState(settings.prizes.STRAIGHT_FLUSH)
-  const [prizesFourKind, setPrizesFourKind] = useState(settings.prizes.FOUR_OF_A_KIND)
-  const [prizesFullHouse, setPrizesFullHouse] = useState(settings.prizes.FULL_HOUSE)
-  const [prizesFlush, setPrizesFlush] = useState(settings.prizes.FLUSH)
-  const [prizesStraight, setPrizesStraight] = useState(settings.prizes.STRAIGHT)
-  const [prizesThreeKind, setPrizesThreeKind] = useState(settings.prizes.THREE_OF_A_KIND)
-  const [prizesTwoPair, setPrizesTwoPair] = useState(settings.prizes.TWO_PAIR)
-  const [prizesPair, setPrizesPair] = useState(settings.prizes.PAIR)
-  const [prizesHighCard, setPrizesHighCard] = useState(settings.prizes.HIGH_CARD)
+  const { state: settingsState, onChangeAction: dispatch } = useForm(settings)
+  const prizeKeys = Object.keys(settings.prizes)
 
   function dialogSaveHandler () {
-    updateSettings({
-      backgroundImage,
-      winRatio: parseFloat(winRatio) > 0 ? parseFloat(winRatio) : defaultSettings.winRatio,
-      replaceCardLimit: parseInt(replaceCardLimit) > 0 ? parseInt(replaceCardLimit) : defaultSettings.replaceCardLimit,
-      prizes: {
-        ROYAL_FLUSH: prizesRoyalFlush,
-        STRAIGHT_FLUSH: prizesStraightFlush,
-        FOUR_OF_A_KIND: prizesFourKind,
-        FULL_HOUSE: prizesFullHouse,
-        FLUSH: prizesFlush,
-        STRAIGHT: prizesStraight,
-        THREE_OF_A_KIND: prizesThreeKind,
-        TWO_PAIR: prizesTwoPair,
-        PAIR: prizesPair,
-        HIGH_CARD: prizesHighCard
-      }
-    })
+    updateSettings({ ...settingsState })
     hideAdminDialog()
   }
 
   function dialogCloseHandler () {
+    dispatch(reloadInitialState(settings))
     hideAdminDialog()
   }
 
   function dialogResetHandler () {
-    setBackgroundImg(defaultSettings.backgroundImage)
-    setWinRatio(defaultSettings.winRatio)
-    setReplaceCardLimit(defaultSettings.replaceCardLimit)
-    setPrizesRoyalFlush(defaultSettings.prizes.ROYAL_FLUSH)
-    setPrizesStraightFlush(defaultSettings.prizes.STRAIGHT_FLUSH)
-    setPrizesFourKind(defaultSettings.prizes.FOUR_OF_A_KIND)
-    setPrizesFullHouse(defaultSettings.prizes.FULL_HOUSE)
-    setPrizesFlush(defaultSettings.prizes.FLUSH)
-    setPrizesStraight(defaultSettings.prizes.STRAIGHT)
-    setPrizesThreeKind(defaultSettings.prizes.THREE_OF_A_KIND)
-    setPrizesTwoPair(defaultSettings.prizes.TWO_PAIR)
-    setPrizesPair(defaultSettings.prizes.PAIR)
-    setPrizesHighCard(defaultSettings.prizes.HIGH_CARD)
+    dispatch(resetForm())
   }
 
   return (
@@ -131,8 +99,8 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <TextField
           className={classes.textField}
           label="Background Image"
-          value={backgroundImage}
-          onChange={(e) => setBackgroundImg(e.target.value)}
+          value={settingsState.backgroundImage}
+          onChange={(e) => dispatch(updateBackgroundImg(e))}
           variant="outlined"
           fullWidth
           required
@@ -141,8 +109,8 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <TextField
           className={classes.textField}
           label="Win Ratio"
-          value={winRatio}
-          onChange={(e) => setWinRatio(e.target.value)}
+          value={settingsState.winRatio}
+          onChange={(e) => dispatch(updateWinRatio(e))}
           variant="outlined"
           type="number"
           fullWidth
@@ -152,8 +120,8 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <TextField
           className={classes.textField}
           label="Card Replace Limit"
-          value={replaceCardLimit}
-          onChange={(e) => setReplaceCardLimit(e.target.value)}
+          value={settingsState.replaceCardLimit}
+          onChange={(e) => dispatch(updateCardLimit(e))}
           type="number"
           variant="outlined"
           fullWidth
@@ -164,75 +132,16 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
 
         <Divider />
 
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Royal Flush"
-          value={prizesRoyalFlush}
-          onChange={setPrizesRoyalFlush}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Straight Flush"
-          value={prizesStraightFlush}
-          onChange={setPrizesStraightFlush}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Four of a Kind"
-          value={prizesFourKind}
-          onChange={setPrizesFourKind}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Full House"
-          value={prizesFullHouse}
-          onChange={setPrizesFullHouse}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Flush"
-          value={prizesFlush}
-          onChange={setPrizesFlush}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Straight"
-          value={prizesStraight}
-          onChange={setPrizesStraight}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Three of a Kind"
-          value={prizesThreeKind}
-          onChange={setPrizesThreeKind}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Two Pair"
-          value={prizesTwoPair}
-          onChange={setPrizesTwoPair}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="Pair"
-          value={prizesPair}
-          onChange={setPrizesPair}
-        />
-
-        <AdminPrizeTextField
-          className={classes.textField}
-          label="High Card"
-          value={prizesHighCard}
-          onChange={setPrizesHighCard}
-        />
+        {prizeKeys.map(key => (
+          <AdminPrizeTextField
+            key={key}
+            className={classes.textField}
+            label="Royal Flush"
+            name={key}
+            value={settingsState.prizes[key]}
+            onChange={(e) => dispatch(updatePrize(e))}
+          />
+        ))}
       </DialogContent>
 
       <DialogActions>

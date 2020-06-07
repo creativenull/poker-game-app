@@ -3,7 +3,8 @@ import {
   UPDATE_WIN_RATIO,
   UPDATE_REPLACE_CARD_LIMIT,
   UPDATE_PRIZE,
-  RESET_FORM
+  RESET_FORM,
+  RELOAD_INITIAL_STATE
 } from './action-types'
 
 /** @param {Event} event */
@@ -43,4 +44,11 @@ export function updatePrize (event) {
 
 export function resetForm () {
   return { type: RESET_FORM }
+}
+
+export function reloadInitialState (initialState) {
+  return {
+    type: RELOAD_INITIAL_STATE,
+    payload: { ...initialState }
+  }
 }

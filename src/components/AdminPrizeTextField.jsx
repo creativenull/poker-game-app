@@ -15,7 +15,8 @@ function AdminPrizesForm (props) {
         <TextField
           className={props.className}
           value={props.value}
-          onChange={(e) => { props.onChange(e.target.value) }}
+          name={props.name}
+          onChange={props.onChange}
           variant="outlined"
           type="number"
           fullWidth
@@ -30,7 +31,8 @@ AdminPrizesForm.propTypes = {
   className: PropTypes.any,
   label: PropTypes.string,
   value: PropTypes.any,
-  onChange: PropTypes.func
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default AdminPrizesForm

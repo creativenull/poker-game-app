@@ -3,11 +3,12 @@ import {
   UPDATE_WIN_RATIO,
   UPDATE_REPLACE_CARD_LIMIT,
   UPDATE_PRIZE,
-  RESET_FORM
+  RESET_FORM,
+  RELOAD_INITIAL_STATE
 } from './action-types'
 import { defaultSettings } from '#app/config/settings'
 
-export default function reducer (state = {}, action) {
+export default function reducer (state, action) {
   switch (action.type) {
     case UPDATE_BACKGROUND_IMG:
       return {
@@ -39,6 +40,11 @@ export default function reducer (state = {}, action) {
     case RESET_FORM:
       return {
         ...defaultSettings
+      }
+
+    case RELOAD_INITIAL_STATE:
+      return {
+        ...action.payload
       }
   }
 }
