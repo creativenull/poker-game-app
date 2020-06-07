@@ -2,7 +2,7 @@
 A poker game for research development.
 
 # TODO
-+ [ ] Add admin panel, use a keyboard shortcut
++ [X] Add admin panel, use a keyboard shortcut
 + [ ] Add logger
 + [ ] Add manipulation of odds
 
