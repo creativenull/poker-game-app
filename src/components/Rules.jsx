@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 })
 
 // Component
-function Rules ({ prizes }) {
+function Rules ({ prizes, replaceCardLimit }) {
   const classes = useStyles()
   const rows = [
     {
@@ -86,11 +86,11 @@ function Rules ({ prizes }) {
         <CardHeader className={classes.cardHeader} title="Rules to Play" />
         <CardContent className={classes.cardContent}>
           <Typography component="ol">
-            <li>Add credits to your Bet Credits</li>
-            <li>Click the START button to show your hand</li>
-            <li>Select the cards you want to replace - you can only replace each card once</li>
-            <li>Click on CONTINUE button to see if you won or lost your hand to the dealer&apos;s hand</li>
-            <li>Click TRY AGAIN button to take you back to Step 1 and start a new game</li>
+            <li>Add credits to your <b>Bet Credits</b></li>
+            <li>Click the <b>START</b> button to show your hand</li>
+            <li>Select the cards you want to replace - you can only replace up to <b>{replaceCardLimit} card(s)</b></li>
+            <li>Click on <b>CONTINUE</b> button to see if you won or lost your hand to the dealer&apos;s hand</li>
+            <li>Click <b>TRY AGAIN</b> button to take you back to <u>Step 1</u> and start a new game</li>
           </Typography>
         </CardContent>
       </Card>
@@ -138,12 +138,14 @@ function Rules ({ prizes }) {
 }
 
 Rules.propTypes = {
-  prizes: PropTypes.object
+  prizes: PropTypes.object,
+  replaceCardLimit: PropTypes.number
 }
 
 // State
 const mapStateToProps = state => ({
-  prizes: state.admin.settings.prizes
+  prizes: state.admin.settings.prizes,
+  replaceCardLimit: state.admin.settings.replaceCardLimit
 })
 
 export default connect(mapStateToProps)(Rules)
