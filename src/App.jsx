@@ -90,22 +90,26 @@ function App (props) {
     if (winners.length > 0) {
       console.table(winners)
       if (winners[0].id === player.id) {
-        // Player is the winner
-        if (winners[0].handRank === winners[1].handRank) {
+        // PLAYER is winner
+        const [player, dealer] = winners
+
+        if (player.handRank === dealer.handRank) {
           // Won by tie breaker
-          winnerDialog(winners[0].name, winners[1].name, true)
+          winnerDialog({ playerHand: player.name, dealerHand: dealer.name, tie: true })
         } else {
           // Won by higher hand
-          winnerDialog(winners[0].name, winners[1].name)
+          winnerDialog({ playerHand: player.name, dealerHand: dealer.name })
         }
       } else if (winners[0].id === dealer.id) {
-        // Dealer is the winner
-        if (winners[0].handRank === winners[1].handRank) {
+        // DEALER is winner
+        const [dealer, player] = winners
+
+        if (dealer.handRank === player.handRank) {
           // Lost by tie breaker
-          loserDialog(winners[1].name, winners[0].name, true)
+          loserDialog({ playerHand: player.name, dealerHand: dealer.name, tie: true })
         } else {
           // Lost by lower hand
-          loserDialog(winners[1].name, winners[0].name)
+          loserDialog({ playerHand: player.name, dealerHand: dealer.name })
         }
       }
     }
