@@ -6,6 +6,7 @@
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "standard"
   ],
   "globals": {
@@ -20,12 +21,9 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react",
-    "react-hooks"
+    "react"
   ],
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "import/resolver": {
