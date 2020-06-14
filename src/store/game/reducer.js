@@ -11,7 +11,6 @@ import {
   UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
 import { GameState } from '#app/constant-types'
-import { getPrizeAmount } from '#config/prizes'
 import Poker from '#lib/Poker'
 import { getSettings } from '#config/settings'
 
