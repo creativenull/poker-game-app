@@ -63,6 +63,20 @@ function getNonNegativeTotalCredits (totalCredits, payload) {
 }
 
 /**
+ * Get the prize amount if the player won
+ *
+ * @param {string} handRankKey Hand rank value stated in prizes
+ * @param {number} betCredits Amount the player made the bet
+ * @param {number} totalCredits Total amount the player has
+ *
+ * @returns {number}
+ */
+function getPrizeAmount (handRankKey, betCredits, totalCredits) {
+  const { prizes } = getSettings()
+  return (prizes[handRankKey] * betCredits) + totalCredits
+}
+
+/**
  * Return new redux state based on action
  *
  * @param state Initial state
@@ -148,11 +162,9 @@ export default function reducer (state = initState, action) {
     case UPDATE_PLAYER_TOTAL_CREDITS:
       if (state.winners[0].id === state.player.id) {
         // Winner will get the prize return (prizeRatio x betCredits) + totalCredits
-        const { prizes } = getSettings()
-        const totalCredits = (prizes[state.winners[0].handRankKey] * state.betCredits) + state.totalCredits
         return {
           ...state,
-          totalCredits
+          totalCredits: getPrizeAmount(state.winners[0].handRankKey, state.betCredits, state.totalCredits)
         }
       } else {
         return {
