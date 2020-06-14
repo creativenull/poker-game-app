@@ -38,7 +38,7 @@ const initState = {
  *
  * @param {string} gameState The current game state of the session
  *
- * @returns The next game state of the session
+ * @returns {string} The next game state of the session
  */
 function getNextGameState (gameState) {
   if (gameState === GameState.INIT) {
@@ -54,10 +54,27 @@ function getNextGameState (gameState) {
   }
 }
 
+/**
+ * Get a non-negative number for bet credits
+ *
+ * @param {number} totalCredits Total amount of the player
+ * @param {number} betCredits Amount added for the current play
+ * @param {number} payload Increment unti
+ *
+ * @returns {number} Update bet credits
+ */
 function getNonNegativeBetCredits (totalCredits, betCredits, payload) {
   return (totalCredits > 0) ? betCredits + payload : betCredits
 }
 
+/**
+ * Get a non-negative number for total credits
+ *
+ * @param {number} totalCredits Total amount of the player
+ * @param {number} payload Increment unti
+ *
+ * @returns {number} Update total credits
+ */
 function getNonNegativeTotalCredits (totalCredits, payload) {
   return (totalCredits > 0) ? totalCredits - payload : totalCredits
 }
@@ -69,7 +86,7 @@ function getNonNegativeTotalCredits (totalCredits, payload) {
  * @param {number} betCredits Amount the player made the bet
  * @param {number} totalCredits Total amount the player has
  *
- * @returns {number}
+ * @returns {number} Prize amount
  */
 function getPrizeAmount (handRankKey, betCredits, totalCredits) {
   const { prizes } = getSettings()
