@@ -73,7 +73,7 @@ function getNonNegativeBetCredits (totalCredits, betCredits, payload) {
  * @param {number} totalCredits Total amount of the player
  * @param {number} payload Increment unti
  *
- * @returns {number} Update total credits
+ * @returns {number} Update the total credits
  */
 function getNonNegativeTotalCredits (totalCredits, payload) {
   return (totalCredits > 0) ? totalCredits - payload : totalCredits
