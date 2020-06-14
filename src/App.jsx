@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import Box from '@material-ui/core/Box'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
@@ -16,12 +15,9 @@ import {
   gameUpdateTotalCredits
 } from '#store/game/actions'
 
-import Dealer from '#components/Dealer'
-import GameActions from '#components/GameActions'
-import Player from '#components/Player'
-import Rules from '#components/Rules'
 import AppDialog from '#components/AppDialog'
 import AppAdminDialog from '#components/AppAdminDialog'
+import AppMain from '#components/AppMain'
 
 import { GameState } from '#app/constant-types'
 
@@ -52,11 +48,6 @@ function App (props) {
     })
   }, [openAdminDialog])
 
-  // If the game state is END, then:
-  // + Show the dealer hands
-  // + Compute and display the winner in a dialog
-  // + Reset the bet credits
-  // + Update the total credits if the player was the winner
   useEffect(() => {
     if (gameState === GameState.INIT) {
       gameGetAllHandsAction()
@@ -66,6 +57,11 @@ function App (props) {
       gameResetPokerAction()
       gameGetAllHandsAction()
     } else if (gameState === GameState.END) {
+      // If the game state is END, then:
+      // + Show the dealer hands
+      // + Compute and display the winner in a dialog
+      // + Reset the bet credits
+      // + Update the total credits if the player was the winner
       updateDealerView(false)
       gameGetWinnerAction()
       gameUpdateTotalCredits()
@@ -120,20 +116,7 @@ function App (props) {
       <AppDialog />
       <AppAdminDialog />
 
-      <Box display="flex" justifyContent="center">
-        <Box flex="3" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-          <Box>
-            <Dealer />
-            <Player />
-          </Box>
-          <Box marginTop={5}>
-            <Rules />
-          </Box>
-        </Box>
-        <Box flex="1">
-          <GameActions />
-        </Box>
-      </Box>
+      <AppMain />
     </div>
   )
 }
