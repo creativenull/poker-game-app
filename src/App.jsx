@@ -40,6 +40,7 @@ function App (props) {
   const { backgroundImage } = props
   const classes = useStyles({ backgroundImage })
 
+  // Keyboard shortcut to open admin panel
   useEffect(() => {
     addEventListener('keydown', (e) => {
       if (e.shiftKey && e.keyCode === 90) {
@@ -48,6 +49,7 @@ function App (props) {
     })
   }, [openAdminDialog])
 
+  // Game action update on re-render
   useEffect(() => {
     if (gameState === GameState.INIT) {
       gameGetAllHandsAction()
@@ -81,7 +83,7 @@ function App (props) {
     gameUpdateTotalCredits
   ])
 
-  // Show winner dialog when it is available
+  // Show dialog once winners are set
   useEffect(() => {
     if (winners.length > 0) {
       console.table(winners)
