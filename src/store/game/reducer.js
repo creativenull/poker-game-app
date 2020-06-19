@@ -11,7 +11,7 @@ import {
   UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
 import { GameState } from '#app/constant-types'
-import Poker from '#lib/Poker'
+import Poker from 'pokerjs'
 import { getSettings } from '#config/settings'
 
 const initState = {
