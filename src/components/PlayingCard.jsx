@@ -7,7 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
 
-import Deck from '#lib/Deck'
+import Deck from 'deckjs'
 
 // Styles
 const useStyles = makeStyles({
