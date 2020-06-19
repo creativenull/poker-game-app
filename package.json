@@ -1,12 +1,24 @@
 {
   "name": "poker-game-app",
-  "version": "0.1.0",
+  "description": "A poker game for research development.",
+  "version": "1.0.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creativenobu/poker-game-app.git"
+  },
+  "author": "Arnold Chand",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creativenobu/poker-game-app/issues"
+  },
+  "homepage": "https://github.com/creativenobu/poker-game-app#readme",
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.44",
-    "lodash": "^4.17.15",
+    "deckjs": "github:creativenobu/deckjs",
+    "pokerjs": "github:creativenobu/pokerjs",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
