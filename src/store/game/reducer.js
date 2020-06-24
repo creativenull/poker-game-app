@@ -129,6 +129,10 @@ export default function reducer (state = initState, action) {
       }
 
     case GET_PLAYER_CARDS:
+
+      // TODO:
+      // Add win ratio logic here
+
       return {
         ...state,
         winners: [],
