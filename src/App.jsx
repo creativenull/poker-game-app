@@ -37,17 +37,23 @@ function App (props) {
   const { hideDealer, updateDealerView, resetBetCredits } = props
   const { player, dealer, winners } = props
   const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction, gameUpdateTotalCredits } = props
-  const { backgroundImage } = props
-  const classes = useStyles({ backgroundImage })
+  const classes = useStyles({ backgroundImage: props.backgroundImage })
+
+  /** @param {EventTarget} e */
+  function adminEventListenerHandler (e) {
+    if (e.shiftKey && e.keyCode === 90) {
+      openAdminDialog()
+    }
+  }
 
   // Keyboard shortcut to open admin panel
   useEffect(() => {
-    addEventListener('keydown', (e) => {
-      if (e.shiftKey && e.keyCode === 90) {
-        openAdminDialog()
-      }
-    })
-  }, [openAdminDialog])
+    document.addEventListener('keydown', adminEventListenerHandler)
+
+    return () => {
+      document.removeEventListener('keydown', adminEventListenerHandler)
+    }
+  })
 
   // Game action update on re-render
   useEffect(() => {
