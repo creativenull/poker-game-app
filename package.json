@@ -5,20 +5,20 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativeknot/poker-game-app.git"
+    "url": "git+https://github.com/creativenull/poker-game-app.git"
   },
   "author": "Arnold Chand",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creativeknot/poker-game-app/issues"
+    "url": "https://github.com/creativenull/poker-game-app/issues"
   },
-  "homepage": "https://github.com/creativeknot/poker-game-app#readme",
+  "homepage": "https://github.com/creativenull/poker-game-app#readme",
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.44",
-    "deckjs": "github:creativeknot/deckjs#v1.1",
-    "pokerjs": "github:creativeknot/pokerjs#v1.1",
+    "deckjs": "github:creativenull/deckjs#v1.2",
+    "pokerjs": "github:creativenull/pokerjs#v1.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
