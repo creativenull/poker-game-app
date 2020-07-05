@@ -39,15 +39,3 @@ trim_trailing_whitespace = false
 # Web Files
 [*.{htm,html,js,jsx,ts,tsx,css,sass,scss,less,svg,vue}]
 indent_size = 2
-
-# Batch Files
-[*.{cmd,bat}]
-end_of_line = crlf
-
-# Bash Files
-[*.sh]
-end_of_line = lf
-
-# Makefiles
-[Makefile]
-indent_style = tab
