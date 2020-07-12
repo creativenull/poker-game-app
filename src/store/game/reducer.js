@@ -100,10 +100,7 @@ function getPrizeAmount (handRankKey, betCredits, totalCredits) {
  *
  * @returns {object}
  */
-function ascessHandsByWinRatio (state) {
-  const { pokerContext } = state
-  const { winRatio } = getSettings()
-
+function getHandsByWinRatio () {
   // Before we give both players the cards
   // we need to determine the win ratio.
   // + Roll a random number
@@ -115,11 +112,51 @@ function ascessHandsByWinRatio (state) {
   //   + Then check if player has winning hand
   //   + If they DO have a winning hand, make sure DEALER gets the better hand
   //   + Else do nothing
+  //
+  // Give me a new poker context as well, to keep the keys consistent with react
+  const { winRatio } = getSettings()
+  const randRatio = Math.random()
+  let pokerContext = null
 
-  return {
-    dealerHand: [],
-    playerHand: []
+  if (randRatio > 0 && randRatio <= winRatio) {
+    // Player wins automatically
+    console.log('PLAYER should win by', winRatio * 100, '% chance')
+
+    let winnerId = 'dealer'
+    let player = { id: 'player', hand: [] }
+    let dealer = { id: 'dealer', hand: [] }
+
+    // Loop until
+    do {
+      pokerContext = new Poker()
+      player = { id: 'player', hand: pokerContext.getPlayerHand() }
+      dealer = { id: 'dealer', hand: pokerContext.getPlayerHand() }
+      const winners = pokerContext.winner([player, dealer])
+      winnerId = winners[0].id
+    } while (winnerId === 'dealer')
+
+    return { player, dealer, pokerContext }
+  } else if (randRatio > winRatio && randRatio <= 1) {
+    // Dealer wins automatically
+    console.log('DEALER should win by', (1 - winRatio) * 100, '% chance')
+
+    let winnerId = 'player'
+    let player = { id: 'player', hand: [] }
+    let dealer = { id: 'dealer', hand: [] }
+
+    // Loop until
+    do {
+      pokerContext = new Poker()
+      player = { id: 'player', hand: pokerContext.getPlayerHand() }
+      dealer = { id: 'dealer', hand: pokerContext.getPlayerHand() }
+      const winners = pokerContext.winner([player, dealer])
+      winnerId = winners[0].id
+    } while (winnerId === 'player')
+
+    return { player, dealer, pokerContext }
   }
+
+  throw new Error('Failed to compute win ratio')
 }
 
 /**
@@ -158,22 +195,13 @@ export default function reducer (state = initState, action) {
       }
 
     case GET_PLAYER_CARDS:
-
-      // TODO:
-      // Add win ratio logic here
-      const { dealerHand, playerHand } = ascessHandsByWinRatio(state)
-
+      const { player, dealer, pokerContext } = getHandsByWinRatio()
       return {
         ...state,
+        pokerContext,
         winners: [],
-        dealer: {
-          ...state.dealer,
-          hand: state.pokerContext.getPlayerHand()
-        },
-        player: {
-          ...state.player,
-          hand: state.pokerContext.getPlayerHand()
-        }
+        dealer,
+        player
       }
 
     case REPLACE_PLAYER_CARD: {
