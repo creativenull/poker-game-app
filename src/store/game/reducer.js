@@ -94,6 +94,35 @@ function getPrizeAmount (handRankKey, betCredits, totalCredits) {
 }
 
 /**
+ * Compute new hands determined by the win ratio
+ *
+ * @param {object} state The current state instance
+ *
+ * @returns {object}
+ */
+function ascessHandsByWinRatio (state) {
+  const { pokerContext } = state
+  const { winRatio } = getSettings()
+
+  // Before we give both players the cards
+  // we need to determine the win ratio.
+  // + Roll a random number
+  // + If the number is between 0 and winRatio
+  //   + Then check if player has winning hand
+  //   + If they DO NOT have a winning hand, make sure DEALER gets the losing hand
+  //   + Else do nothing
+  // + If the number is between winRatio and 1.0
+  //   + Then check if player has winning hand
+  //   + If they DO have a winning hand, make sure DEALER gets the better hand
+  //   + Else do nothing
+
+  return {
+    dealerHand: [],
+    playerHand: []
+  }
+}
+
+/**
  * Return new redux state based on action
  *
  * @param state Initial state
@@ -132,6 +161,7 @@ export default function reducer (state = initState, action) {
 
       // TODO:
       // Add win ratio logic here
+      const { dealerHand, playerHand } = ascessHandsByWinRatio(state)
 
       return {
         ...state,
