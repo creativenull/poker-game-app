@@ -60,6 +60,7 @@ function App (props) {
     if (gameState === GameState.INIT) {
       gameGetAllHandsAction()
     } else if (gameState === GameState.START) {
+      // Reset the game state after each play
       resetBetCredits()
       updateDealerView()
       gameResetPokerAction()
