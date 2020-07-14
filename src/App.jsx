@@ -124,7 +124,6 @@ function App (props) {
     <div className={classes.root}>
       <AppDialog />
       <AppAdminDialog />
-
       <AppMain />
     </div>
   )
