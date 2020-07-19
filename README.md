@@ -1,32 +1,26 @@
-# Poker Game App (**Status: Alpha**)
+# Poker Game App
+> __Status: ALPHA__
 A poker game for research development.
 
 # TODO
 + [X] Add admin panel, use a keyboard shortcut
-+ [ ] Add logger
-+ [ ] Add manipulation of odds
++ [X] Add manipulation of odds
++ [ ] Track each round and log to a csv file
 
 ## Technology Stack
-+ Babel v7
-+ ESLint v6
-+ Jest v25
-+ Material UI v4
-+ Parcel v1
-+ Redux v4
-+ React v16
++ React
++ Redux
++ Babel
++ ESLint
++ Jest
++ Material UI
++ Parcel
 
-## Install (Dev)
-### Requires
-+ Node.js
-+ yarn or npm
+## Building (Dev)
+### Requirements
++ Node.js and npm
 
-### Run a dev server
-```sh
-yarn start
-```
-
-Or
-
+### Run server
 ```sh
 npm run start
 ```
