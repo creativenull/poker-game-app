@@ -59,21 +59,24 @@ function App (props) {
   useEffect(() => {
     if (gameState === GameState.INIT) {
       gameGetAllHandsAction()
+      // TODO:
+      // Start tracking the game session here
     } else if (gameState === GameState.START) {
-      // Reset the game state after each play
       resetBetCredits()
       updateDealerView()
       gameResetPokerAction()
       gameGetAllHandsAction()
+      // TODO:
+      // Tracking game session
+    } else if (gameState === GameState.CONTINUE) {
+      // TODO:
+      // Tracking game session
     } else if (gameState === GameState.END) {
-      // If the game state is END, then:
-      // + Show the dealer hands
-      // + Compute and display the winner in a dialog
-      // + Reset the bet credits
-      // + Update the total credits if the player was the winner
-      updateDealerView(false)
+      updateDealerView({ hidden: false })
       gameGetWinnerAction()
       gameUpdateTotalCredits()
+      // TODO:
+      // Tracking game session
     } else {
       if (!hideDealer) {
         updateDealerView()
@@ -93,6 +96,9 @@ function App (props) {
   // Show dialog once winners are set
   useEffect(() => {
     if (winners.length > 0) {
+      // TODO:
+      // Tracking game session
+
       console.table(winners)
       if (winners[0].id === player.id) {
         // PLAYER is winner
