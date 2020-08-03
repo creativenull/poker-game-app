@@ -194,7 +194,7 @@ export default function reducer (state = initState, action) {
         hideDealer: action.payload
       }
 
-    case GET_PLAYER_CARDS:
+    case GET_PLAYER_CARDS: {
       const { player, dealer, pokerContext } = getHandsByWinRatio()
       return {
         ...state,
@@ -203,6 +203,7 @@ export default function reducer (state = initState, action) {
         dealer,
         player
       }
+    }
 
     case REPLACE_PLAYER_CARD: {
       const card = action.payload
@@ -238,7 +239,7 @@ export default function reducer (state = initState, action) {
         winners: state.pokerContext.winner([state.player, state.dealer])
       }
 
-    case UPDATE_PLAYER_TOTAL_CREDITS:
+    case UPDATE_PLAYER_TOTAL_CREDITS: {
       if (state.winners[0].id === state.player.id) {
         // Winner will get the prize return (prizeRatio x betCredits) + totalCredits
         return {
@@ -250,6 +251,7 @@ export default function reducer (state = initState, action) {
           ...state
         }
       }
+    }
 
     case RESET_POKER:
       return {

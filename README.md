@@ -21,7 +21,12 @@ A poker game for research development.
 ### Requirements
 + Node.js and npm
 
-### Run server
+### Install project dependencies
 ```sh
-npm run start
+npm i
+```
+
+### Run server and linter
+```sh
+npm run dev
 ```
