@@ -4,22 +4,13 @@ import PropTypes from 'prop-types'
 
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
-import { winnerDialog, loserDialog } from '#store/dialog/actions'
-import { openAdminDialog } from '#store/admin/actions'
-import {
-  updateDealerView,
-  resetBetCredits,
-  gameGetAllHandsAction,
-  gameGetWinnerAction,
-  gameResetPokerAction,
-  gameUpdateTotalCredits
-} from '#store/game/actions'
-
 import AppDialog from '#components/AppDialog'
 import AppAdminDialog from '#components/AppAdminDialog'
 import AppMain from '#components/AppMain'
 
-import { GameState } from '#app/constant-types'
+import onUpdateDispatchWinnerDialogChanges from '#app/utils/onUpdateDispatchWinnerDialogChanges'
+import onUpdateDispatchGameChanges from '#app/utils/onUpdateDispatchGameChanges'
+import onUpdateRegisterKeyCombo from '#app/utils/onUpdateRegisterKeyCombo'
 
 // Styles
 const useStyles = makeStyles({
@@ -31,100 +22,28 @@ const useStyles = makeStyles({
 
 // Component
 function App (props) {
-  const { openAdminDialog } = props
-  const { winnerDialog, loserDialog } = props
-  const { gameState } = props
-  const { hideDealer, updateDealerView, resetBetCredits } = props
+  const { gameState, hideDealer } = props
   const { player, dealer, winners } = props
-  const { gameGetAllHandsAction, gameGetWinnerAction, gameResetPokerAction, gameUpdateTotalCredits } = props
   const classes = useStyles({ backgroundImage: props.backgroundImage })
 
-  /** @param {EventTarget} e */
-  function adminEventListenerHandler (e) {
-    if (e.shiftKey && e.keyCode === 90) {
-      openAdminDialog()
-    }
-  }
-
-  // Keyboard shortcut to open admin panel
+  // Register key shortcut to open admin panel
   useEffect(() => {
-    document.addEventListener('keydown', adminEventListenerHandler)
+    document.addEventListener('keydown', onUpdateRegisterKeyCombo)
 
     return () => {
-      document.removeEventListener('keydown', adminEventListenerHandler)
+      document.removeEventListener('keydown', onUpdateRegisterKeyCombo)
     }
   })
 
-  // Game action update on re-render
+  // Change UI elements based on game state
   useEffect(() => {
-    if (gameState === GameState.INIT) {
-      gameGetAllHandsAction()
-      // TODO:
-      // Start tracking the game session here
-    } else if (gameState === GameState.START) {
-      resetBetCredits()
-      updateDealerView()
-      gameResetPokerAction()
-      gameGetAllHandsAction()
-      // TODO:
-      // Tracking game session
-    } else if (gameState === GameState.CONTINUE) {
-      // TODO:
-      // Tracking game session
-    } else if (gameState === GameState.END) {
-      updateDealerView({ hidden: false })
-      gameGetWinnerAction()
-      gameUpdateTotalCredits()
-      // TODO:
-      // Tracking game session
-    } else {
-      if (!hideDealer) {
-        updateDealerView()
-      }
-    }
-  }, [
-    gameState,
-    gameGetAllHandsAction,
-    resetBetCredits,
-    updateDealerView,
-    gameResetPokerAction,
-    gameGetWinnerAction,
-    hideDealer,
-    gameUpdateTotalCredits
-  ])
+    onUpdateDispatchGameChanges(gameState, hideDealer)
+  }, [gameState, hideDealer])
 
-  // Show dialog once winners are set
+  // Show dialog UI once the game state has ended
   useEffect(() => {
-    if (winners.length > 0) {
-      // TODO:
-      // Tracking game session
-
-      console.table(winners)
-      if (winners[0].id === player.id) {
-        // PLAYER is winner
-        const [player, dealer] = winners
-
-        if (player.handRank === dealer.handRank) {
-          // Won by tie breaker
-          winnerDialog({ playerHand: player.name, dealerHand: dealer.name, tie: true })
-        } else {
-          // Won by higher hand
-          winnerDialog({ playerHand: player.name, dealerHand: dealer.name })
-        }
-      } else if (winners[0].id === dealer.id) {
-        // DEALER is winner
-        const [dealer, player] = winners
-
-        if (dealer.handRank === player.handRank) {
-          // Lost by tie breaker
-          loserDialog({ playerHand: player.name, dealerHand: dealer.name, tie: true })
-        } else {
-          // Lost by lower hand
-          loserDialog({ playerHand: player.name, dealerHand: dealer.name })
-        }
-      }
-    }
-  }, [winners, dealer.id, player.id, winnerDialog, loserDialog])
+    onUpdateDispatchWinnerDialogChanges(winners, player, dealer)
+  }, [winners, player, dealer])
 
   return (
     <div className={classes.root}>
@@ -138,18 +57,9 @@ function App (props) {
 App.propTypes = {
   backgroundImage: PropTypes.string,
   dealer: PropTypes.object,
-  gameGetAllHandsAction: PropTypes.func,
-  gameGetWinnerAction: PropTypes.func,
-  gameResetPokerAction: PropTypes.func,
   gameState: PropTypes.string,
-  gameUpdateTotalCredits: PropTypes.func,
   hideDealer: PropTypes.bool,
-  loserDialog: PropTypes.func,
-  openAdminDialog: PropTypes.func,
   player: PropTypes.object,
-  resetBetCredits: PropTypes.func,
-  updateDealerView: PropTypes.func,
-  winnerDialog: PropTypes.func,
   winners: PropTypes.array
 }
 
@@ -163,16 +73,4 @@ const mapStateToProps = (state) => ({
   winners: state.game.winners
 })
 
-const mapDispatchToProps = {
-  gameGetAllHandsAction,
-  gameGetWinnerAction,
-  gameResetPokerAction,
-  gameUpdateTotalCredits,
-  loserDialog,
-  openAdminDialog,
-  resetBetCredits,
-  updateDealerView,
-  winnerDialog
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)

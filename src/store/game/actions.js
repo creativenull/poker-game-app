@@ -22,10 +22,10 @@ export function updateGameState () {
   return { type: UPDATE_GAME_STATE }
 }
 
-export function updateDealerView ({ hidden }) {
+export function updateDealerView (opts = null) {
   return {
     type: UPDATE_DEALER_VIEW,
-    payload: (typeof hidden === 'boolean') ? hidden : true
+    payload: opts ? opts.hidden : true
   }
 }
 
