@@ -108,7 +108,7 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
 
         <TextField
           className={classes.textField}
-          label="Win Ratio"
+          label="Win Ratio (between 0.1 and 0.99)"
           value={settingsState.winRatio}
           onChange={(e) => dispatch(updateWinRatio(e))}
           variant="outlined"
@@ -119,7 +119,7 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
 
         <TextField
           className={classes.textField}
-          label="Card Replace Limit"
+          label="Card Replace Limit (between 1 and 5)"
           value={settingsState.replaceCardLimit}
           onChange={(e) => dispatch(updateCardLimit(e))}
           type="number"
