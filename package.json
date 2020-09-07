@@ -27,7 +27,7 @@
   },
   "scripts": {
     "serve": "parcel -p 8080 public/index.html",
-    "lint": "esw --watch --color ./src",
+    "lint": "esw --watch --clear --color ./src",
     "dev": "concurrently -n SERVER,LINTER \"npm:serve\" \"npm:lint\"",
     "build": "parcel build public/index.html --no-source-maps --out-dir dist --public-url .//",
     "test": "jest"
