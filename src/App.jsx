@@ -39,12 +39,12 @@ function App (props) {
   // Change UI elements based on game state
   useEffect(() => {
     onUpdateDispatchGameChanges(gameState, hideDealer)
-  }, [gameState, hideDealer])
+  }, [gameState])
 
   // Show dialog UI once the game state has ended
   useEffect(() => {
     onUpdateDispatchWinnerDialogChanges(winners, player, dealer)
-  }, [winners, player, dealer])
+  }, [winners])
 
   return (
     <div className={classes.root}>
