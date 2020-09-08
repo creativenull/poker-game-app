@@ -120,7 +120,7 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
 
       <DialogContent className={classes.dialogContent}>
         <div style={{ marginBottom: '20px' }}>
-          <Link component="button" ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
+          <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
             Download Logs
           </Link>
           <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant="outlined">
