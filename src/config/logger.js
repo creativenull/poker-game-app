@@ -1,13 +1,25 @@
+import store from '#store'
+import { getSettings } from '#config/settings'
+
 const KEY = 'LOGS'
 
-function logBuilder ({
-  betAmount,
-  replacedCards,
-  likelyToWin,
-  isWinner,
-  winRatio,
-  replaceCardLimit
-}) {
+/**
+ * Log builder to generate a CSV file from a JSON object
+ *
+ * @param {Object} params
+ *
+ * @returns {Object}
+ */
+function logBuilder (params) {
+  const {
+    betAmount,
+    replacedCards,
+    likelyToWin,
+    isWinner,
+    winRatio,
+    replaceCardLimit
+  } = params
+
   return {
     betAmount: {
       name: 'Bet Amount',
@@ -36,13 +48,36 @@ function logBuilder ({
   }
 }
 
-function logAdd () {
-  let currentLogs = JSON.parse(localStorage.getItem(KEY))
-  currentLogs.push(data)
+/**
+ * Add logs to the storage
+ *
+ * @param {Object} winner The winner
+ *
+ * @returns {void}
+ */
+function logAdd (winner) {
+  const logs = JSON.parse(localStorage.getItem(KEY))
+  const { game } = store.getState()
+  const settings = getSettings()
 
-  localStorage.setItem(KEY, JSON.stringify(currentLogs))
+  const log = logBuilder({
+    betAmount: game.betCredits,
+    replacedCards: game.clickOnceList.length,
+    likelyToWin: false,
+    isWinner: winner.id === 'player',
+    winRatio: settings.winRatio,
+    replaceCardLimit: settings.replaceCardLimit
+  })
+
+  logs.push(log)
+  localStorage.setItem(KEY, logs)
 }
 
+/**
+ * Export to a CSV file
+ *
+ * @returns {string}
+ */
 function logExport () {
   return localStorage.getItem(KEY)
 }

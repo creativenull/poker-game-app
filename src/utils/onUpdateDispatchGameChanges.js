@@ -8,7 +8,6 @@ import {
   gameUpdateTotalCredits
 } from '#store/game/actions'
 import { GameState } from '#app/constant-types'
-import logger from '#config/logger'
 
 export default function onUpdateDispatchGameChanges (gameState, hideDealer) {
   if (gameState === GameState.INIT) {
@@ -22,10 +21,6 @@ export default function onUpdateDispatchGameChanges (gameState, hideDealer) {
     store.dispatch(updateDealerView({ hidden: false }))
     store.dispatch(gameGetWinnerAction())
     store.dispatch(gameUpdateTotalCredits())
-
-    // TODO:
-    // Tracking game session
-    logger.add()
   } else {
     if (!hideDealer) {
       store.dispatch(updateDealerView())

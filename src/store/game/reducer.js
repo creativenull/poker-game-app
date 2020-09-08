@@ -94,26 +94,27 @@ function getPrizeAmount (handRankKey, betCredits, totalCredits) {
 }
 
 /**
- * Compute new hands determined by the win ratio
+ * Compute new hands determined by the win ratio.
+ *
+ * Before we give both players the cards
+ * we need to determine the win ratio.
+ * + Roll a random number
+ * + If the number is between 0 and winRatio
+ *   + Then check if player has winning hand
+ *   + If they DO NOT have a winning hand, make sure DEALER gets the losing hand
+ *   + Else do nothing
+ * + If the number is between winRatio and 1.0
+ *   + Then check if player has winning hand
+ *   + If they DO have a winning hand, make sure DEALER gets the better hand
+ *   + Else do nothing
+ *
+ * Give me a new poker context as well, to keep the keys consistent with react
  *
  * @param {object} state The current state instance
  *
  * @returns {object}
  */
 function getHandsByWinRatio () {
-  // Before we give both players the cards
-  // we need to determine the win ratio.
-  // + Roll a random number
-  // + If the number is between 0 and winRatio
-  //   + Then check if player has winning hand
-  //   + If they DO NOT have a winning hand, make sure DEALER gets the losing hand
-  //   + Else do nothing
-  // + If the number is between winRatio and 1.0
-  //   + Then check if player has winning hand
-  //   + If they DO have a winning hand, make sure DEALER gets the better hand
-  //   + Else do nothing
-  //
-  // Give me a new poker context as well, to keep the keys consistent with react
   const { winRatio } = getSettings()
   const randRatio = Math.random()
   let pokerContext = null

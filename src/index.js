@@ -1,4 +1,4 @@
-import React from 'react'
+import { createElement as h } from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 
@@ -9,12 +9,11 @@ import { isSettings, setSettings, defaultSettings } from '#config/settings'
 
 document.addEventListener('DOMContentLoaded', () => {
   if (!isSettings()) {
-    // Check is settings exists, and add default if it does not
     setSettings(defaultSettings)
   }
 
   ReactDOM.render(
-    React.createElement(Provider, { store }, React.createElement(App)),
+    h(Provider, { store }, h(App)),
     document.getElementById('app')
   )
 })

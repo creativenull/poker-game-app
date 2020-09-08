@@ -1,10 +1,13 @@
 import store from '#store'
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
+import logger from '#config/logger'
 
 export default function onUpdateDispatchWinnerDialogChanges (winners, player, dealer) {
   if (winners.length > 0) {
     // TODO:
     // Tracking game session
+
+    logger.add(winners[0])
 
     console.table(winners)
     if (winners[0].id === player.id) {
