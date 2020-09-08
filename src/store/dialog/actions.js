@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import { SHOW_DIALOG, HIDE_DIALOG, WINNER_DIALOG, LOSER_DIALOG } from './action-types'
+import { SHOW_DIALOG, HIDE_DIALOG, WINNER_DIALOG, LOSER_DIALOG, OPEN_SNACKBAR, CLOSE_SNACKBAR } from './action-types'
 import { bu } from './action-utils'
 
 /**
@@ -59,13 +59,6 @@ export function winnerDialog ({ playerHand, dealerHand, tie = false }) {
  *
  * @returns Redux action type
  */
-// export function loserDialog (message) {
-//   return {
-//     type: LOSER_DIALOG,
-//     payload: message
-//   }
-// }
-
 export function loserDialog ({ playerHand, dealerHand, tie = false }) {
   const tieLoserMessage = <Typography variant="body1">
     You Lost with the {bu(playerHand)} lower ranked hand, dealer also had {bu(dealerHand)} but
@@ -95,4 +88,12 @@ export function loserDialog ({ playerHand, dealerHand, tie = false }) {
  */
 export function hideDialog () {
   return { type: HIDE_DIALOG }
+}
+
+export function openSnackbar () {
+  return { type: OPEN_SNACKBAR }
+}
+
+export function closeSnackbar () {
+  return { type: CLOSE_SNACKBAR }
 }

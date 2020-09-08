@@ -1,11 +1,14 @@
 import React from 'react'
-import { SHOW_DIALOG, WINNER_DIALOG, LOSER_DIALOG, HIDE_DIALOG } from './action-types'
+import { SHOW_DIALOG, WINNER_DIALOG, LOSER_DIALOG, HIDE_DIALOG, OPEN_SNACKBAR, CLOSE_SNACKBAR } from './action-types'
 
 const initState = {
   open: false,
   title: '',
   message: <span></span>,
-  type: 'error'
+  type: 'error',
+  snackbar: {
+    open: false
+  }
 }
 
 /**
@@ -44,6 +47,22 @@ export default function reducer (state = initState, action) {
       return {
         ...state,
         open: false
+      }
+
+    case OPEN_SNACKBAR:
+      return {
+        ...state,
+        snackbar: {
+          open: true
+        }
+      }
+
+    case CLOSE_SNACKBAR:
+      return {
+        ...state,
+        snackbar: {
+          open: false
+        }
       }
 
     default:

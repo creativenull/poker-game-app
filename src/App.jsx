@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import AppDialog from '#components/AppDialog'
+import AppSnackbar from '#components/AppSnackbar'
 import AppAdminDialog from '#components/AppAdminDialog'
 import AppMain from '#components/AppMain'
 
@@ -47,6 +48,7 @@ function App (props) {
 
   return (
     <div className={classes.root}>
+      <AppSnackbar />
       <AppDialog />
       <AppAdminDialog />
       <AppMain />

@@ -17,6 +17,7 @@ import red from '@material-ui/core/colors/red'
 
 import { hideAdminDialog, updateSettings } from '#store/admin/actions'
 import logger from '#config/logger'
+import { openSnackbar } from '#store/dialog/actions'
 
 import useForm, {
   updateBackgroundImg,
@@ -47,8 +48,7 @@ const useStyles = makeStyles({
     }
   },
   resetBtn: {
-    margin: '0 10px',
-    fontSize: '0.8rem'
+    margin: '0 10px'
   },
   dialogContent: {},
   form: {
@@ -62,12 +62,12 @@ const useStyles = makeStyles({
   },
   link: {
     cursor: 'pointer',
-    fontSize: '1rem'
+    fontSize: '1.2rem'
   }
 })
 
 // Component
-function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateSettings }) {
+function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateSettings, openSnackbar }) {
   const classes = useStyles()
   const { state: settingsState, onChangeAction: dispatch } = useForm(settings)
   const prizeKeys = Object.keys(settings.prizes)
@@ -77,6 +77,7 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
   function dialogSaveHandler () {
     updateSettings({ ...settingsState })
     hideAdminDialog()
+    openSnackbar()
   }
 
   function dialogCloseHandler () {
@@ -86,10 +87,12 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
 
   function dialogResetSettingsHandler () {
     dispatch(resetForm())
+    openSnackbar()
   }
 
   function dialogResetLogsHandler () {
     logger.setDefault()
+    openSnackbar()
   }
 
   function dialogDownloadCsv () {
@@ -113,15 +116,18 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <Button className={classes.resetBtn} onClick={dialogResetSettingsHandler} variant="outlined">
           Reset
         </Button>
-        <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant="outlined">
-          Reset Logs
-        </Button>
-        <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
-          Download Logs
-        </Link>
       </DialogTitle>
 
       <DialogContent className={classes.dialogContent}>
+        <div style={{ marginBottom: '20px' }}>
+          <Link component="button" ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
+            Download Logs
+          </Link>
+          <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant="outlined">
+            Reset Logs
+          </Button>
+        </div>
+
         <TextField
           className={classes.textField}
           label="Background Image"
@@ -186,7 +192,8 @@ AppAdminDialog.propTypes = {
   adminDialogIsOpen: PropTypes.bool,
   hideAdminDialog: PropTypes.func,
   settings: PropTypes.object,
-  updateSettings: PropTypes.func
+  updateSettings: PropTypes.func,
+  openSnackbar: PropTypes.func
 }
 
 // Store
@@ -197,7 +204,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   hideAdminDialog,
-  updateSettings
+  updateSettings,
+  openSnackbar
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppAdminDialog)
