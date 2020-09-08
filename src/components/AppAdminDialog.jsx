@@ -47,7 +47,8 @@ const useStyles = makeStyles({
     }
   },
   resetBtn: {
-    margin: '0 10px'
+    margin: '0 10px',
+    fontSize: '0.8rem'
   },
   dialogContent: {},
   form: {
@@ -60,7 +61,8 @@ const useStyles = makeStyles({
     margin: '10px 0'
   },
   link: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontSize: '1rem'
   }
 })
 
@@ -82,8 +84,12 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
     hideAdminDialog()
   }
 
-  function dialogResetHandler () {
+  function dialogResetSettingsHandler () {
     dispatch(resetForm())
+  }
+
+  function dialogResetLogsHandler () {
+    logger.setDefault()
   }
 
   function dialogDownloadCsv () {
@@ -104,11 +110,14 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <Typography variant="h4" component="span">
           Admin Panel
         </Typography>
-        <Button className={classes.resetBtn} onClick={dialogResetHandler} variant="outlined">
+        <Button className={classes.resetBtn} onClick={dialogResetSettingsHandler} variant="outlined">
           Reset
         </Button>
+        <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant="outlined">
+          Reset Logs
+        </Button>
         <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
-          Download logs
+          Download Logs
         </Link>
       </DialogTitle>
 
