@@ -1,5 +1,5 @@
 import { createElement as h } from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import App from './App'
 
 import { Provider } from 'react-redux'
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logger.setDefault()
   }
 
-  ReactDOM.render(
+  render(
     h(Provider, { store }, h(App)),
     document.getElementById('app')
   )

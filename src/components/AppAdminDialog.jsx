@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -8,11 +8,12 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
-import red from '@material-ui/core/colors/red'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import red from '@material-ui/core/colors/red'
 
 import { hideAdminDialog, updateSettings } from '#store/admin/actions'
 import logger from '#config/logger'
@@ -57,6 +58,9 @@ const useStyles = makeStyles({
   },
   textField: {
     margin: '10px 0'
+  },
+  link: {
+    cursor: 'pointer'
   }
 })
 
@@ -65,6 +69,8 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
   const classes = useStyles()
   const { state: settingsState, onChangeAction: dispatch } = useForm(settings)
   const prizeKeys = Object.keys(settings.prizes)
+
+  const csvLink = useRef(null)
 
   function dialogSaveHandler () {
     updateSettings({ ...settingsState })
@@ -81,7 +87,9 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
   }
 
   function dialogDownloadCsv () {
-    logger.export()
+    const csvContent = logger.getCsvContent()
+    csvLink.current.href = encodeURI(csvContent)
+    csvLink.current.download = 'log.csv'
   }
 
   return (
@@ -99,9 +107,9 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
         <Button className={classes.resetBtn} onClick={dialogResetHandler} variant="outlined">
           Reset
         </Button>
-        <Button onClick={dialogDownloadCsv} variant="outlined">
+        <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
           Download logs
-        </Button>
+        </Link>
       </DialogTitle>
 
       <DialogContent className={classes.dialogContent}>

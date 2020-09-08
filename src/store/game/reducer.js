@@ -247,10 +247,10 @@ export default function reducer (state = initState, action) {
           ...state,
           totalCredits: getPrizeAmount(state.winners[0].handRankKey, state.betCredits, state.totalCredits)
         }
-      } else {
-        return {
-          ...state
-        }
+      }
+
+      return {
+        ...state
       }
     }
 

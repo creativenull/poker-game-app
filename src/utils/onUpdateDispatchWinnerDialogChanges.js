@@ -4,11 +4,10 @@ import logger from '#config/logger'
 
 export default function onUpdateDispatchWinnerDialogChanges (winners, player, dealer) {
   if (winners.length > 0) {
-    // TODO:
-    // Tracking game session
+    // Log
+    logger.add()
 
-    logger.add(winners[0])
-
+    // Post Winner
     console.table(winners)
     if (winners[0].id === player.id) {
       // PLAYER is winner

@@ -1,7 +1,21 @@
 import store from '#store'
 import { getSettings } from '#config/settings'
 
-const KEY = 'LOGS'
+const defaultLog = [
+  [
+    'Bet Amount',
+    'Cards Replaced',
+    'Win',
+    'Chance of winning',
+    'Win Ratio',
+    'Replace Cards Limit'
+  ]
+]
+
+/**
+ * Logger key
+ */
+const _key = 'LOGS'
 
 /**
  * Log builder to generate a CSV file from a JSON object
@@ -20,32 +34,14 @@ function logBuilder (params) {
     replaceCardLimit
   } = params
 
-  return {
-    betAmount: {
-      name: 'Bet Amount',
-      value: betAmount
-    },
-    replacedCards: {
-      name: 'Cards replaced',
-      value: replacedCards
-    },
-    likelyToWin: {
-      name: 'Likely to Win',
-      value: likelyToWin ? 'Yes' : 'No'
-    },
-    isWinner: {
-      name: 'Winner?',
-      value: isWinner ? 'Yes' : 'No'
-    },
-    winRatio: {
-      name: 'Win Ratio',
-      value: winRatio
-    },
-    replaceCardLimit: {
-      name: 'Replace Card Limit',
-      value: replaceCardLimit
-    }
-  }
+  return [
+    betAmount,
+    replacedCards,
+    isWinner ? 'Yes' : 'No',
+    likelyToWin ? 'Yes' : 'No',
+    winRatio,
+    replaceCardLimit
+  ]
 }
 
 /**
@@ -55,8 +51,8 @@ function logBuilder (params) {
  *
  * @returns {void}
  */
-function logAdd (winner) {
-  const logs = JSON.parse(localStorage.getItem(KEY))
+function logAdd () {
+  const logs = JSON.parse(localStorage.getItem(_key))
   const { game } = store.getState()
   const settings = getSettings()
 
@@ -64,13 +60,13 @@ function logAdd (winner) {
     betAmount: game.betCredits,
     replacedCards: game.clickOnceList.length,
     likelyToWin: false,
-    isWinner: winner.id === 'player',
+    isWinner: game.winners[0].id === 'player',
     winRatio: settings.winRatio,
     replaceCardLimit: settings.replaceCardLimit
   })
 
   logs.push(log)
-  localStorage.setItem(KEY, logs)
+  localStorage.setItem(_key, JSON.stringify(logs))
 }
 
 /**
@@ -79,10 +75,39 @@ function logAdd (winner) {
  * @returns {string}
  */
 function logExport () {
-  return localStorage.getItem(KEY)
+  const logs = JSON.parse(localStorage.getItem(_key))
+
+  let csvContent = 'data:text/csv;charset=utf-8,'
+
+  for (const log of logs) {
+    const row = log.join(',')
+    csvContent += row + '\r\n'
+  }
+
+  return csvContent
+}
+
+/**
+ * Check if the log file exists
+ *
+ * @returns {boolean}
+ */
+function logExists () {
+  return localStorage.getItem(_key) !== null
+}
+
+/**
+ * Set the file to have a default header row
+ *
+ * @returns {void}
+ */
+function logDefault () {
+  localStorage.setItem(_key, JSON.stringify(defaultLog))
 }
 
 export default {
   add: logAdd,
-  export: logExport
+  getCsvContent: logExport,
+  exists: logExists,
+  setDefault: logDefault
 }
