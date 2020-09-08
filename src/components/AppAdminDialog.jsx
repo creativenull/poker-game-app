@@ -15,6 +15,7 @@ import red from '@material-ui/core/colors/red'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import { hideAdminDialog, updateSettings } from '#store/admin/actions'
+import logger from '#config/logger'
 
 import useForm, {
   updateBackgroundImg,
@@ -24,8 +25,9 @@ import useForm, {
   resetForm
 } from '#app/hooks/useForm'
 
-import AdminPrizeTextField from './AdminPrizeTextField'
 import { reloadInitialState } from '#app/hooks/useForm/actions'
+
+import AdminPrizeTextField from './AdminPrizeTextField'
 
 // Styles
 const useStyles = makeStyles({
@@ -78,6 +80,10 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
     dispatch(resetForm())
   }
 
+  function dialogDownloadCsv () {
+    logger.export()
+  }
+
   return (
     <Dialog
       open={adminDialogIsOpen}
@@ -91,7 +97,10 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
           Admin Panel
         </Typography>
         <Button className={classes.resetBtn} onClick={dialogResetHandler} variant="outlined">
-          Reset to Defaults
+          Reset
+        </Button>
+        <Button onClick={dialogDownloadCsv} variant="outlined">
+          Download logs
         </Button>
       </DialogTitle>
 
