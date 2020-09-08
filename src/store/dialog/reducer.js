@@ -23,6 +23,7 @@ export default function reducer (state = initState, action) {
   switch (action.type) {
     case WINNER_DIALOG:
       return {
+        ...state,
         title: '🎉 Congratulations you won!',
         message: action.payload,
         open: true,
@@ -31,6 +32,7 @@ export default function reducer (state = initState, action) {
 
     case LOSER_DIALOG:
       return {
+        ...state,
         title: '😕 Sorry you lost!',
         message: action.payload,
         open: true,
