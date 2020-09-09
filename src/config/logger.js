@@ -1,13 +1,16 @@
 import store from '#store'
 import { getSettings } from '#config/settings'
+import { isPlayerLikelyToWin } from '#store/game/reducer-utils'
 
 const defaultLog = [
   [
+    'Total Credits',
     'Bet Amount',
     'Cards Replaced',
-    'Win',
     'Chance of winning',
-    'Win Ratio',
+    'Winner?',
+    'Current Round Win Ratio',
+    'Set Win Ratio',
     'Replace Cards Limit'
   ]
 ]
@@ -26,20 +29,24 @@ const _key = 'LOGS'
  */
 function logBuilder (params) {
   const {
+    totalCredits,
     betAmount,
     replacedCards,
     likelyToWin,
     isWinner,
-    winRatio,
+    currentRoundWinRatio,
+    playerWinRatio,
     replaceCardLimit
   } = params
 
   return [
+    totalCredits,
     betAmount,
     replacedCards,
-    isWinner ? 'Yes' : 'No',
     likelyToWin ? 'Yes' : 'No',
-    winRatio,
+    isWinner ? 'Yes' : 'No',
+    currentRoundWinRatio.toPrecision(3),
+    playerWinRatio,
     replaceCardLimit
   ]
 }
@@ -57,11 +64,13 @@ function logAdd () {
   const settings = getSettings()
 
   const log = logBuilder({
+    totalCredits: game.totalCredits,
     betAmount: game.betCredits,
     replacedCards: game.clickOnceList.length,
-    likelyToWin: false,
+    likelyToWin: isPlayerLikelyToWin(game.currentRoundWinRatio, settings.winRatio),
     isWinner: game.winners[0].id === 'player',
-    winRatio: settings.winRatio,
+    currentRoundWinRatio: game.currentRoundWinRatio,
+    playerWinRatio: settings.winRatio,
     replaceCardLimit: settings.replaceCardLimit
   })
 

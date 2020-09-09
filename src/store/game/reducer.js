@@ -10,6 +10,7 @@ import {
   RESET_POKER,
   UPDATE_PLAYER_TOTAL_CREDITS
 } from './action-types'
+import { isPlayerLikelyToWin } from './reducer-utils'
 import { GameState } from '#app/constant-types'
 import Poker from 'pokerjs'
 import { getSettings } from '#config/settings'
@@ -19,6 +20,7 @@ const initState = {
   totalCredits: 100,
   gameState: GameState.INIT,
   hideDealer: true,
+  currentRoundWinRatio: 0,
 
   pokerContext: new Poker(),
   winners: [],
@@ -98,7 +100,6 @@ function getPrizeAmount (handRankKey, betCredits, totalCredits) {
  *
  * Before we give both players the cards
  * we need to determine the win ratio.
- * + Roll a random number
  * + If the number is between 0 and winRatio
  *   + Then check if player has winning hand
  *   + If they DO NOT have a winning hand, make sure DEALER gets the losing hand
@@ -110,16 +111,15 @@ function getPrizeAmount (handRankKey, betCredits, totalCredits) {
  *
  * Give me a new poker context as well, to keep the keys consistent with react
  *
- * @param {object} state The current state instance
+ * @param {number} randRatio
  *
  * @returns {object}
  */
-function getHandsByWinRatio () {
+function getHandsByWinRatio (randRatio) {
   const { winRatio } = getSettings()
-  const randRatio = Math.random()
   let pokerContext = null
 
-  if (randRatio > 0 && randRatio <= winRatio) {
+  if (isPlayerLikelyToWin(randRatio, winRatio)) {
     // Player wins automatically
     console.log('PLAYER should win by', winRatio * 100, '% chance')
 
@@ -137,7 +137,7 @@ function getHandsByWinRatio () {
     } while (winnerId === 'dealer')
 
     return { player, dealer, pokerContext }
-  } else if (randRatio > winRatio && randRatio <= 1) {
+  } else {
     // Dealer wins automatically
     console.log('DEALER should win by', (1 - winRatio) * 100, '% chance')
 
@@ -156,8 +156,6 @@ function getHandsByWinRatio () {
 
     return { player, dealer, pokerContext }
   }
-
-  throw new Error('Failed to compute win ratio')
 }
 
 /**
@@ -196,9 +194,13 @@ export default function reducer (state = initState, action) {
       }
 
     case GET_PLAYER_CARDS: {
-      const { player, dealer, pokerContext } = getHandsByWinRatio()
+      // Perform a random number
+      const randRatio = Math.random()
+      const { player, dealer, pokerContext } = getHandsByWinRatio(randRatio)
+
       return {
         ...state,
+        currentRoundWinRatio: randRatio,
         pokerContext,
         winners: [],
         dealer,
@@ -260,6 +262,7 @@ export default function reducer (state = initState, action) {
         clickOnceList: [],
         winners: [],
         pokerContext: new Poker(),
+        currentRoundWinRatio: 0,
         player: {
           ...state.player,
           hand: []
