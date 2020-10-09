@@ -6,7 +6,7 @@ A poker game for research development.
 # TODO
 + [X] Add admin panel, use a keyboard shortcut
 + [X] Add manipulation of odds
-+ [ ] Track each round and log to a csv file
++ [X] Track each round and log to a csv file
 
 ## Technology Stack
 + React
