@@ -7,6 +7,8 @@ A poker game for research development.
 + [X] Add admin panel, use a keyboard shortcut
 + [X] Add manipulation of odds
 + [X] Track each round and log to a csv file
++ [ ] Add sessions, being able to distingusih different players
++ [ ] Better algorithm to determine manipulation of odds
 
 ## Technology Stack
 + React
@@ -26,7 +28,7 @@ A poker game for research development.
 npm i
 ```
 
-### Run server and linter
+### Run on local machine
 ```sh
 npm run dev
 ```
