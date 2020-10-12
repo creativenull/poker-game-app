@@ -23,8 +23,8 @@ const useStyles = makeStyles({
 
 // Component
 function App (props) {
-  const { gameState, hideDealer } = props
-  const { player, dealer, winners } = props
+  const { gameState } = props
+  const { winners } = props
   const classes = useStyles({ backgroundImage: props.backgroundImage })
 
   // Register key shortcut to open admin panel
@@ -38,12 +38,12 @@ function App (props) {
 
   // Change UI elements based on game state
   useEffect(() => {
-    onUpdateDispatchGameChanges(gameState, hideDealer)
+    onUpdateDispatchGameChanges(gameState)
   }, [gameState])
 
   // Show dialog UI once the game state has ended
   useEffect(() => {
-    onUpdateDispatchWinnerDialogChanges(winners, player, dealer)
+    onUpdateDispatchWinnerDialogChanges(winners)
   }, [winners])
 
   return (
@@ -68,10 +68,7 @@ App.propTypes = {
 // Store
 const mapStateToProps = (state) => ({
   backgroundImage: state.admin.settings.backgroundImage,
-  dealer: state.game.dealer,
   gameState: state.game.gameState,
-  hideDealer: state.game.hideDealer,
-  player: state.game.player,
   winners: state.game.winners
 })
 
