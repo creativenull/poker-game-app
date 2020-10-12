@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -37,10 +37,12 @@ function BetCredits ({ game, incrementBetCredits }) {
   const { cardHeader, cardContent, cardActions } = useStyles()
   const { gameState, betCredits, totalCredits } = game
   const hidden = (gameState === GameState.CONTINUE || gameState === GameState.END)
-  const disabled = totalCredits < 5
-  const inc10Disabled = totalCredits < 10
-  const inc100Disabled = totalCredits < 100
-  const inc1000Disabled = totalCredits < 1000
+
+  const isTotalLessThan = useCallback((credits) => {
+    return totalCredits < credits
+  }, [totalCredits])
+
+  const creditsAmount = [5, 10, 100, 1000]
 
   return (
     <Card elevation={5}>
@@ -49,42 +51,18 @@ function BetCredits ({ game, incrementBetCredits }) {
         <Typography variant="h3" color="primary">${betCredits}</Typography>
       </CardContent>
       <CardActions className={cardActions}>
-        <Button
-          onClick={() => incrementBetCredits()}
-          endIcon={<AddIcon />}
-          disabled={disabled || hidden}
-          variant="outlined"
-          color="primary"
-        >
-          $5
-        </Button>
-        <Button
-          onClick={() => incrementBetCredits(10)}
-          endIcon={<AddIcon />}
-          disabled={inc10Disabled || hidden}
-          variant="outlined"
-          color="primary"
-        >
-          $10
-        </Button>
-        <Button
-          onClick={() => incrementBetCredits(100)}
-          endIcon={<AddIcon />}
-          disabled={inc100Disabled || hidden}
-          variant="outlined"
-          color="primary"
-        >
-          $100
-        </Button>
-        <Button
-          onClick={() => incrementBetCredits(1000)}
-          endIcon={<AddIcon />}
-          disabled={inc1000Disabled || hidden}
-          variant="outlined"
-          color="primary"
-        >
-          $1000
-        </Button>
+        {creditsAmount.map((credit) => (
+          <Button
+            key={credit}
+            onClick={() => incrementBetCredits(credit)}
+            endIcon={<AddIcon />}
+            disabled={isTotalLessThan(credit) || hidden}
+            variant="outlined"
+            color="primary"
+          >
+            ${credit}
+          </Button>
+        ))}
       </CardActions>
     </Card>
   )
