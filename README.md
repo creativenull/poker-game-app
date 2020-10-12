@@ -7,6 +7,7 @@ A poker game for research development.
 + [X] Add admin panel, use a keyboard shortcut
 + [X] Add manipulation of odds
 + [X] Track each round and log to a csv file
++ [ ] **Implement Tests**
 + [ ] Add sessions, being able to distingusih different players
 + [ ] Better algorithm to determine manipulation of odds
 
@@ -30,5 +31,5 @@ npm i
 
 ### Run on local machine
 ```sh
-npm run dev
+npm start
 ```
