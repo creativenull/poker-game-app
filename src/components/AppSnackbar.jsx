@@ -11,13 +11,9 @@ import { closeSnackbar } from '#store/dialog/actions'
 function AppSnackbar (props) {
   const { open, closeSnackbar } = props
 
-  function handleClose () {
-    closeSnackbar()
-  }
-
   return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="success">
+    <Snackbar open={open} autoHideDuration={3000} onClose={() => closeSnackbar()}>
+      <Alert onClose={() => closeSnackbar()} severity="success">
         Saved!
       </Alert>
     </Snackbar>

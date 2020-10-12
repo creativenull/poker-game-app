@@ -41,6 +41,7 @@ export default function reducer (state = initState, action) {
 
     case SHOW_DIALOG:
       return {
+        ...state,
         ...action.payload,
         open: true
       }
