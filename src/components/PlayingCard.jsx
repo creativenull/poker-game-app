@@ -57,7 +57,7 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
           height="220px"
         >
           <Box flex="1" display="flex">
-            <Box flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
+            <Box data-testid="card" flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
               {value}
             </Box>
             <Box flex="1"></Box>
@@ -90,7 +90,16 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
 }
 
 PlayingCard.propTypes = {
-  card: PropTypes.object,
+  card: PropTypes.exact({
+    id: PropTypes.number,
+    value: PropTypes.string,
+    rank: PropTypes.number,
+    suit: PropTypes.exact({
+      value: PropTypes.string,
+      color: PropTypes.string,
+      utf: PropTypes.string
+    })
+  }),
   noHover: PropTypes.bool,
   hidden: PropTypes.bool,
   onClick: PropTypes.func
