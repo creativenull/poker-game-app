@@ -43,6 +43,7 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
 
   return (
     <Box
+      data-testid="playing-card"
       onClick={() => onClick ? onClick(card) : null}
       className={classes.cardBox}
       width="150px"
@@ -57,7 +58,7 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
           height="220px"
         >
           <Box flex="1" display="flex">
-            <Box data-testid="card" flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
+            <Box flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
               {value}
             </Box>
             <Box flex="1"></Box>

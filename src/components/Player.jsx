@@ -70,7 +70,7 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
   }
 
   return (
-    <Box display="flex" flexDirection="column" margin="10px 0">
+    <Box data-testid="player-hand" display="flex" flexDirection="column" margin="10px 0">
       <Typography className={classes.cardTitle} variant="h3">Player</Typography>
       <Box display="flex">
         {player.hand.map(card => (

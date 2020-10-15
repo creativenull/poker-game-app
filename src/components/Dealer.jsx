@@ -25,8 +25,8 @@ function Dealer ({ dealer, hideDealer }) {
   const classes = useStyles()
 
   return (
-    <Box display="flex" flexDirection="column" margin="10px 0">
-      <Typography className={classes.cardTitle} variant="h3">Dealer</Typography>
+    <Box data-testid="dealer-hand" display="flex" flexDirection="column" margin="10px 0">
+      <Typography data-testid="dealer-value" className={classes.cardTitle} variant="h3">Dealer</Typography>
       <Box display="flex">
         {dealer.hand.map(card => (
           <PlayingCard key={`dealer${card.id}`} card={card} noHover hidden={hideDealer} />
