@@ -7,12 +7,11 @@
   ],
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"],
       "alias": {
-        "#app": ".",
-        "#components": "./components",
-        "#config": "./config",
-        "#store": "./store"
+        "#components": "./src/components",
+        "#config": "./src/config",
+        "#store": "./src/store",
+        "#app": "./src"
       }
     }]
   ]

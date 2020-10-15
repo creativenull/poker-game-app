@@ -63,18 +63,20 @@
     "typescript": "^4.0.3"
   },
   "alias": {
-    "#app": "./src",
     "#components": "./src/components",
     "#config": "./src/config",
-    "#store": "./src/store"
+    "#store": "./src/store",
+    "#app": "./src"
   },
   "jest": {
     "verbose": true,
+    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"],
+    "moduleFileExtensions": ["js", "jsx"],
     "moduleNameMapper": {
-      "#app(.*)$": "<rootDir>/src/$1",
       "#components(.*)$": "<rootDir>/src/components/$1",
-      "#config(.*)$": "./src/config/$1",
-      "#store(.*)$": "./src/store/$1"
+      "#config(.*)$": "<rootDir>/src/config/$1",
+      "#store(.*)$": "<rootDir>/src/store/$1",
+      "#app(.*)$": "<rootDir>/src/$1"
     }
   }
 }
