@@ -81,37 +81,54 @@ function Rules ({ prizes, replaceCardLimit }) {
   ]
 
   return (
-    <Container>
+    <Container data-testid='rules'>
       <Card elevation={7} className={classes.card}>
-        <CardHeader className={classes.cardHeader} title="Rules to Play" />
+        <CardHeader className={classes.cardHeader} title='Rules to Play' />
         <CardContent className={classes.cardContent}>
-          <Typography component="ol">
-            <li>Add credits to your <b>Bet Credits</b></li>
-            <li>Click the <b>START</b> button to show your hand</li>
-            <li>Select the cards you want to replace - you can only replace up to <b>{replaceCardLimit} card(s)</b></li>
-            <li>Click on <b>CONTINUE</b> button to see if you won or lost your hand to the dealer&apos;s hand</li>
-            <li>Click <b>TRY AGAIN</b> button to take you back to <u>Step 1</u> and start a new game</li>
+          <Typography component='ol'>
+            <li>
+              Add credits to your <b>Bet Credits</b>
+            </li>
+            <li>
+              Click the <b>START</b> button to show your hand
+            </li>
+            <li>
+              Select the cards you want to replace - you can only replace up to <b>{replaceCardLimit} card(s)</b>
+            </li>
+            <li>
+              Click on <b>CONTINUE</b> button to see if you won or lost your hand to the dealer&apos;s hand
+            </li>
+            <li>
+              Click <b>TRY AGAIN</b> button to take you back to <u>Step 1</u> and start a new game
+            </li>
           </Typography>
         </CardContent>
       </Card>
 
       <Card elevation={7} className={classes.card}>
-        <CardHeader className={classes.cardHeader} title="Prizes" />
+        <CardHeader className={classes.cardHeader} title='Prizes' />
         <CardContent className={classes.cardContent}>
           <Typography style={{ marginBottom: 20 }}>
-            Below are the hand rankings on the returns you will get when win a hand.
-             For example, if you won with a <b><u>Pair</u></b> hand against a dealer&apos;s <b><u>High Card</u></b> hand
-             and you bet $10 - you will get 2x10 = $20 in addition to your Total Credits.
+            Below are the hand rankings on the returns you will get when win a hand. For example, if you won with a{' '}
+            <b>
+              <u>Pair</u>
+            </b>{' '}
+            hand against a dealer&apos;s{' '}
+            <b>
+              <u>High Card</u>
+            </b>{' '}
+            hand and you bet $10 - you will get 2x10 = $20 in addition to your Total Credits.
           </Typography>
           <Typography>
             <Link
-              href="https://www.cardplayer.com/rules-of-poker/hand-rankings"
-              target="_blank"
-              rel="noopener"
-              color="error"
+              href='https://www.cardplayer.com/rules-of-poker/hand-rankings'
+              target='_blank'
+              rel='noopener'
+              color='error'
             >
               Click here
-            </Link> to see how to form the hands below.
+            </Link>{' '}
+            to see how to form the hands below.
           </Typography>
           <TableContainer elevation={0} component={Paper}>
             <Table>
@@ -122,9 +139,11 @@ function Rules ({ prizes, replaceCardLimit }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {rows.map(row => (
                   <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">{row.name}</TableCell>
+                    <TableCell component='th' scope='row'>
+                      {row.name}
+                    </TableCell>
                     <TableCell>1 : {prizes[row.key]}</TableCell>
                   </TableRow>
                 ))}

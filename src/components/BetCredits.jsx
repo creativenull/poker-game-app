@@ -36,29 +36,34 @@ const useStyles = makeStyles({
 function BetCredits ({ game, incrementBetCredits }) {
   const { cardHeader, cardContent, cardActions } = useStyles()
   const { gameState, betCredits, totalCredits } = game
-  const hidden = (gameState === GameState.CONTINUE || gameState === GameState.END)
+  const hidden = gameState === GameState.CONTINUE || gameState === GameState.END
 
-  const isTotalLessThan = useCallback((credits) => {
-    return totalCredits < credits
-  }, [totalCredits])
+  const isTotalLessThan = useCallback(
+    credits => {
+      return totalCredits < credits
+    },
+    [totalCredits]
+  )
 
   const creditsAmount = [5, 10, 100, 1000]
 
   return (
-    <Card elevation={5}>
-      <CardHeader className={cardHeader} title="Bet Credits" />
+    <Card data-testid='bet-credits' elevation={5}>
+      <CardHeader className={cardHeader} title='Bet Credits' />
       <CardContent className={cardContent}>
-        <Typography variant="h3" color="primary">${betCredits}</Typography>
+        <Typography variant='h3' color='primary'>
+          ${betCredits}
+        </Typography>
       </CardContent>
       <CardActions className={cardActions}>
-        {creditsAmount.map((credit) => (
+        {creditsAmount.map(credit => (
           <Button
             key={credit}
             onClick={() => incrementBetCredits(credit)}
             endIcon={<AddIcon />}
             disabled={isTotalLessThan(credit) || hidden}
-            variant="outlined"
-            color="primary"
+            variant='outlined'
+            color='primary'
           >
             ${credit}
           </Button>
@@ -74,7 +79,7 @@ BetCredits.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   game: state.game
 })
 

@@ -9,8 +9,8 @@ import Rules from '#components/Rules'
 
 export default function AppMain () {
   return (
-    <Box display="flex" justifyContent="center">
-      <Box flex="3" display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+    <Box data-testid='app-main' display='flex' justifyContent='center'>
+      <Box flex='3' display='flex' justifyContent='center' alignItems='center' flexDirection='column'>
         <Box>
           <Dealer />
           <Player />
@@ -19,7 +19,7 @@ export default function AppMain () {
           <Rules />
         </Box>
       </Box>
-      <Box flex="1">
+      <Box flex='1'>
         <GameActions />
       </Box>
     </Box>

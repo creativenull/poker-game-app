@@ -34,10 +34,12 @@ function TotalCredits ({ totalCredits }) {
   const classes = useStyles()
 
   return (
-    <Card elevation={5} className={classes.card}>
-      <CardHeader className={classes.cardHeader} title="Total Credits" />
+    <Card data-testid='total-credits' elevation={5} className={classes.card}>
+      <CardHeader className={classes.cardHeader} title='Total Credits' />
       <CardContent className={classes.cardContent}>
-        <Typography variant="h3" className={classes.creditsText}>${totalCredits}</Typography>
+        <Typography variant='h3' className={classes.creditsText}>
+          ${totalCredits}
+        </Typography>
       </CardContent>
     </Card>
   )
@@ -48,7 +50,7 @@ TotalCredits.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   totalCredits: state.game.totalCredits
 })
 

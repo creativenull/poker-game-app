@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import Alert from '@material-ui/lab/Alert'
 import Button from '@material-ui/core/Button'
+import Container from '@material-ui/core/Container'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -36,27 +37,23 @@ function AppDialog (props) {
   }
 
   return (
-    <Dialog
-      open={dialog.open}
-      onClose={dialogCloseHandler}
-      disableBackdropClick
-    >
-      <Alert variant="filled" severity={dialog.type} icon={false}>
-        <DialogTitle>
-          <Typography variant="h4" component="span">
-            {dialog.title}
-          </Typography>
-        </DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          {dialog.message}
-        </DialogContent>
-        <DialogActions>
-          <Button className={classes.button} onClick={dialogCloseHandler} variant="contained">
-            Close
-          </Button>
-        </DialogActions>
-      </Alert>
-    </Dialog>
+    <Container data-testid='app-dialog'>
+      <Dialog open={dialog.open} onClose={dialogCloseHandler} disableBackdropClick>
+        <Alert variant='filled' severity={dialog.type} icon={false}>
+          <DialogTitle>
+            <Typography variant='h4' component='span'>
+              {dialog.title}
+            </Typography>
+          </DialogTitle>
+          <DialogContent className={classes.dialogContent}>{dialog.message}</DialogContent>
+          <DialogActions>
+            <Button className={classes.button} onClick={dialogCloseHandler} variant='contained'>
+              Close
+            </Button>
+          </DialogActions>
+        </Alert>
+      </Dialog>
+    </Container>
   )
 }
 
@@ -66,7 +63,7 @@ AppDialog.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   dialog: state.dialog
 })
 

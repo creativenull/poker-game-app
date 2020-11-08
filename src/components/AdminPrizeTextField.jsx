@@ -5,11 +5,11 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 
-function AdminPrizesForm (props) {
+function AdminPrizeTextField (props) {
   return (
-    <Box width="100%" display="flex" justifyContent="space-between">
-      <Box flex={1} display="flex" justifyContent="center" alignItems="center">
-        <Typography component="span">{props.label}</Typography>
+    <Box data-testid='admin-prize-textfield' width='100%' display='flex' justifyContent='space-between'>
+      <Box flex={1} display='flex' justifyContent='center' alignItems='center'>
+        <Typography component='span'>{props.label}</Typography>
       </Box>
       <Box flex={1}>
         <TextField
@@ -17,8 +17,8 @@ function AdminPrizesForm (props) {
           value={props.value}
           name={props.name}
           onChange={props.onChange}
-          variant="outlined"
-          type="number"
+          variant='outlined'
+          type='number'
           fullWidth
           required
         />
@@ -27,7 +27,7 @@ function AdminPrizesForm (props) {
   )
 }
 
-AdminPrizesForm.propTypes = {
+AdminPrizeTextField.propTypes = {
   className: PropTypes.any,
   label: PropTypes.string,
   value: PropTypes.any,
@@ -35,4 +35,4 @@ AdminPrizesForm.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-export default AdminPrizesForm
+export default AdminPrizeTextField

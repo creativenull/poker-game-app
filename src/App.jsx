@@ -66,7 +66,7 @@ App.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   backgroundImage: state.admin.settings.backgroundImage,
   gameState: state.game.gameState,
   winners: state.game.winners

@@ -26,8 +26,8 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.44",
-    "deckjs": "github:creativenull/deckjs#v1.2",
-    "pokerjs": "github:creativenull/pokerjs#v1.2",
+    "deckjs": "github:creativenull/deckjs#v1.4",
+    "pokerjs": "github:creativenull/pokerjs#v1.4",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -59,6 +59,7 @@
     "jest": "^25.1.0",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
+    "prettier-standard": "^16.4.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.3"
   },
@@ -70,8 +71,13 @@
   },
   "jest": {
     "verbose": true,
-    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"],
-    "moduleFileExtensions": ["js", "jsx"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "moduleNameMapper": {
       "#components(.*)$": "<rootDir>/src/components/$1",
       "#config(.*)$": "<rootDir>/src/config/$1",
