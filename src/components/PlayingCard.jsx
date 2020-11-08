@@ -43,6 +43,7 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
 
   return (
     <Box
+      data-testid="playing-card"
       onClick={() => onClick ? onClick(card) : null}
       className={classes.cardBox}
       width="150px"
@@ -90,7 +91,16 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
 }
 
 PlayingCard.propTypes = {
-  card: PropTypes.object,
+  card: PropTypes.exact({
+    id: PropTypes.number,
+    value: PropTypes.string,
+    rank: PropTypes.number,
+    suit: PropTypes.exact({
+      value: PropTypes.string,
+      color: PropTypes.string,
+      utf: PropTypes.string
+    })
+  }),
   noHover: PropTypes.bool,
   hidden: PropTypes.bool,
   onClick: PropTypes.func

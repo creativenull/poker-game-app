@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
+import Container from '@material-ui/core/Container'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -102,89 +103,87 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
   }
 
   return (
-    <Dialog
-      open={adminDialogIsOpen}
-      onClose={dialogCloseHandler}
-      maxWidth="sm"
-      fullWidth
-      disableBackdropClick
-    >
-      <DialogTitle>
-        <Typography variant="h4" component="span">
-          Admin Panel
-        </Typography>
-        <Button className={classes.resetBtn} onClick={dialogResetSettingsHandler} variant="outlined">
-          Reset
-        </Button>
-      </DialogTitle>
-
-      <DialogContent className={classes.dialogContent}>
-        <div style={{ marginBottom: '20px' }}>
-          <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
-            Download Logs
-          </Link>
-          <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant="outlined">
-            Reset Logs
+    <Container data-testid='admin-dialog'>
+      <Dialog open={adminDialogIsOpen} onClose={dialogCloseHandler} maxWidth='sm' fullWidth disableBackdropClick>
+        <DialogTitle>
+          <Typography variant='h4' component='span'>
+            Admin Panel
+          </Typography>
+          <Button className={classes.resetBtn} onClick={dialogResetSettingsHandler} variant='outlined'>
+            Reset
           </Button>
-        </div>
+        </DialogTitle>
 
-        <TextField
-          className={classes.textField}
-          label="Background Image"
-          value={settingsState.backgroundImage}
-          onChange={(e) => dispatch(updateBackgroundImg(e))}
-          variant="outlined"
-          fullWidth
-          required
-        />
+        <DialogContent className={classes.dialogContent}>
+          <div style={{ marginBottom: '20px' }}>
+            <Link ref={csvLink} className={classes.link} onClick={dialogDownloadCsv}>
+              Download Logs
+            </Link>
+            <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant='outlined'>
+              Reset Logs
+            </Button>
+          </div>
 
-        <TextField
-          className={classes.textField}
-          label="Win Ratio (between 0.1 and 0.99)"
-          value={settingsState.winRatio}
-          onChange={(e) => dispatch(updateWinRatio(e))}
-          variant="outlined"
-          type="number"
-          fullWidth
-          required
-        />
-
-        <TextField
-          className={classes.textField}
-          label="Card Replace Limit (between 1 and 5)"
-          value={settingsState.replaceCardLimit}
-          onChange={(e) => dispatch(updateCardLimit(e))}
-          type="number"
-          variant="outlined"
-          fullWidth
-          required
-        />
-
-        <Typography variant="h5" component="div">Prize Returns</Typography>
-
-        <Divider />
-
-        {prizeKeys.map(key => (
-          <AdminPrizeTextField
-            key={key}
+          <TextField
             className={classes.textField}
-            label="Royal Flush"
-            name={key}
-            value={settingsState.prizes[key]}
-            onChange={(e) => dispatch(updatePrize(e))}
+            label='Background Image'
+            value={settingsState.backgroundImage}
+            onChange={e => dispatch(updateBackgroundImg(e))}
+            variant='outlined'
+            fullWidth
+            required
           />
-        ))}
-      </DialogContent>
 
-      <DialogActions>
-        <Button className={classes.cancelBtn} onClick={dialogCloseHandler} variant="contained">
-          Cancel
-        </Button>
-        <Button className={classes.saveBtn} onClick={dialogSaveHandler} variant="contained">
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <TextField
+            className={classes.textField}
+            label='Win Ratio (between 0.1 and 0.99)'
+            value={settingsState.winRatio}
+            onChange={e => dispatch(updateWinRatio(e))}
+            variant='outlined'
+            type='number'
+            fullWidth
+            required
+          />
+
+          <TextField
+            className={classes.textField}
+            label='Card Replace Limit (between 1 and 5)'
+            value={settingsState.replaceCardLimit}
+            onChange={e => dispatch(updateCardLimit(e))}
+            type='number'
+            variant='outlined'
+            fullWidth
+            required
+          />
+
+          <Typography variant='h5' component='div'>
+            Prize Returns
+          </Typography>
+
+          <Divider />
+
+          {prizeKeys.map(key => (
+            <AdminPrizeTextField
+              key={key}
+              className={classes.textField}
+              label='Royal Flush'
+              name={key}
+              value={settingsState.prizes[key]}
+              onChange={e => dispatch(updatePrize(e))}
+            />
+          ))}
+        </DialogContent>
+
+        <DialogActions>
+          <Button className={classes.cancelBtn} onClick={dialogCloseHandler} variant='contained'>
+            Cancel
+          </Button>
+          <Button className={classes.saveBtn} onClick={dialogSaveHandler} variant='contained'>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   )
 }
 
@@ -197,7 +196,7 @@ AppAdminDialog.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   adminDialogIsOpen: state.admin.dialog.open,
   settings: state.admin.settings
 })

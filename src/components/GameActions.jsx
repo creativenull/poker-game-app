@@ -44,7 +44,7 @@ function getGameStateText (gameState) {
 function requiredDialogProps () {
   return {
     title: '😯 Add credits',
-    message: <Typography variant="body1">Cannot start with no bet credits, you should add some</Typography>,
+    message: <Typography variant='body1'>Cannot start with no bet credits, you should add some</Typography>,
     type: 'error'
   }
 }
@@ -76,16 +76,18 @@ function GameActions ({ gameState, betCredits, updateGameState, showDialog }) {
   }
 
   return (
-    <Container>
+    <Container data-testid='game-actions'>
       <BetCredits />
       <TotalCredits />
-      <Box display="flex" justifyContent="center">
+      <Box display='flex' justifyContent='center'>
         <Button
           className={classes.startBtn}
-          onClick={() => { onClickUpdateGameState() }}
+          onClick={() => {
+            onClickUpdateGameState()
+          }}
           startIcon={<PlayArrowIcon />}
-          size="large"
-          variant="outlined"
+          size='large'
+          variant='outlined'
         >
           {gameStateText}
         </Button>
@@ -102,7 +104,7 @@ GameActions.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   gameState: state.game.gameState,
   betCredits: state.game.betCredits
 })

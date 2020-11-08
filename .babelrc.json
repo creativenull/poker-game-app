@@ -1,20 +1,17 @@
 {
   "presets": [
     ["@babel/preset-env", {
-      "targets": {
-        "node": "current"
-      }
-    }]
+      "targets": "> 0.25%, not dead"
+    }],
+    "@babel/preset-react"
   ],
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"],
       "alias": {
-        "#app": ".",
-        "#components": "./components",
-        "#lib": "./lib",
-        "#config": "./config",
-        "#store": "./store"
+        "#components": "./src/components",
+        "#config": "./src/config",
+        "#store": "./src/store",
+        "#app": "./src"
       }
     }]
   ]
