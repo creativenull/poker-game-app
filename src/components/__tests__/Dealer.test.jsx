@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '#app/utils/test-utils'
 
-import Deck from 'deckjs'
+import Deck from '@creativenull/deckjs'
 import Dealer from '../Dealer'
 
 describe('Dealer component', () => {

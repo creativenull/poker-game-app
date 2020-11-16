@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Deck from 'deckjs'
+import Deck from '@creativenull/deckjs'
 
 import PlayingCard from '../PlayingCard'
 

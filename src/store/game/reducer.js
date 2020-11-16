@@ -12,8 +12,8 @@ import {
 } from './action-types'
 import { isPlayerLikelyToWin } from './reducer-utils'
 import { GameState } from '#app/constant-types'
-import Poker from 'pokerjs'
 import { getSettings } from '#config/settings'
+import Poker from '@creativenull/pokerjs'
 
 const initState = {
   betCredits: 0,

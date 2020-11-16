@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '#app/utils/test-utils'
 
-import Deck from 'deckjs'
+import Deck from '@creativenull/deckjs'
 import Player from '../Player'
 import { GameState } from '#app/constant-types'
 
