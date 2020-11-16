@@ -23,11 +23,11 @@
     "clean": "rimraf .cache dist"
   },
   "dependencies": {
+    "@creativenull/deckjs": "^1.4.3",
+    "@creativenull/pokerjs": "^1.4.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.44",
-    "deckjs": "github:creativenull/deckjs#v1.4",
-    "pokerjs": "github:creativenull/pokerjs#v1.4",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
