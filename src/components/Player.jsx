@@ -77,7 +77,7 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
           <PlayingCard
             key={`player${card.id}`}
             card={card}
-            onClick={() => { onClickHandler(card) }}
+            onClick={() => onClickHandler(card)}
             noHover={disableHandler(card)}
             hidden={hiddenHandler(card)}
           />
