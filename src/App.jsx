@@ -23,9 +23,8 @@ const useStyles = makeStyles({
 
 // Component
 function App (props) {
-  const { gameState } = props
-  const { winners } = props
-  const classes = useStyles({ backgroundImage: props.backgroundImage })
+  const { gameState, backgroundImage, winners } = props
+  const classes = useStyles({ backgroundImage })
 
   // Register key shortcut to open admin panel
   useEffect(() => {
