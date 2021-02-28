@@ -1,4 +1,4 @@
-import store from '#store'
+import store from '#store/index'
 import { getSettings } from '#config/settings'
 import { isPlayerLikelyToWin } from '#store/game/reducer-utils'
 
@@ -53,8 +53,6 @@ function logBuilder (params) {
 
 /**
  * Add logs to the storage
- *
- * @param {Object} winner The winner
  *
  * @returns {void}
  */

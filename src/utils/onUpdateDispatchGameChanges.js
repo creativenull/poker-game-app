@@ -1,4 +1,4 @@
-import store from '#store'
+import store from '#store/index'
 import {
   updateDealerView,
   resetBetCredits,
@@ -9,6 +9,7 @@ import {
 } from '#store/game/actions'
 import { GameState } from '#app/constant-types'
 
+/** @param {GameState} gameState */
 export default function onUpdateDispatchGameChanges (gameState) {
   const { game: { hideDealer } } = store.getState()
   if (gameState === GameState.INIT) {

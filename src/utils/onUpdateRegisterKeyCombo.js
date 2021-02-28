@@ -1,9 +1,9 @@
-import store from '#store'
+import store from '#store/index'
 import { openAdminDialog } from '#store/admin/actions'
 
-/** @param {EventTarget} event */
+/** @param {KeyboardEvent} event */
 export default function onUpdateRegisterKeyCombo (event) {
-  if (event.shiftKey && event.keyCode === 90) {
+  if (event.shiftKey && event.key === 'd') {
     store.dispatch(openAdminDialog())
   }
 }

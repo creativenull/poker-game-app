@@ -6,9 +6,7 @@ import { bu } from './action-utils'
 /**
  * Display dialog
  *
- * @param {string} title The title of the dialog
- * @param {string} message The primary message of the dialog
- * @param {string} type The background color of the dialog
+ * @param {object} props The title of the dialog
  *
  * @returns Redux action type
  */
@@ -26,7 +24,7 @@ export function showDialog ({ title, message, type = 'info' }) {
 /**
  * Display dialog with reason of win
  *
- * @param {string} message The primary message of the dialog
+ * @param {object} props The primary message of the dialog
  *
  * @returns Redux action type
  */
@@ -55,7 +53,7 @@ export function winnerDialog ({ playerHand, dealerHand, tie = false }) {
 /**
  * Display dialog with reason of lose
  *
- * @param {string} message The primary message of the dialog
+ * @param {object} props The primary message of the dialog
  *
  * @returns Redux action type
  */

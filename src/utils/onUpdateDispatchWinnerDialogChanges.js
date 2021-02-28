@@ -1,7 +1,8 @@
-import store from '#store'
+import store from '#store/index'
 import { winnerDialog, loserDialog } from '#store/dialog/actions'
 import logger from '#config/logger'
 
+/** @param {any[]} winners */
 export default function onUpdateDispatchWinnerDialogChanges (winners) {
   const { game: { player, dealer } } = store.getState()
   if (winners.length > 0) {

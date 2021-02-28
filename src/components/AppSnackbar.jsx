@@ -9,8 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { closeSnackbar } from '#store/dialog/actions'
 
 // Component
-function AppSnackbar (props) {
-  const { open, closeSnackbar } = props
+function AppSnackbar ({ open, closeSnackbar }) {
 
   return (
     <Container data-testid='app-snackbar'>
