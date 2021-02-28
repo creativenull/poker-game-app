@@ -15,13 +15,14 @@ import onUpdateRegisterKeyCombo from '#app/utils/onUpdateRegisterKeyCombo'
 
 // Styles
 const useStyles = makeStyles({
+  /** @param {{ backgroundImage: string }} props */
   root: props => ({
     backgroundImage: `url(${props.backgroundImage})`,
     padding: 10
   })
 })
 
-// Component
+/** @param {any} props */
 function App (props) {
   const { gameState, backgroundImage, winners } = props
   const classes = useStyles({ backgroundImage })
@@ -64,7 +65,7 @@ App.propTypes = {
   winners: PropTypes.array
 }
 
-// Store
+/** @param {any} state */
 const mapStateToProps = state => ({
   backgroundImage: state.admin.settings.backgroundImage,
   gameState: state.game.gameState,

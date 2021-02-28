@@ -7,7 +7,7 @@ import {
   RELOAD_INITIAL_STATE
 } from './action-types'
 
-/** @param {Event} event */
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
 export function updateBackgroundImg (event) {
   return {
     type: UPDATE_BACKGROUND_IMG,
@@ -15,7 +15,7 @@ export function updateBackgroundImg (event) {
   }
 }
 
-/** @param {Event} event */
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
 export function updateWinRatio (event) {
   return {
     type: UPDATE_WIN_RATIO,
@@ -23,7 +23,7 @@ export function updateWinRatio (event) {
   }
 }
 
-/** @param {Event} event */
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
 export function updateCardLimit (event) {
   return {
     type: UPDATE_REPLACE_CARD_LIMIT,
@@ -31,7 +31,7 @@ export function updateCardLimit (event) {
   }
 }
 
-/** @param {Event} event */
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
 export function updatePrize (event) {
   return {
     type: UPDATE_PRIZE,
@@ -46,6 +46,7 @@ export function resetForm () {
   return { type: RESET_FORM }
 }
 
+/** @param {any} initialState */
 export function reloadInitialState (initialState) {
   return {
     type: RELOAD_INITIAL_STATE,

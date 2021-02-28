@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
+    "jsx": "react",
+    "checkJs": true,
     "baseUrl": "./src",
     "paths": {
       "#components/*": ["./components/*"],
@@ -7,5 +10,6 @@
       "#store/*": ["./store/*"],
       "#app/*": ["./*"]
     }
-  }
+  },
+  "include": ["./src/**/*.jsx", "./src/**/*.js"]
 }

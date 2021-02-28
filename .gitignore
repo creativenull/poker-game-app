@@ -1,5 +1,6 @@
 .cache/
-.vim/
+.vim/settings.lua
+.vim/settings.vim
 node_modules/
 dist/
 npm-debug.log

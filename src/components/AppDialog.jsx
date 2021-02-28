@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 })
 
 // Component
-function AppDialog (props) {
-  const { dialog, hideDialog } = props
+function AppDialog ({ dialog, hideDialog }) {
   const classes = useStyles()
 
-  function dialogCloseHandler (_, reason) {
+  /** @param {string} reason */
+  function dialogCloseHandler (reason) {
     if (reason !== 'clickaway') {
       hideDialog()
     }
@@ -47,7 +47,7 @@ function AppDialog (props) {
           </DialogTitle>
           <DialogContent className={classes.dialogContent}>{dialog.message}</DialogContent>
           <DialogActions>
-            <Button className={classes.button} onClick={dialogCloseHandler} variant='contained'>
+            <Button className={classes.button} onClick={(_, reason) => dialogCloseHandler(reason)} variant='contained'>
               Close
             </Button>
           </DialogActions>

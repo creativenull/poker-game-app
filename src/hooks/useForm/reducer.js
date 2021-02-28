@@ -8,7 +8,13 @@ import {
 } from './action-types'
 import { defaultSettings } from '#app/config/settings'
 
-export default function reducer (state, action) {
+/**
+  * @param {any} state
+  * @param {{ type: string, payload?: any }} action
+  *
+  * @returns {any}
+  */
+function reducer (state, action) {
   switch (action.type) {
     case UPDATE_BACKGROUND_IMG:
       return {
@@ -48,3 +54,5 @@ export default function reducer (state, action) {
       }
   }
 }
+
+export default reducer
