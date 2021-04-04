@@ -166,7 +166,7 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
             <AdminPrizeTextField
               key={key}
               className={classes.textField}
-              label='Royal Flush'
+              label={key.split('_').join(' ')}
               name={key}
               value={settingsState.prizes[key]}
               onChange={e => dispatch(updatePrize(e))}
