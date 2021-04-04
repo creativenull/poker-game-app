@@ -29,10 +29,10 @@ function App (props) {
 
   // Register key shortcut to open admin panel
   useEffect(() => {
-    document.addEventListener('keydown', onUpdateRegisterKeyCombo)
+    document.addEventListener('keydown', (e) => onUpdateRegisterKeyCombo(e))
 
     return () => {
-      document.removeEventListener('keydown', onUpdateRegisterKeyCombo)
+      document.removeEventListener('keydown', (e) => onUpdateRegisterKeyCombo(e))
     }
   })
 
