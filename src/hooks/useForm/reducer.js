@@ -3,6 +3,7 @@ import {
   UPDATE_WIN_RATIO,
   UPDATE_REPLACE_CARD_LIMIT,
   UPDATE_PRIZE,
+  UPDATE_TIMEZONE,
   RESET_FORM,
   RELOAD_INITIAL_STATE
 } from './action-types'
@@ -41,6 +42,12 @@ function reducer (state, action) {
           ...state.prizes,
           [action.payload.key]: action.payload.value
         }
+      }
+
+    case UPDATE_TIMEZONE:
+      return {
+        ...state,
+        timeZone: action.payload
       }
 
     case RESET_FORM:

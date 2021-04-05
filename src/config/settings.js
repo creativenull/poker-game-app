@@ -6,7 +6,8 @@ export const defaultSettings = {
   backgroundImage: 'https://images.wallpapersden.com/image/download/small-memory_58461_3840x2160.jpg',
   winRatio: 0.3,
   replaceCardLimit: 5,
-  prizes: defaultPrizes
+  prizes: defaultPrizes,
+  timeZone: 'America/Indiana/Indianapolis'
 }
 
 /**
@@ -22,7 +23,7 @@ export function getSettings (opts = { check: false }) {
     }
   }
 
-  return JSON.parse(localStorage.getItem(key))
+  return JSON.parse(window.localStorage.getItem(key))
 }
 
 /**
@@ -33,7 +34,7 @@ export function getSettings (opts = { check: false }) {
  * @returns {void}
  */
 export function setSettings (data) {
-  localStorage.setItem(key, JSON.stringify(data))
+  window.localStorage.setItem(key, JSON.stringify(data))
 }
 
 /**
@@ -42,5 +43,5 @@ export function setSettings (data) {
  * @returns {boolean}
  */
 export function isSettings () {
-  return localStorage.getItem(key) !== null
+  return window.localStorage.getItem(key) !== null
 }

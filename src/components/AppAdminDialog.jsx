@@ -25,7 +25,8 @@ import useForm, {
   updateWinRatio,
   updateCardLimit,
   updatePrize,
-  resetForm
+  resetForm,
+  updateTimezone
 } from '#app/hooks/useForm'
 
 import { reloadInitialState } from '#app/hooks/useForm/actions'
@@ -151,6 +152,17 @@ function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateS
             value={settingsState.replaceCardLimit}
             onChange={e => dispatch(updateCardLimit(e))}
             type='number'
+            variant='outlined'
+            fullWidth
+            required
+          />
+
+          <TextField
+            className={classes.textField}
+            label='TimeZone'
+            value={settingsState.timeZone}
+            onChange={e => dispatch(updateTimezone(e))}
+            type='text'
             variant='outlined'
             fullWidth
             required

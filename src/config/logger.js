@@ -4,6 +4,8 @@ import { isPlayerLikelyToWin } from '#store/game/reducer-utils'
 
 const defaultLog = [
   [
+    'Date',
+    'Time',
     'Total Credits',
     'Bet Amount',
     'Cards Replaced',
@@ -29,6 +31,8 @@ const _key = 'LOGS'
  */
 function logBuilder (params) {
   const {
+    date,
+    time,
     totalCredits,
     betAmount,
     replacedCards,
@@ -40,6 +44,8 @@ function logBuilder (params) {
   } = params
 
   return [
+    date,
+    time,
     totalCredits,
     betAmount,
     replacedCards,
@@ -57,23 +63,33 @@ function logBuilder (params) {
  * @returns {void}
  */
 function logAdd () {
-  const logs = JSON.parse(localStorage.getItem(_key))
+  const logs = JSON.parse(window.localStorage.getItem(_key))
   const { game } = store.getState()
-  const settings = getSettings()
+  const { timeZone, winRatio, replaceCardLimit } = getSettings()
+  const datetime = Date.now()
+  const dateOptions = { timeZone }
+  const timeOptions = {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone
+  }
 
   const log = logBuilder({
+    date: new Intl.DateTimeFormat('en-US', dateOptions).format(datetime),
+    time: new Intl.DateTimeFormat('en-US', timeOptions).format(datetime),
     totalCredits: game.totalCredits,
     betAmount: game.betCredits,
     replacedCards: game.clickOnceList.length,
-    likelyToWin: isPlayerLikelyToWin(game.currentRoundWinRatio, settings.winRatio),
+    likelyToWin: isPlayerLikelyToWin(game.currentRoundWinRatio, winRatio),
     isWinner: game.winners[0].id === 'player',
     currentRoundWinRatio: game.currentRoundWinRatio,
-    playerWinRatio: settings.winRatio,
-    replaceCardLimit: settings.replaceCardLimit
+    playerWinRatio: winRatio,
+    replaceCardLimit: replaceCardLimit
   })
 
   logs.push(log)
-  localStorage.setItem(_key, JSON.stringify(logs))
+  window.localStorage.setItem(_key, JSON.stringify(logs))
 }
 
 /**
@@ -82,7 +98,7 @@ function logAdd () {
  * @returns {string}
  */
 function logExport () {
-  const logs = JSON.parse(localStorage.getItem(_key))
+  const logs = JSON.parse(window.localStorage.getItem(_key))
 
   let csvContent = 'data:text/csv;charset=utf-8,'
 
@@ -100,7 +116,7 @@ function logExport () {
  * @returns {boolean}
  */
 function logExists () {
-  return localStorage.getItem(_key) !== null
+  return window.localStorage.getItem(_key) !== null
 }
 
 /**
@@ -109,7 +125,7 @@ function logExists () {
  * @returns {void}
  */
 function logDefault () {
-  localStorage.setItem(_key, JSON.stringify(defaultLog))
+  window.localStorage.setItem(_key, JSON.stringify(defaultLog))
 }
 
 export default {

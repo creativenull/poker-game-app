@@ -1,10 +1,11 @@
 import {
-  UPDATE_BACKGROUND_IMG,
-  UPDATE_WIN_RATIO,
-  UPDATE_REPLACE_CARD_LIMIT,
-  UPDATE_PRIZE,
+  RELOAD_INITIAL_STATE,
   RESET_FORM,
-  RELOAD_INITIAL_STATE
+  UPDATE_BACKGROUND_IMG,
+  UPDATE_PRIZE,
+  UPDATE_REPLACE_CARD_LIMIT,
+  UPDATE_TIMEZONE,
+  UPDATE_WIN_RATIO
 } from './action-types'
 
 /** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
@@ -39,6 +40,14 @@ export function updatePrize (event) {
       key: event.target.name,
       value: typeof event.target.value === 'string' ? parseInt(event.target.value) : event.target.value
     }
+  }
+}
+
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
+export function updateTimezone (event) {
+  return {
+    type: UPDATE_TIMEZONE,
+    payload: event.target.value
   }
 }
 
