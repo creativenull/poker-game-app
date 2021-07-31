@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import AppDialog from '#components/AppDialog'
@@ -23,9 +23,9 @@ const useStyles = makeStyles({
 })
 
 /** @param {any} props */
-function App (props) {
-  const { gameState, backgroundImage, winners } = props
-  const classes = useStyles({ backgroundImage })
+function App(props) {
+  const { gameState, admin, winners } = props
+  const classes = useStyles({ backgroundImage: admin.backgroundImage })
 
   // Register key shortcut to open admin panel
   useEffect(() => {
@@ -34,7 +34,7 @@ function App (props) {
     return () => {
       document.removeEventListener('keydown', (e) => onUpdateRegisterKeyCombo(e))
     }
-  })
+  }, [])
 
   // Change UI elements based on game state
   useEffect(() => {
@@ -46,18 +46,28 @@ function App (props) {
     onUpdateDispatchWinnerDialogChanges(winners)
   }, [winners])
 
+  const theme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: admin.themeMode ? 'dark' : 'light',
+        },
+      }),
+    [admin],
+  );
+
   return (
-    <div className={classes.root}>
+    <ThemeProvider theme={theme} className={classes.root}>
       <AppSnackbar />
       <AppDialog />
       <AppAdminDialog />
       <AppMain />
-    </div>
+    </ThemeProvider>
   )
 }
 
 App.propTypes = {
-  backgroundImage: PropTypes.string,
+  admin: PropTypes.object,
   dealer: PropTypes.object,
   gameState: PropTypes.string,
   hideDealer: PropTypes.bool,
@@ -67,7 +77,7 @@ App.propTypes = {
 
 /** @param {any} state */
 const mapStateToProps = state => ({
-  backgroundImage: state.admin.settings.backgroundImage,
+  admin: state.admin.settings,
   gameState: state.game.gameState,
   winners: state.game.winners
 })
