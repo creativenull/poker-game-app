@@ -4,6 +4,7 @@ import {
   UPDATE_REPLACE_CARD_LIMIT,
   UPDATE_PRIZE,
   UPDATE_TIMEZONE,
+  UPDATE_THEME_MODE,
   RESET_FORM,
   RELOAD_INITIAL_STATE
 } from './action-types'
@@ -27,6 +28,11 @@ function reducer (state, action) {
       return {
         ...state,
         winRatio: action.payload
+      }
+    case UPDATE_THEME_MODE:
+      return {
+        ...state,
+        themeMode: action.payload
       }
 
     case UPDATE_REPLACE_CARD_LIMIT:

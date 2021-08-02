@@ -5,7 +5,8 @@ import {
   UPDATE_PRIZE,
   UPDATE_REPLACE_CARD_LIMIT,
   UPDATE_TIMEZONE,
-  UPDATE_WIN_RATIO
+  UPDATE_WIN_RATIO,
+  UPDATE_THEME_MODE
 } from './action-types'
 
 /** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
@@ -13,6 +14,14 @@ export function updateBackgroundImg (event) {
   return {
     type: UPDATE_BACKGROUND_IMG,
     payload: event.target.value
+  }
+}
+
+/** @param {React.ChangeEvent<HTMLTextAreaElement|HTMLInputElement>} event */
+export function updateThemeMode (toggle) {
+  return {
+    type: UPDATE_THEME_MODE,
+    payload: toggle
   }
 }
 

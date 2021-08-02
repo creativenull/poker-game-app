@@ -33,52 +33,51 @@ const useStyles = makeStyles({
     marginTop: 20
   }
 })
-
+const rows = () => [
+  {
+    name: 'Royal Flush',
+    key: 'ROYAL_FLUSH'
+  },
+  {
+    name: 'Straight Flush',
+    key: 'STRAIGHT_FLUSH'
+  },
+  {
+    name: 'Four-of-a-kind',
+    key: 'FOUR_OF_A_KIND'
+  },
+  {
+    name: 'Full House',
+    key: 'FULL_HOUSE'
+  },
+  {
+    name: 'Flush',
+    key: 'FLUSH'
+  },
+  {
+    name: 'Straight',
+    key: 'STRAIGHT'
+  },
+  {
+    name: 'Three-of-a-kind',
+    key: 'THREE_OF_A_KIND'
+  },
+  {
+    name: 'Two Pairs',
+    key: 'TWO_PAIR'
+  },
+  {
+    name: 'Pair',
+    key: 'PAIR'
+  },
+  {
+    name: 'High Card',
+    key: 'HIGH_CARD'
+  }
+]
 // Component
 function Rules ({ prizes, replaceCardLimit }) {
   const classes = useStyles()
-  const rows = [
-    {
-      name: 'Royal Flush',
-      key: 'ROYAL_FLUSH'
-    },
-    {
-      name: 'Straight Flush',
-      key: 'STRAIGHT_FLUSH'
-    },
-    {
-      name: 'Four-of-a-kind',
-      key: 'FOUR_OF_A_KIND'
-    },
-    {
-      name: 'Full House',
-      key: 'FULL_HOUSE'
-    },
-    {
-      name: 'Flush',
-      key: 'FLUSH'
-    },
-    {
-      name: 'Straight',
-      key: 'STRAIGHT'
-    },
-    {
-      name: 'Three-of-a-kind',
-      key: 'THREE_OF_A_KIND'
-    },
-    {
-      name: 'Two Pairs',
-      key: 'TWO_PAIR'
-    },
-    {
-      name: 'Pair',
-      key: 'PAIR'
-    },
-    {
-      name: 'High Card',
-      key: 'HIGH_CARD'
-    }
-  ]
 
   return (
     <Container data-testid='rules'>
@@ -139,7 +138,7 @@ function Rules ({ prizes, replaceCardLimit }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
+                {rows().map(row => (
                   <TableRow key={row.name}>
                     <TableCell component='th' scope='row'>
                       {row.name}

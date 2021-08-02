@@ -9,7 +9,6 @@ import store from '#store/index'
  * @param {object} props
  */
 function render (ui, { initialState, initialStore = store, ...renderOptions } = {}) {
-
   /** @param {any} props */
   function Wrapper (props) {
     return <Provider store={initialStore}>{props.children}</Provider>
