@@ -31,7 +31,8 @@
     "start": "concurrently -n SERVER,LINTER \"npm:serve\" \"npm:lint\"",
     "build": "parcel build public/index.html --no-source-maps --dist-dir dist --public-url .//",
     "test": "jest",
-    "clean": "rimraf .parcel-cache dist"
+    "clean": "rimraf .parcel-cache dist",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@creativenull/deckjs": "^1.4.3",
@@ -82,13 +83,8 @@
     "#store": "./src/store",
     "#app": "./src"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
+    "./src/**/*.{js,jsx}": [
       "prettier-standard --lint",
       "prettier-standard"
     ]
