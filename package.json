@@ -31,7 +31,7 @@
     "start": "concurrently -n SERVER,LINTER \"npm:serve\" \"npm:lint\"",
     "build": "parcel build public/index.html --no-source-maps --dist-dir dist --public-url .//",
     "test": "jest",
-    "clean": "rimraf .cache dist"
+    "clean": "rimraf .parcel-cache dist"
   },
   "dependencies": {
     "@creativenull/deckjs": "^1.4.3",
@@ -90,7 +90,7 @@
   "lint-staged": {
     "src/**/*.{js,jsx}": [
       "prettier-standard --lint",
-      "prettier-standard --format"
+      "prettier-standard"
     ]
   },
   "jest": {
