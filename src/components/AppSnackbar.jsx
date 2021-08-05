@@ -10,7 +10,6 @@ import { closeSnackbar } from '#store/dialog/actions'
 
 // Component
 function AppSnackbar ({ open, closeSnackbar }) {
-
   return (
     <Container data-testid='app-snackbar'>
       <Snackbar open={open} autoHideDuration={3000} onClose={() => closeSnackbar()}>

@@ -16,8 +16,8 @@ import Typography from '@material-ui/core/Typography'
 import green from '@material-ui/core/colors/green'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import red from '@material-ui/core/colors/red'
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
+import Brightness4Icon from '@material-ui/icons/Brightness4'
+import Brightness5Icon from '@material-ui/icons/Brightness5'
 import { hideAdminDialog, updateSettings } from '#store/admin/actions'
 import logger from '#config/logger'
 import { openSnackbar } from '#store/dialog/actions'
@@ -28,7 +28,7 @@ import useForm, {
   updateCardLimit,
   updatePrize,
   resetForm,
-  updateTimezone,
+  updateTimezone
 } from '#app/hooks/useForm'
 
 import { reloadInitialState } from '#app/hooks/useForm/actions'
@@ -71,35 +71,35 @@ const useStyles = makeStyles({
 })
 
 // Component
-function AppAdminDialog({ adminDialogIsOpen, hideAdminDialog, settings, updateSettings, openSnackbar }) {
+function AppAdminDialog ({ adminDialogIsOpen, hideAdminDialog, settings, updateSettings, openSnackbar }) {
   const classes = useStyles()
   const { state: settingsState, onChangeAction: dispatch } = useForm(settings)
   const prizeKeys = Object.keys(settings.prizes)
 
   const csvLink = useRef(null)
 
-  function dialogSaveHandler() {
+  function dialogSaveHandler () {
     updateSettings({ ...settingsState })
     hideAdminDialog()
     openSnackbar()
   }
 
-  function dialogCloseHandler() {
+  function dialogCloseHandler () {
     dispatch(reloadInitialState(settings))
     hideAdminDialog()
   }
 
-  function dialogResetSettingsHandler() {
+  function dialogResetSettingsHandler () {
     dispatch(resetForm())
     openSnackbar()
   }
 
-  function dialogResetLogsHandler() {
+  function dialogResetLogsHandler () {
     logger.setDefault()
     openSnackbar()
   }
 
-  function dialogDownloadCsv() {
+  function dialogDownloadCsv () {
     const csvContent = logger.getCsvContent()
     csvLink.current.href = encodeURI(csvContent)
     csvLink.current.download = 'log.csv'
@@ -107,7 +107,7 @@ function AppAdminDialog({ adminDialogIsOpen, hideAdminDialog, settings, updateSe
 
   return (
     <Container data-testid='admin-dialog'>
-      <Dialog open={adminDialogIsOpen} onClose={dialogCloseHandler} maxWidth='sm' fullWidth disableBackdropClick>
+      <Dialog open={adminDialogIsOpen} onClose={dialogCloseHandler} maxWidth='sm' fullWidth>
         <DialogTitle>
           <Typography variant='h4' component='span'>
             Admin Panel
@@ -125,10 +125,13 @@ function AppAdminDialog({ adminDialogIsOpen, hideAdminDialog, settings, updateSe
             <Button className={classes.resetBtn} onClick={dialogResetLogsHandler} variant='outlined'>
               Reset Logs
             </Button>
-            <IconButton color="primary" onClick={() => {
-              const themeMode = !settings.themeMode
-              updateSettings({ ...settingsState, themeMode: themeMode })
-            }}>
+            <IconButton
+              color='primary'
+              onClick={() => {
+                const themeMode = !settings.themeMode
+                updateSettings({ ...settingsState, themeMode: themeMode })
+              }}
+            >
               {settings.themeMode ? <Brightness4Icon /> : <Brightness5Icon />}
             </IconButton>
           </div>

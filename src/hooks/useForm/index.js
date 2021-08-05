@@ -1,7 +1,15 @@
 import { useReducer } from 'react'
 import reducer from './reducer'
 
-export { updateBackgroundImg, updateCardLimit, updatePrize, updateWinRatio, updateTimezone, updateThemeMode, resetForm } from './actions'
+export {
+  updateBackgroundImg,
+  updateCardLimit,
+  updatePrize,
+  updateWinRatio,
+  updateTimezone,
+  updateThemeMode,
+  resetForm
+} from './actions'
 
 /**
  * @param {any} initialState

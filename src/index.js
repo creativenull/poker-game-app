@@ -17,8 +17,5 @@ document.addEventListener('DOMContentLoaded', () => {
     logger.setDefault()
   }
 
-  render(
-    h(Provider, { store }, h(App)),
-    document.getElementById('app')
-  )
+  render(h(Provider, { store }, h(App)), document.getElementById('app'))
 })

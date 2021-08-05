@@ -43,44 +43,32 @@ function PlayingCard ({ card, onClick, hidden, noHover = false }) {
 
   return (
     <Box
-      data-testid="playing-card"
-      onClick={() => onClick ? onClick(card) : null}
+      data-testid='playing-card'
+      onClick={() => (onClick ? onClick(card) : null)}
       className={classes.cardBox}
-      width="150px"
-      margin="0 10px"
+      width='150px'
+      margin='0 10px'
     >
       <Paper className={paperHoverClass} elevation={3}>
-        <Box
-          className={paperColorHoverClass}
-          color={suit.color}
-          display="flex"
-          flexDirection="column"
-          height="220px"
-        >
-          <Box flex="1" display="flex">
-            <Box flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
+        <Box className={paperColorHoverClass} color={suit.color} display='flex' flexDirection='column' height='220px'>
+          <Box flex='1' display='flex'>
+            <Box flex='1' display='flex' justifyContent='center' alignItems='center' fontSize='2rem'>
               {value}
             </Box>
-            <Box flex="1"></Box>
-            <Box flex="1"></Box>
+            <Box flex='1'></Box>
+            <Box flex='1'></Box>
           </Box>
-          <Box flex="2" display="flex">
-            <Box flex="1"></Box>
-            <Box
-              flex="1"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              fontSize="6rem"
-            >
+          <Box flex='2' display='flex'>
+            <Box flex='1'></Box>
+            <Box flex='1' display='flex' justifyContent='center' alignItems='center' fontSize='6rem'>
               {suit.utf}
             </Box>
-            <Box flex="1"></Box>
+            <Box flex='1'></Box>
           </Box>
-          <Box flex="1" display="flex">
-            <Box flex="1"></Box>
-            <Box flex="1"></Box>
-            <Box flex="1" display="flex" justifyContent="center" alignItems="center" fontSize="2rem">
+          <Box flex='1' display='flex'>
+            <Box flex='1'></Box>
+            <Box flex='1'></Box>
+            <Box flex='1' display='flex' justifyContent='center' alignItems='center' fontSize='2rem'>
               {value}
             </Box>
           </Box>

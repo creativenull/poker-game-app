@@ -4,7 +4,9 @@ import logger from '#config/logger'
 
 /** @param {any[]} winners */
 export default function onUpdateDispatchWinnerDialogChanges (winners) {
-  const { game: { player, dealer } } = store.getState()
+  const {
+    game: { player, dealer }
+  } = store.getState()
   if (winners.length > 0) {
     // Log
     logger.add()

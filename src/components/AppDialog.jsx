@@ -38,7 +38,7 @@ function AppDialog ({ dialog, hideDialog }) {
 
   return (
     <Container data-testid='app-dialog'>
-      <Dialog open={dialog.open} onClose={dialogCloseHandler} disableBackdropClick>
+      <Dialog open={dialog.open} onClose={dialogCloseHandler}>
         <Alert variant='filled' severity={dialog.type} icon={false}>
           <DialogTitle>
             <Typography variant='h4' component='span'>

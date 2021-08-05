@@ -3,7 +3,7 @@ import { defaultPrizes } from './prizes'
 const key = 'SETTINGS'
 
 export const defaultSettings = {
-  backgroundImage: 'https://images.wallpapersden.com/image/download/small-memory_58461_3840x2160.jpg',
+  backgroundImage: 'https://wallpapercave.com/wp/XiP3qSO.jpg',
   winRatio: 0.3,
   replaceCardLimit: 5,
   prizes: defaultPrizes,

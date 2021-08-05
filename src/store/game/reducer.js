@@ -66,7 +66,7 @@ function getNextGameState (gameState) {
  * @returns {number} Update bet credits
  */
 function getNonNegativeBetCredits (totalCredits, betCredits, payload) {
-  return (totalCredits > 0) ? betCredits + payload : betCredits
+  return totalCredits > 0 ? betCredits + payload : betCredits
 }
 
 /**
@@ -78,7 +78,7 @@ function getNonNegativeBetCredits (totalCredits, betCredits, payload) {
  * @returns {number} Update the total credits
  */
 function getNonNegativeTotalCredits (totalCredits, payload) {
-  return (totalCredits > 0) ? totalCredits - payload : totalCredits
+  return totalCredits > 0 ? totalCredits - payload : totalCredits
 }
 
 /**
@@ -92,7 +92,7 @@ function getNonNegativeTotalCredits (totalCredits, payload) {
  */
 function getPrizeAmount (handRankKey, betCredits, totalCredits) {
   const { prizes } = getSettings()
-  return (prizes[handRankKey] * betCredits) + totalCredits
+  return prizes[handRankKey] * betCredits + totalCredits
 }
 
 /**
@@ -225,7 +225,8 @@ export default function reducer (state = initState, action) {
       // Else we get a new hand set with the replaced card
       const [hand, newCard] = state.pokerContext.replace(card, state.player.hand)
       const newPlayer = {
-        ...state.player, hand
+        ...state.player,
+        hand
       }
       const newClickOnceList = [...state.clickOnceList, newCard.id]
 

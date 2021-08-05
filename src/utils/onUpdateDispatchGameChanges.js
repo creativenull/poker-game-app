@@ -11,7 +11,9 @@ import { GameState } from '#app/constant-types'
 
 /** @param {GameState} gameState */
 export default function onUpdateDispatchGameChanges (gameState) {
-  const { game: { hideDealer } } = store.getState()
+  const {
+    game: { hideDealer }
+  } = store.getState()
   if (gameState === GameState.INIT) {
     store.dispatch(gameGetAllHandsAction())
   } else if (gameState === GameState.START) {

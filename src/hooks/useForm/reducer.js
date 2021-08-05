@@ -11,11 +11,11 @@ import {
 import { defaultSettings } from '#app/config/settings'
 
 /**
-  * @param {any} state
-  * @param {{ type: string, payload?: any }} action
-  *
-  * @returns {any}
-  */
+ * @param {any} state
+ * @param {{ type: string, payload?: any }} action
+ *
+ * @returns {any}
+ */
 function reducer (state, action) {
   switch (action.type) {
     case UPDATE_BACKGROUND_IMG:

@@ -29,13 +29,16 @@ export function showDialog ({ title, message, type = 'info' }) {
  * @returns Redux action type
  */
 export function winnerDialog ({ playerHand, dealerHand, tie = false }) {
-  const tieWinnerMessage = <Typography variant="body1">
-    You Won with the {bu(playerHand)} higher ranked hand, dealer also had {bu(dealerHand)} but
-    lower ranked
-  </Typography>
-  const winnerMessage = <Typography variant="body1">
-    You Won with the {bu(playerHand)} hand! Dealer had a {bu(dealerHand)} hand
-  </Typography>
+  const tieWinnerMessage = (
+    <Typography variant='body1'>
+      You Won with the {bu(playerHand)} higher ranked hand, dealer also had {bu(dealerHand)} but lower ranked
+    </Typography>
+  )
+  const winnerMessage = (
+    <Typography variant='body1'>
+      You Won with the {bu(playerHand)} hand! Dealer had a {bu(dealerHand)} hand
+    </Typography>
+  )
 
   if (tie) {
     return {
@@ -58,13 +61,16 @@ export function winnerDialog ({ playerHand, dealerHand, tie = false }) {
  * @returns Redux action type
  */
 export function loserDialog ({ playerHand, dealerHand, tie = false }) {
-  const tieLoserMessage = <Typography variant="body1">
-    You Lost with the {bu(playerHand)} lower ranked hand, dealer also had {bu(dealerHand)} but
-    higher ranked
-  </Typography>
-  const loserMessage = <Typography variant="body1">
-    You Lost with the {bu(playerHand)} hand! Dealer had a {bu(dealerHand)} hand
-  </Typography>
+  const tieLoserMessage = (
+    <Typography variant='body1'>
+      You Lost with the {bu(playerHand)} lower ranked hand, dealer also had {bu(dealerHand)} but higher ranked
+    </Typography>
+  )
+  const loserMessage = (
+    <Typography variant='body1'>
+      You Lost with the {bu(playerHand)} hand! Dealer had a {bu(dealerHand)} hand
+    </Typography>
+  )
 
   if (tie) {
     return {

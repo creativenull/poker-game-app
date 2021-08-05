@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import AppDialog from '#components/AppDialog'
@@ -23,16 +23,16 @@ const useStyles = makeStyles({
 })
 
 /** @param {any} props */
-function App(props) {
+function App (props) {
   const { gameState, admin, winners } = props
   const classes = useStyles({ backgroundImage: admin.backgroundImage })
 
   // Register key shortcut to open admin panel
   useEffect(() => {
-    document.addEventListener('keydown', (e) => onUpdateRegisterKeyCombo(e))
+    document.addEventListener('keydown', e => onUpdateRegisterKeyCombo(e))
 
     return () => {
-      document.removeEventListener('keydown', (e) => onUpdateRegisterKeyCombo(e))
+      document.removeEventListener('keydown', e => onUpdateRegisterKeyCombo(e))
     }
   }, [])
 
@@ -48,20 +48,22 @@ function App(props) {
 
   const theme = React.useMemo(
     () =>
-      createMuiTheme({
+      createTheme({
         palette: {
-          type: admin.themeMode ? 'dark' : 'light',
-        },
+          type: admin.themeMode ? 'dark' : 'light'
+        }
       }),
-    [admin],
-  );
+    [admin]
+  )
 
   return (
-    <ThemeProvider theme={theme} className={classes.root}>
-      <AppSnackbar />
-      <AppDialog />
-      <AppAdminDialog />
-      <AppMain />
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <AppSnackbar />
+        <AppDialog />
+        <AppAdminDialog />
+        <AppMain />
+      </div>
     </ThemeProvider>
   )
 }

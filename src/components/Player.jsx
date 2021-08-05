@@ -70,9 +70,11 @@ function Player ({ player, gameReplaceCardAction, clickOnceList, gameState }) {
   }
 
   return (
-    <Box data-testid="player-hand" display="flex" flexDirection="column" margin="10px 0">
-      <Typography className={classes.cardTitle} variant="h3">Player</Typography>
-      <Box display="flex">
+    <Box data-testid='player-hand' display='flex' flexDirection='column' margin='10px 0'>
+      <Typography className={classes.cardTitle} variant='h3'>
+        Player
+      </Typography>
+      <Box display='flex'>
         {player.hand.map(card => (
           <PlayingCard
             key={`player${card.id}`}
@@ -98,7 +100,7 @@ Player.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   gameState: state.game.gameState,
   player: state.game.player,
   clickOnceList: state.game.clickOnceList

@@ -25,9 +25,11 @@ function Dealer ({ dealer, hideDealer }) {
   const classes = useStyles()
 
   return (
-    <Box data-testid="dealer-hand" display="flex" flexDirection="column" margin="10px 0">
-      <Typography data-testid="dealer-value" className={classes.cardTitle} variant="h3">Dealer</Typography>
-      <Box display="flex">
+    <Box data-testid='dealer-hand' display='flex' flexDirection='column' margin='10px 0'>
+      <Typography data-testid='dealer-value' className={classes.cardTitle} variant='h3'>
+        Dealer
+      </Typography>
+      <Box display='flex'>
         {dealer.hand.map(card => (
           <PlayingCard key={`dealer${card.id}`} card={card} noHover hidden={hideDealer} />
         ))}
@@ -45,7 +47,7 @@ Dealer.propTypes = {
 }
 
 // Store
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   hideDealer: state.game.hideDealer,
   dealer: state.game.dealer
 })
