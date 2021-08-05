@@ -1,2 +1,0 @@
-RegisterLsp.register_lsp('tsserver')
-print('Loaded project settings')
