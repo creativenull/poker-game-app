@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "jsx": "react",
-    "checkJs": false,
+    "checkJs": true,
     "baseUrl": "./src",
     "paths": {
       "#components/*": ["./components/*"],
