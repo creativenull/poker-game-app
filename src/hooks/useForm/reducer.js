@@ -18,11 +18,13 @@ import { defaultSettings } from '#app/config/settings'
  * @returns {number}
  */
 function validateWinRatio (payload) {
-  if (payload > 1) {
-    return 1
-  } else if (payload < 0) {
-    return 0
+  if (payload > 1.0) {
+    return 1.0
+  } else if (payload < 0.0) {
+    return 0.0
   }
+
+  return payload
 }
 
 /**

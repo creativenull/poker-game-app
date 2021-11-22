@@ -1,6 +1,6 @@
 import store from '#store/index'
 import { getSettings } from '#config/settings'
-import { isPlayerLikelyToWin } from '#store/game/reducer-utils'
+import { isPlayerLikelyToWin } from '#store/game/reducer-logic'
 
 const defaultLog = [
   [
@@ -69,10 +69,10 @@ function logAdd () {
   const datetime = Date.now()
   const dateOptions = { timeZone }
   const timeOptions = {
+    timeZone,
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric',
-    timeZone
+    second: 'numeric'
   }
 
   const log = logBuilder({
