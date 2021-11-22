@@ -1,5 +1,6 @@
 {
   "name": "poker-game-app",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "description": "A poker game for research development.",
   "version": "1.0.0",
   "private": true,
@@ -9,14 +10,8 @@
   },
   "targets": {
     "defaults": {
-      "context": "node",
-      "engines": {
-        "node": "14"
-      }
+      "distDir": "./dist"
     }
-  },
-  "engines": {
-    "node": "14"
   },
   "author": "Arnold Chand",
   "license": "MIT",
@@ -29,7 +24,7 @@
     "lint": "esw --watch --clear --color ./src",
     "prestart": "npm run clean",
     "start": "concurrently -n SERVER,LINTER \"npm:serve\" \"npm:lint\"",
-    "build": "parcel build public/index.html --no-source-maps --dist-dir dist --public-url .//",
+    "build": "parcel build public/index.html --no-source-maps --public-url .//",
     "test": "jest",
     "clean": "rimraf .parcel-cache dist",
     "lint-staged": "lint-staged"
@@ -71,7 +66,7 @@
     "husky": "^7.0.1",
     "jest": "^25.1.0",
     "lint-staged": "^11.1.1",
-    "parcel": "next",
+    "parcel": "^2.0.0",
     "prettier-standard": "^16.4.1",
     "react-test-renderer": "^16.13.1",
     "rimraf": "^3.0.2",

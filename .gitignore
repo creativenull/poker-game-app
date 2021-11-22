@@ -1,7 +1,6 @@
-.cache/
 .vim/
 node_modules/
 dist/
-.parcel-cache
+.parcel-cache/
 npm-debug.log
 wsl.sh
