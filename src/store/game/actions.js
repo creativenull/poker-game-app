@@ -22,6 +22,11 @@ export function updateGameState () {
   return { type: UPDATE_GAME_STATE }
 }
 
+/**
+ * Update dealer view
+ *
+ * @param {{ hidden: boolean } | null} opts
+ */
 export function updateDealerView (opts = null) {
   return {
     type: UPDATE_DEALER_VIEW,
@@ -43,6 +48,11 @@ export function gameGetAllHandsAction () {
   return { type: GET_PLAYER_CARDS }
 }
 
+/**
+ * Replace a card
+ *
+ * @param {any} card
+ */
 export function gameReplaceCardAction (card) {
   return {
     type: REPLACE_PLAYER_CARD,

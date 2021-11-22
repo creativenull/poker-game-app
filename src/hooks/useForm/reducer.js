@@ -11,6 +11,21 @@ import {
 import { defaultSettings } from '#app/config/settings'
 
 /**
+ * Set win ratio
+ *
+ * @param {number} payload
+ *
+ * @returns {number}
+ */
+function validateWinRatio (payload) {
+  if (payload > 1) {
+    return 1
+  } else if (payload < 0) {
+    return 0
+  }
+}
+
+/**
  * @param {any} state
  * @param {{ type: string, payload?: any }} action
  *
@@ -27,7 +42,7 @@ function reducer (state, action) {
     case UPDATE_WIN_RATIO:
       return {
         ...state,
-        winRatio: action.payload
+        winRatio: validateWinRatio(action.payload)
       }
     case UPDATE_THEME_MODE:
       return {
