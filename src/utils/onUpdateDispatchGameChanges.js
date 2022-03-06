@@ -9,7 +9,7 @@ import {
 } from '#store/game/actions'
 import { GameState } from '#app/constant-types'
 
-/** @param {GameState} gameState */
+/** @param {string} gameState */
 export default function onUpdateDispatchGameChanges (gameState) {
   const {
     game: { hideDealer }

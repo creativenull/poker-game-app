@@ -4,9 +4,10 @@ import { SHOW_DIALOG, WINNER_DIALOG, LOSER_DIALOG, HIDE_DIALOG, OPEN_SNACKBAR, C
 const initState = {
   open: false,
   title: '',
-  message: <span></span>,
+  message: <span />,
   type: 'error',
   snackbar: {
+    text: 'Saved!',
     open: false
   }
 }
@@ -14,10 +15,10 @@ const initState = {
 /**
  * Return new redux state based on action
  *
- * @param state Initial state
- * @param action Redux action with type and payload
+ * @param {any} state Initial state
+ * @param {{ type: string, payload: any }} action Redux action with type and payload
  *
- * @returns New redux state
+ * @returns {any} New redux state
  */
 export default function reducer (state = initState, action) {
   switch (action.type) {
@@ -56,6 +57,7 @@ export default function reducer (state = initState, action) {
       return {
         ...state,
         snackbar: {
+          text: action.payload ?? 'Saved!',
           open: true
         }
       }
@@ -64,6 +66,7 @@ export default function reducer (state = initState, action) {
       return {
         ...state,
         snackbar: {
+          ...state.snackbar,
           open: false
         }
       }

@@ -1,10 +1,16 @@
+import store from '#store/index'
 import { OPEN_ADMIN_DIALOG, CLOSE_ADMIN_DIALOG, UPDATE_SETTINGS } from './action-types'
-import { setSettings } from '#config/settings'
+import { openSnackbar } from '../dialog/actions'
+import { setSettings, getSettings } from '#config/settings'
 
+/**
+ * Update the settings
+ *
+ * @param {any} payload
+ */
 export function updateSettings (payload) {
   // Save to settings in storage
   setSettings({ ...payload })
-  console.log('Saved Settings!')
 
   // Update the state
   return {
@@ -16,19 +22,33 @@ export function updateSettings (payload) {
 /**
  * Open the admin dialog popup
  *
- * @returns Redux action type
+ * @returns {any} Redux action type
  */
 export function openAdminDialog () {
-  console.log('Open Settings Dialog')
   return { type: OPEN_ADMIN_DIALOG }
 }
 
 /**
  * Close the admin dialog popup
  *
- * @returns Redux action type
+ * @returns {any} Redux action type
  */
 export function hideAdminDialog () {
-  console.log('Close Settings Dialog')
   return { type: CLOSE_ADMIN_DIALOG }
+}
+
+/**
+ * @param {number} ratio
+ */
+export function updateWinRatio (ratio) {
+  const settings = getSettings({ check: true })
+  const updatedSettings = {
+    ...settings,
+    winRatio: ratio
+  }
+
+  // Post to snackbar
+  store.dispatch(openSnackbar(`Win Ratio: ${ratio}`))
+
+  return updateSettings(updatedSettings)
 }

@@ -9,12 +9,12 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { closeSnackbar } from '#store/dialog/actions'
 
 // Component
-function AppSnackbar ({ open, closeSnackbar }) {
+function AppSnackbar ({ open, text, closeSnackbar }) {
   return (
     <Container data-testid='app-snackbar'>
       <Snackbar open={open} autoHideDuration={3000} onClose={() => closeSnackbar()}>
         <Alert onClose={() => closeSnackbar()} severity='success'>
-          Saved!
+          {text}
         </Alert>
       </Snackbar>
     </Container>
@@ -23,12 +23,14 @@ function AppSnackbar ({ open, closeSnackbar }) {
 
 AppSnackbar.propTypes = {
   open: PropTypes.bool,
+  text: PropTypes.string,
   closeSnackbar: PropTypes.func
 }
 
 // Store
 const mapStateToProps = state => ({
-  open: state.dialog.snackbar.open
+  open: state.dialog.snackbar.open,
+  text: state.dialog.snackbar.text
 })
 
 const mapDispatchToProps = {

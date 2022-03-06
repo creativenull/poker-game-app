@@ -44,10 +44,10 @@ const initState = {
 /**
  * Return new redux state based on action
  *
- * @param state Initial state
- * @param {{ type: string, payload: any }} action Redux action with type and payload
+ * @param {any} state
+ * @param {{ type: string, payload: any }} action
  *
- * @returns {object} New redux state
+ * @returns {any}
  */
 export default function reducer (state = initState, action) {
   switch (action.type) {

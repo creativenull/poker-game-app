@@ -46,6 +46,7 @@ function App (props) {
     onUpdateDispatchWinnerDialogChanges(winners)
   }, [winners])
 
+  // Dark mode setup
   const theme = React.useMemo(
     () =>
       createTheme({

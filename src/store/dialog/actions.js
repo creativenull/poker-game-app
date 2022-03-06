@@ -94,8 +94,14 @@ export function hideDialog () {
   return { type: HIDE_DIALOG }
 }
 
-export function openSnackbar () {
-  return { type: OPEN_SNACKBAR }
+/**
+ * @param {string | undefined} text
+ */
+export function openSnackbar (text = 'Saved!') {
+  return {
+    type: OPEN_SNACKBAR,
+    payload: text ?? ''
+  }
 }
 
 export function closeSnackbar () {

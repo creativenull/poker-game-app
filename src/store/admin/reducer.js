@@ -10,6 +10,12 @@ const initState = {
   }
 }
 
+/**
+ * @param {any} state
+ * @param {{ type: string, payload: any }} action
+ *
+ * @returns {any}
+ */
 export default function reducer (state = initState, action) {
   switch (action.type) {
     case UPDATE_SETTINGS:
