@@ -1,6 +1,6 @@
-import store from '#store/index'
+// import store from '#store/index'
 import { OPEN_ADMIN_DIALOG, CLOSE_ADMIN_DIALOG, UPDATE_SETTINGS } from './action-types'
-import { openSnackbar } from '../dialog/actions'
+// import { openSnackbar } from '../dialog/actions'
 import { setSettings, getSettings } from '#config/settings'
 
 /**
@@ -48,7 +48,7 @@ export function updateWinRatio (ratio) {
   }
 
   // Post to snackbar
-  store.dispatch(openSnackbar(`Win Ratio: ${ratio}`))
+  // store.dispatch(openSnackbar(`Win Ratio: ${ratio}`))
 
   return updateSettings(updatedSettings)
 }
