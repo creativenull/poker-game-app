@@ -49,7 +49,7 @@ function BetCredits ({ game, incrementBetCredits }) {
 
   return (
     <Card data-testid='bet-credits' elevation={5}>
-      <CardHeader className={cardHeader} title='Bet Credits' />
+      <CardHeader className={cardHeader} title='Bearcat Bet Credits' />
       <CardContent className={cardContent}>
         <Typography variant='h3' color='primary'>
           ${betCredits}

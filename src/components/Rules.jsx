@@ -86,7 +86,7 @@ function Rules ({ prizes, replaceCardLimit }) {
         <CardContent className={classes.cardContent}>
           <Typography component='ol'>
             <li>
-              Add credits to your <b>Bet Credits</b>
+              Add credits to your <b>Bearcat Bet Credits</b>
             </li>
             <li>
               Click the <b>START</b> button to show your hand
